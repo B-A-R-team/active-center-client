@@ -1,30 +1,20 @@
+<!--
+ * @Author: lts
+ * @Date: 2021-01-15 12:46:41
+ * @LastEditTime: 2021-01-15 15:32:42
+ * @FilePath: \大学生创业基地管理项目\active-center-client\src\App.vue
+-->
 <template>
   <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link to="/"></router-link> 
+    <router-view />
   </div>
-  <router-view/>
 </template>
-
+<script>
+export default {
+  
+}
+</script>
 <style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
 </style>
