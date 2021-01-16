@@ -1,7 +1,7 @@
 /*
  * @Author: lts
  * @Date: 2021-01-15 12:46:41
- * @LastEditTime: 2021-01-15 20:35:46
+ * @LastEditTime: 2021-01-15 21:18:03
  * @FilePath: \大学生创业基地管理项目\active-center-client\src\router\index.js
  */
 import { createRouter, createWebHistory } from 'vue-router'
@@ -33,6 +33,12 @@ const routes = [
       }
     ]
   },
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: import('../views/admin/index/Index.vue'),
+    // redirect: '/index',
+  }
 
 ]
 

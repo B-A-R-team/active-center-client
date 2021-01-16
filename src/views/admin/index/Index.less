@@ -1,0 +1,54 @@
+.admin_app {
+    height: 100vh;
+
+    #components-layout-demo-custom-trigger {
+        height: 100%;
+
+        .trigger {
+            font-size  : 18px;
+            line-height: 64px;
+            padding    : 0 24px;
+            cursor     : pointer;
+            transition : color 0.3s;
+        }
+
+        &:hover {
+            color: #1890ff;
+        }
+
+        .logo {
+            height    : 32px;
+            background: rgba(255, 255, 255, 0.2);
+            margin    : 16px;
+        }
+    }
+    .ant-breadcrumb {
+        padding-left: 20px;
+        margin-bottom: 0;
+    }
+    .admin_header {
+        position: relative;
+        .user_info {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            top: 0;
+            right: 4.5rem;
+            cursor: pointer;
+            .user_name {
+                margin-left: .625rem;
+                display:block;
+                width: 3.5625rem; 
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+        }
+        @media (max-width:800px) {
+            .user_info {
+                right: 0;
+            }
+        }
+    }
+}
