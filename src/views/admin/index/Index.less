@@ -10,10 +10,10 @@
             padding    : 0 24px;
             cursor     : pointer;
             transition : color 0.3s;
-        }
 
-        &:hover {
-            color: #1890ff;
+            &:hover {
+                color: #1890ff;
+            }
         }
 
         .logo {
@@ -22,29 +22,34 @@
             margin    : 16px;
         }
     }
+
     .ant-breadcrumb {
-        padding-left: 20px;
+        padding-left : 20px;
         margin-bottom: 0;
     }
+
     .admin_header {
         position: relative;
+
         .user_info {
-            position: absolute;
-            display: flex;
+            position   : absolute;
+            display    : flex;
             align-items: center;
-            top: 0;
-            right: 4.5rem;
-            cursor: pointer;
+            top        : 0;
+            right      : 4.5rem;
+            cursor     : pointer;
+
             .user_name {
-                margin-left: .625rem;
-                display:block;
-                width: 3.5625rem; 
-                overflow: hidden;
+                margin-left  : .625rem;
+                display      : block;
+                width        : 3.5625rem;
+                overflow     : hidden;
                 text-overflow: ellipsis;
-                white-space: nowrap;
+                white-space  : nowrap;
             }
 
         }
+
         @media (max-width:800px) {
             .user_info {
                 right: 0;

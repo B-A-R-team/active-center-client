@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 21:16:54
- * @LastEditTime: 2021-01-16 09:28:41
+ * @LastEditTime: 2021-01-16 09:44:41
  * @FilePath: \active-center-client\src\views\admin\index\Index.vue
 -->
 <template>
@@ -11,12 +11,16 @@
         <div class="logo" />
         <a-menu theme="dark" mode="inline" v-model:selectedKeys="selectedKeys">
           <a-menu-item key="1">
-            <user-outlined />
-            <span>签到管理</span>
+            <router-link to="/admin/signIn">
+              <user-outlined />
+              <span>签到管理</span>
+            </router-link>
           </a-menu-item>
           <a-menu-item key="2">
-            <video-camera-outlined />
-            <span>信息完善</span>
+            <router-link to="/admin/userInfo">
+              <video-camera-outlined />
+              <span>信息完善</span>
+            </router-link>
           </a-menu-item>
         </a-menu>
       </a-layout-sider>
@@ -53,7 +57,7 @@
             minHeight: '280px',
           }"
         >
-          Content
+          <router-view></router-view>
         </a-layout-content>
         <a-layout-footer :style="{ textAlign: 'center' }"
           >footer</a-layout-footer
