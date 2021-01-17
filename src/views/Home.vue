@@ -1,8 +1,8 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 14:37:00
- * @LastEditTime: 2021-01-15 18:14:53
- * @FilePath: \大学生创业基地管理项目\active-center-client\src\views\Home.vue
+ * @LastEditTime: 2021-01-17 14:43:54
+ * @FilePath: \active-center-client\src\views\Home.vue
 -->
 <template>
   <div class="app">
@@ -34,4 +34,11 @@ export default {
   border: 1px solid #eee;
   min-height: 800px;
 }
+@media (max-width: 800px) {
+  .content {
+    margin-left: 0;
+    margin-top: 5px;
+  }
+}
+
 </style>
