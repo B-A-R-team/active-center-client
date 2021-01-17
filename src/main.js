@@ -1,7 +1,7 @@
 /*
  * @Author: lts
  * @Date: 2021-01-15 12:46:41
- * @LastEditTime: 2021-01-17 12:02:13
+ * @LastEditTime: 2021-01-17 16:17:35
  * @FilePath: \active-center-client\src\main.js
  */
 import { createApp } from 'vue'
@@ -22,6 +22,7 @@ import {
  } from 'ant-design-vue';
 import 'normalize.css'
 import './views/global.less'
+import * as echarts from 'echarts'
 
 const app = createApp(App);
 app.config.productionTip = false;
@@ -40,3 +41,6 @@ app.use(BackTop);
 
 app.use(router)
 app.mount('#app')
+
+
+app.echarts=echarts

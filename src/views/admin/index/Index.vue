@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 21:16:54
- * @LastEditTime: 2021-01-16 09:44:41
+ * @LastEditTime: 2021-01-17 16:40:57
  * @FilePath: \active-center-client\src\views\admin\index\Index.vue
 -->
 <template>
@@ -67,6 +67,8 @@
   </div>
 </template>
 <script>
+import * as echarts from "echarts";
+import { provide } from "vue";
 import {
   UserOutlined,
   VideoCameraOutlined,
@@ -84,6 +86,7 @@ export default {
     MenuFoldOutlined,
   },
   setup() {
+    provide("ec", echarts); //向子组件传递echarts
     let selectedKeys = ref(["1"]);
     let collapsed = ref(false);
     return {

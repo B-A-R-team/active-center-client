@@ -1,8 +1,8 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 16:40:01
- * @LastEditTime: 2021-01-15 18:07:23
- * @FilePath: \大学生创业基地管理项目\active-center-client\src\components\header\Header.vue
+ * @LastEditTime: 2021-01-17 20:11:28
+ * @FilePath: \active-center-client\src\components\header\Header.vue
 -->
 <template>
   <div class="header">
@@ -16,13 +16,13 @@
       <a-col :xs="4" :sm="4" :md="10" :lg="6" :xl="6">
         <a-menu
           mode="horizontal"
-          overflowedIndicator
+          :overflowedIndicator="backIcon"
           :style="{ textAlign: 'right' }"
         >
-          <a-menu-item :style="{ padding: '0', marginLeft: '20px' }">
+          <a-menu-item class="my_menu_item" >
             <router-link to="/"> <home-outlined />首页</router-link>
           </a-menu-item>
-          <a-menu-item :style="{ padding: '0', marginLeft: '20px' }">
+          <a-menu-item class="my_menu_item" >
             <router-link to="/login"><login-outlined />登录</router-link>
           </a-menu-item>
         </a-menu>
@@ -31,7 +31,7 @@
   </div>
 </template>
 <script>
-import { HomeOutlined, LoginOutlined } from "@ant-design/icons-vue";
+import { HomeOutlined, LoginOutlined,MenuOutlined } from "@ant-design/icons-vue";
 import "./Header.less";
 export default {
   name: "Header",
@@ -39,7 +39,14 @@ export default {
     HomeOutlined,
     LoginOutlined,
   },
-  setup() {},
+  setup() {
+    const backIcon = () => {
+      return <MenuOutlined />
+    }
+    return {
+      backIcon
+    }
+  },
 };
 </script>
 <style lang="less" scoped>

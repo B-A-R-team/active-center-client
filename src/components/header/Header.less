@@ -1,27 +1,50 @@
 .header {
-    background-color: #fff;
-    padding: 0.2rem;
-    padding-left: 0.4rem;
-    overflow: hidden;
-    height: 3.25rem;
-    border-bottom: 1px solid #ccc;
+  background-color: #fff;
+  padding         : 0.2rem;
+  padding-left    : 0.4rem;
+  overflow        : hidden;
+  height          : 3.25rem;
+  border-bottom   : 1px solid #ccc;
+
+  .header_logo_box {
+    height     : 3.25rem;
+    display    : flex;
+    align-items: flex-end;
+
+    .header_logo {
+      width        : 5rem;
+      height       : 2.5rem;
+      border       : 1px solid #eee;
+      margin-bottom: 0.5rem;
+    }
+
+    .header_txt {
+      font-size   : 0.6rem;
+      color       : #999;
+      padding-left: 0.3125rem;
+    }
+
+    @media (max-width: 800px) {}
+  }
+
+  .my_menu_item {
+    padding    : 0;
+    margin-left: 1.25rem;
+  }
+
+  @media (max-width:800px) {
+    padding    : 0 1.25rem;
+    margin-left: 0;
+
+  }
+  @media (max-width:800px) {
+    .ant-menu-submenu-title {
+      padding: 0;
   
-    .header_logo_box {
-      height: 3.25rem;
-      display: flex;
-      align-items: flex-end;
-      .header_logo {
-        width: 5rem;
-        height: 2.5rem;
-        border: 1px solid #eee;
-        margin-bottom: 0.5rem;
-      }
-      .header_txt {
-        font-size: 0.6rem;
-        color: #999;
-        padding-left: 0.3125rem;
-      }
-      @media (max-width: 800px) {
+      .anticon.anticon-menu {
+        margin-right: 0;
       }
     }
   }
+}
+

@@ -1,3 +1,9 @@
+/*
+ * @Author: lts
+ * @Date: 2021-01-15 12:46:41
+ * @LastEditTime: 2021-01-17 19:52:47
+ * @FilePath: \active-center-client\.eslintrc.js
+ */
 module.exports = {
   root: true,
   env: {
@@ -24,5 +30,7 @@ module.exports = {
         jest: true
       }
     }
-  ]
+  ],
+
+
 }
