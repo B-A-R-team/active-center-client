@@ -8,14 +8,16 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import {
-     Button,
-     Layout,
-     Menu,
-     Row,
-     Col,
-     Breadcrumb,
-     Avatar
- } from 'ant-design-vue';
+        Button,
+        Layout,
+        Menu,
+        Row,
+        Col,
+        Breadcrumb,
+        Avatar,
+        Form,
+        Input,
+  } from 'ant-design-vue';
 import 'normalize.css'
 
 const app = createApp(App);
@@ -28,6 +30,8 @@ app.use(Col)
 app.use(Menu);
 app.use(Breadcrumb);
 app.use(Avatar);
+app.use(Form);
+app.use(Input);
 
 app.use(router)
 app.mount('#app')

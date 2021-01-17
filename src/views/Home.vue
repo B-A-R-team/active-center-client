@@ -27,7 +27,7 @@ export default {
   setup() {},
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .content {
   margin-top: 1rem;
   margin-left: 10px;
