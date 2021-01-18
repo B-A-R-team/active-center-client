@@ -5,18 +5,22 @@
  * @FilePath: \大学生创业基地管理项目\active-center-client\vue.config.js
  */
 module.exports = {
-    css: {
-      loaderOptions: {
-        less: {
-          lessOptions: {
-            modifyVars: {
-              'primary-color': '#1DA57A',
-              'link-color': '#1DA57A',
-              'border-radius-base': '2px',
-            },
-            javascriptEnabled: true,
+  css: {
+    loaderOptions: {
+      less: {
+        lessOptions: {
+          modifyVars: {
+            'primary-color': '#1DA57A',
+            'link-color': '#1DA57A',
+            'border-radius-base': '2px',
           },
+          javascriptEnabled: true,
         },
       },
     },
-  };
+  },
+  transpileDependencies: [
+    'vue-echarts',
+    'resize-detector'
+  ]
+};
