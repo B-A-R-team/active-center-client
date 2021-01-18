@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 14:29:15
- * @LastEditTime: 2021-01-17 12:14:06
+ * @LastEditTime: 2021-01-18 09:02:17
  * @FilePath: \active-center-client\src\views\index\Index.vue
 -->
 <template>
@@ -11,6 +11,7 @@
     <a-row type="flex" justify="space-between" class="index_top">
       <a-col class="carousel_box" :xs="24" :sm="24" :md="24" :lg="14" :xl="14">
         <a-carousel
+          :autoplaySpeed="9000"
           autoplay
           effect="fade"
           style="

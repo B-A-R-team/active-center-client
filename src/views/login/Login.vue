@@ -1,8 +1,8 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 14:30:42
- * @LastEditTime: 2021-01-15 18:12:41
- * @FilePath: \大学生创业基地管理项目\active-center-client\src\views\login\Login.vue
+ * @LastEditTime: 2021-01-18 09:06:43
+ * @FilePath: \active-center-client\src\views\login\Login.vue
 -->
 <template>
   <div class="login_container">
@@ -24,7 +24,7 @@
           <a-form-item name="stu_id" :wrapper-col="{ span: 18, offset: 3 }" >
             <a-input
               v-model:value="form.stu_id"
-              placeholder="stu_id"
+              placeholder="请输入学号"
             >
               <template #prefix>
                 <UserOutlined style="color:rgba(0,0,0,.25)" />
@@ -35,7 +35,7 @@
             <a-input
               v-model:value="form.password"
               type="password"
-              placeholder="Password"
+              placeholder="请输入密码"
             >
               <template #prefix>
                 <LockOutlined style="color:rgba(0,0,0,.25)" />
@@ -60,6 +60,7 @@
 </template>
 <script>
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
+import './Login.less'
 export default {
   name: "Login",
   components: {
