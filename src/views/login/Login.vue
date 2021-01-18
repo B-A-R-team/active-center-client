@@ -7,17 +7,21 @@
 <template>
   <div class="login_container">
     <div class="login_box">
-      <!-- logo区域 -->
+      <!-- 头像区域 -->
       <div class="avatar_box">
-        <img src="">
+        <a-avatar :size="128">
+        <template #icon><UserOutlined /></template>
+        </a-avatar>
       </div>
       <!-- 登录表单区域 -->
       <a-form
         :model="form"
         :rules="rules"
+        :labelCol="labelCol"
+        :wrapperCol="wrapperCol"
       >
         <div class="a_form_item">
-          <a-form-item :wrapper-col="{ span: 16, offset: 4 }" name="stu_id">
+          <a-form-item name="stu_id" :wrapper-col="{ span: 18, offset: 3 }" >
             <a-input
               v-model:value="form.stu_id"
               placeholder="stu_id"
@@ -27,7 +31,7 @@
               </template>
             </a-input>
           </a-form-item>
-          <a-form-item :wrapper-col="{ span: 16, offset: 4 }" name="password">
+          <a-form-item name="password" :wrapper-col="{ span: 18, offset: 3 }">
             <a-input
               v-model:value="form.password"
               type="password"
@@ -39,8 +43,8 @@
             </a-input>
           </a-form-item>
           <a-form-item
-            :wrapper-col="{ span: 10, offset: 4 }"
             class="btns"
+            :wrapper-col="{span: 8, offset: 14}"
           >
             <a-button type="primary">
               登录
@@ -68,6 +72,18 @@ export default {
         stu_id: '',
         password: '',
       },
+      // labelCol: { // 24格栅格系统，label所占为 a
+        // xxl: { span: 5 }, // ≥1600px 响应式栅格
+        // xl: { span: 8 }, // ≥1200px 响应式栅格
+        // lg: { span: 10 }, // ≥992px 响应式栅格
+        // md: { span: 12 },// ≥768px 响应式栅格
+      // },
+      // wrapperCol: { // 24格栅格系统，label后面内容所占为 24-a
+      //   xxl: { span: 18, offst: 3},
+      //   xl: { span: 16, offset: 4},
+      //   lg: { span: 14,  offset: 5},
+      //   md: { span: 12, offset: 6 },
+      // },
       rules: {
         stu_id: [
           { required: true, message: '请输入学号', trigger: 'blur' },
@@ -77,7 +93,7 @@ export default {
         ],
       },
     };
- },
+  },
   methods: {
   },
 }
@@ -104,18 +120,12 @@ export default {
   width: 130px;
   border: 1px solid #eee;
   border-radius: 50%;
-  padding: 10px;
+  padding: 0px;
   box-shadow: 0 0 10px #ddd;
   position: absolute;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: rgba(255, 255, 255, 1);
-}
-img {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background-color: rgb(246, 243, 243);
 }
 .a-form {
   position: absolute;
@@ -134,11 +144,6 @@ img {
   border-style: none;
 }
 .btns {
-  display: flex;
-  justify-content: flex-end;
   opacity: 0.8;
-}
-.a-button {
-  opacity: 0.85;
 }
 </style>
