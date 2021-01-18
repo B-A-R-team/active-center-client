@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 14:37:00
- * @LastEditTime: 2021-01-17 14:43:54
+ * @LastEditTime: 2021-01-17 20:54:46
  * @FilePath: \active-center-client\src\views\Home.vue
 -->
 <template>
@@ -27,12 +27,12 @@ export default {
   setup() {},
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .content {
   margin-top: 1rem;
   margin-left: 10px;
   border: 1px solid #eee;
-  min-height: 800px;
+  min-height: calc(100vh - 8.9rem);
 }
 @media (max-width: 800px) {
   .content {
