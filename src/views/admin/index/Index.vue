@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 21:16:54
- * @LastEditTime: 2021-01-20 12:38:40
+ * @LastEditTime: 2021-01-20 19:33:02
  * @FilePath: \active-center-client\src\views\admin\index\Index.vue
 -->
 <template>
@@ -10,12 +10,33 @@
       <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
         <div class="logo" />
         <a-menu theme="dark" mode="inline" v-model:selectedKeys="selectedKeys">
-          <a-menu-item key="/admin/signIn">
+          <!-- <a-menu-item key="/admin/signIn">
             <router-link to="/admin/signIn">
               <user-outlined />
               <span>签到管理</span>
             </router-link>
-          </a-menu-item>
+          </a-menu-item> -->
+          <a-sub-menu key="/admin/signIn">
+            <template #title>
+              <span><MailOutlined /><span>签到情况</span></span>
+            </template>
+            <a-menu-item key="/admin/signIn/personSignIn">
+              <router-link to="/admin/signIn/personSignIn">
+                <span><MailOutlined /><span>个人签到情况</span></span>
+              </router-link>
+            </a-menu-item>
+            <a-menu-item key="/admin/signIn/teamSignIn">
+              <router-link to="/admin/signIn/teamSignIn">
+                <span><MailOutlined /><span>团队签到情况</span></span>
+              </router-link>
+            </a-menu-item>
+            <a-menu-item key="/admin/signIn/allSignIn">
+              <router-link to="/admin/signIn/allSignIn">
+                <span><MailOutlined /><span>所有人签到情况</span></span>
+              </router-link>
+            </a-menu-item>
+          </a-sub-menu>
+
           <a-menu-item key="/admin/userInfo">
             <router-link to="/admin/userInfo">
               <video-camera-outlined />
@@ -76,7 +97,7 @@
 import * as echarts from "echarts";
 import { getCurrentInstance, provide } from "vue";
 import {
-  UserOutlined,
+  MailOutlined,
   VideoCameraOutlined,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -86,7 +107,7 @@ import { ref } from "vue";
 export default {
   name: "Admin",
   components: {
-    UserOutlined,
+    MailOutlined,
     VideoCameraOutlined,
     MenuUnfoldOutlined,
     MenuFoldOutlined,

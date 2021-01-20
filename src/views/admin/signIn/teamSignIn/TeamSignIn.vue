@@ -1,8 +1,8 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-16 09:31:18
- * @LastEditTime: 2021-01-20 14:22:10
- * @FilePath: \active-center-client\src\views\admin\signIn\signIn.vue
+ * @LastEditTime: 2021-01-20 18:42:39
+ * @FilePath: \active-center-client\src\views\admin\signIn\teamSignIn\TeamSignIn.vue
 -->
 <template>
   <div class="signIn">
@@ -32,7 +32,7 @@
   </div>
 </template>
 <script>
-import "./signIn.less";
+import "./teamSignIn.less";
 import * as echarts from "echarts";
 import { SearchOutlined } from '@ant-design/icons-vue';
 export default {

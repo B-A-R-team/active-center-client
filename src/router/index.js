@@ -1,7 +1,7 @@
 /*
  * @Author: lts
  * @Date: 2021-01-15 12:46:41
- * @LastEditTime: 2021-01-18 10:30:31
+ * @LastEditTime: 2021-01-20 19:19:28
  * @FilePath: \active-center-client\src\router\index.js
  */
 import { createRouter, createWebHistory } from 'vue-router'
@@ -37,22 +37,38 @@ const routes = [
     path: '/admin',
     name: 'Admin',
     component: () => import('../views/admin/index/Index.vue'),
-    redirect: '/admin/signIn',
+    redirect: '/admin/userInfo',
     children: [
       {
         path: '/admin/signIn',
-        name: 'SignIn',
-        component: () => import('../views/admin/signIn/signIn.vue')
+        redirect: '/admin/signIn/personSignIn',
+        // name: 'TeamSignIn',
+        // component: () => import('../views/admin/signIn/teamSignIn/TeamSignIn.vue'),
+      },
+      {
+        path: '/admin/signIn/teamSignIn',
+        name: 'TeamSignIn',
+        component: () => import('../views/admin/signIn/teamSignIn/TeamSignIn.vue'),
+      },
+      {
+        path: '/admin/signIn/allSignIn',
+        name: 'AllSignIn',
+        component: () => import('../views/admin/signIn/allSignIn/AllSignIn.vue'),
+      },
+      {
+        path: '/admin/signIn/personSignIn',
+        name: 'PersonSignIn',
+        component: () => import('../views/admin/signIn/personSignIn/PersonSignIn.vue'),
       },
       {
         path: '/admin/userInfo',
         name: 'UserInfo',
-        component:() => import('../views/admin/userInfo/UserInfo.vue')
+        component: () => import('../views/admin/userInfo/UserInfo.vue')
       },
       {
         path: '/admin/usersManage',
         name: 'UsersManage',
-        component:() => import('../views/admin/usersManage/UsersManage.vue')
+        component: () => import('../views/admin/usersManage/UsersManage.vue')
       },
     ]
   }
