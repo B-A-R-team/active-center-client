@@ -3,33 +3,50 @@
   padding         : 0.2rem;
   padding-left    : 0.4rem;
   overflow        : hidden;
-  height          : 3.25rem;
+  height          : 4rem;
   border-bottom   : 1px solid #ccc;
 
   .header_logo_box {
-    height     : 3.25rem;
+    height     : 4rem;
     display    : flex;
     align-items: flex-end;
 
     .header_logo {
-      width        : 5rem;
-      height       : 2.5rem;
+      width        : 6rem;
+      height       : 3.3rem;
       border       : 1px solid #eee;
       margin-bottom: 0.5rem;
     }
 
     .header_txt {
-      font-size   : 0.6rem;
-      color       : #999;
-      padding-left: 0.3125rem;
+      font-size    : 1.125rem;
+      color        : #999;
+      padding-left : 0.3125rem;
+      margin-bottom: .5rem;
     }
 
     @media (max-width: 800px) {}
   }
 
+  .ant-menu-light.ant-menu-root.ant-menu.ant-menu-horizontal {
+    height: 4rem;
+  }
+
   .my_menu_item {
+    line-height: 3.5rem;
+    // margin-top: 5px;
     padding    : 0;
     margin-left: 1.25rem;
+    height     : 95%;
+
+    a {
+      height   : 100%;
+      font-size: 1.125rem;
+
+      span {
+        font-size: 18px;
+      }
+    }
   }
 
   @media (max-width:800px) {
@@ -37,14 +54,14 @@
     margin-left: 0;
 
   }
+
   @media (max-width:800px) {
     .ant-menu-submenu-title {
       padding: 0;
-  
+
       .anticon.anticon-menu {
         margin-right: 0;
       }
     }
   }
 }
-

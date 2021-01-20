@@ -1,7 +1,7 @@
 /*
  * @Author: lts
  * @Date: 2021-01-15 12:46:41
- * @LastEditTime: 2021-01-17 20:16:57
+ * @LastEditTime: 2021-01-19 19:30:51
  * @FilePath: \active-center-client\src\main.js
  */
 import { createApp } from 'vue'
@@ -20,7 +20,12 @@ import {
      Card,
      BackTop,
      Form,
-     Input
+     Input,
+     Table,
+     Select,
+     Tag,
+     Tabs,
+     Affix
  } from 'ant-design-vue';
 import 'normalize.css'
 import './views/global.less'
@@ -42,6 +47,11 @@ app.use(Card);
 app.use(BackTop);
 app.use(Form);
 app.use(Input);
+app.use(Table);
+app.use(Select);
+app.use(Tag);
+app.use(Tabs);
+app.use(Affix);
 
 app.use(router)
 app.mount('#app')

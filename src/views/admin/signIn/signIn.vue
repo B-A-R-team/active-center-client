@@ -1,12 +1,12 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-16 09:31:18
- * @LastEditTime: 2021-01-17 17:20:59
+ * @LastEditTime: 2021-01-18 09:25:00
  * @FilePath: \active-center-client\src\views\admin\signIn\signIn.vue
 -->
 <template>
   <div>
-    <div id="myChart" :style="{ width: '300px', height: '300px' }"></div>
+    <div id="myChart" :style="{ width: '600px', height: '600px' }"></div>
   </div>
 </template>
 <script>

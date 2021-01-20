@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 21:16:54
- * @LastEditTime: 2021-01-17 16:40:57
+ * @LastEditTime: 2021-01-18 14:21:19
  * @FilePath: \active-center-client\src\views\admin\index\Index.vue
 -->
 <template>
@@ -10,16 +10,22 @@
       <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
         <div class="logo" />
         <a-menu theme="dark" mode="inline" v-model:selectedKeys="selectedKeys">
-          <a-menu-item key="1">
+          <a-menu-item key="/admin/signIn">
             <router-link to="/admin/signIn">
               <user-outlined />
               <span>签到管理</span>
             </router-link>
           </a-menu-item>
-          <a-menu-item key="2">
+          <a-menu-item key="/admin/userInfo">
             <router-link to="/admin/userInfo">
               <video-camera-outlined />
               <span>信息完善</span>
+            </router-link>
+          </a-menu-item>
+          <a-menu-item key="/admin/usersManage">
+            <router-link to="/admin/usersManage">
+              <video-camera-outlined />
+              <span>用户管理</span>
             </router-link>
           </a-menu-item>
         </a-menu>
@@ -68,7 +74,7 @@
 </template>
 <script>
 import * as echarts from "echarts";
-import { provide } from "vue";
+import { getCurrentInstance, provide } from "vue";
 import {
   UserOutlined,
   VideoCameraOutlined,
@@ -86,8 +92,10 @@ export default {
     MenuFoldOutlined,
   },
   setup() {
+    const { ctx } = getCurrentInstance(); // 取态this
+    console.log(ctx.$router.options.history.location);
     provide("ec", echarts); //向子组件传递echarts
-    let selectedKeys = ref(["1"]);
+    let selectedKeys = ref([ctx.$router.options.history.location]);
     let collapsed = ref(false);
     return {
       selectedKeys,
@@ -96,3 +104,8 @@ export default {
   },
 };
 </script>
+<style lang="less" scoped>
+body {
+  overflow-y: hidden;
+}
+</style>

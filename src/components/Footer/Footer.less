@@ -1,9 +1,105 @@
 .footer {
-    // position: fixed;
-    // bottom: 0;
-    // width: 100%;
-    margin-top: 20px;
-    text-align: center;
+    margin-top      : 8rem;
     background-color: #fff;
-    padding: 15px;
+
+    .footer_center {
+        padding: 1.875rem 0 0 0;
+
+        .website_info {
+            display  : flex;
+            flex-wrap: wrap;
+
+            .footer_title {
+                font-size: 18px;
+                color    : black;
+            }
+
+            .about_website {
+                flex: 0 0 23%;
+            }
+
+            .maintain {
+                flex: 0 0 23%;
+            }
+
+            .qrcode_box {
+                flex: 0 0 20%;
+
+                .qrcode {
+                    margin       : 0 !important;
+                    display      : inline-block;
+                    border       : 1px solid #eee;
+                    border-radius: .6rem;
+                    overflow     : hidden;
+                    width        : 125px;
+
+                    img {
+                        width: 100%;
+                    }
+
+                    p {
+                        margin-bottom   : 0;
+                        text-align      : center;
+                        background-color: #eee;
+                    }
+                }
+            }
+
+            .ant-divider.ant-divider-vertical {
+                width : 2px;
+                top   : 0;
+                height: 9rem;
+                margin: 0 1.5625rem;
+            }
+
+            @media (max-width:800px) {
+
+                .about_website {
+                    flex: 0 0 100%;
+                }
+
+                .maintain {
+                    flex: 0 0 100%;
+                }
+
+                .qrcode_box {
+                    flex: 0 0 100%;
+                }
+
+                .ant-divider.ant-divider-vertical {
+                    flex  : 0 0 0;
+                    height: 0;
+                }
+            }
+
+
+        }
+
+        .archival_information {
+            margin: 2rem 0;
+
+            span {
+                margin-right: 3.125rem;
+            }
+        }
+
+        @media (max-width:800px) {
+            .website_info {
+                text-align: center !important;
+
+            }
+            .archival_information {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                // justify-self: center;
+                text-align: center;
+                span {
+                    margin-right: 0;
+                }
+            }
+        }
+
+
+    }
 }

@@ -1,7 +1,7 @@
 /*
  * @Author: lts
  * @Date: 2021-01-15 12:46:41
- * @LastEditTime: 2021-01-16 09:41:02
+ * @LastEditTime: 2021-01-18 10:30:31
  * @FilePath: \active-center-client\src\router\index.js
  */
 import { createRouter, createWebHistory } from 'vue-router'
@@ -24,30 +24,35 @@ const routes = [
       {
         path: '/login',
         name: 'Login',
-        component: import('../views/login/Login.vue')
+        component: () => import('../views/login/Login.vue')
       },
       {
         path: '/register',
         name: 'Register',
-        component: import('../views/register/Register.vue')
+        component: () => import('../views/register/Register.vue')
       }
     ]
   },
   {
     path: '/admin',
     name: 'Admin',
-    component: import('../views/admin/index/Index.vue'),
+    component: () => import('../views/admin/index/Index.vue'),
     redirect: '/admin/signIn',
     children: [
       {
         path: '/admin/signIn',
         name: 'SignIn',
-        component: import('../views/admin/signIn/signIn.vue')
+        component: () => import('../views/admin/signIn/signIn.vue')
       },
       {
         path: '/admin/userInfo',
         name: 'UserInfo',
-        component: import('../views/admin/userInfo/UserInfo.vue')
+        component:() => import('../views/admin/userInfo/UserInfo.vue')
+      },
+      {
+        path: '/admin/usersManage',
+        name: 'UsersManage',
+        component:() => import('../views/admin/usersManage/UsersManage.vue')
       },
     ]
   }
