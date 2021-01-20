@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-16 09:31:18
- * @LastEditTime: 2021-01-20 13:55:53
+ * @LastEditTime: 2021-01-20 14:22:10
  * @FilePath: \active-center-client\src\views\admin\signIn\signIn.vue
 -->
 <template>
@@ -18,8 +18,17 @@
         <template #icon><SearchOutlined /></template>查询
       </a-button>
     </div>
-    <div id="teamChart"></div>
-    <div id="memberChart"></div>
+    
+    <div class="tabCharts">
+      <a-tabs default-active-key="1" @change="callback">
+        <a-tab-pane key="1" tab="团队签到统计">
+          <div id="teamChart"></div>
+        </a-tab-pane>
+        <a-tab-pane key="2" tab="×××团队成员签到" force-render>
+          <div id="memberChart"></div>
+        </a-tab-pane>
+      </a-tabs>
+    </div>
   </div>
 </template>
 <script>
@@ -33,14 +42,8 @@ export default {
   },
   data() {
     return {
+      // 柱形图
       echartsOption: {
-        // 标题
-        title: {
-          text: "团队签到统计",
-          x: "left",
-          y: "310",
-          left: 150,
-        },
         // echarts选项，所有绘图数据和样式都在这里设置
         xAxis: {
           type: "category",
@@ -67,30 +70,32 @@ export default {
         },
         // 设置柱状图大小
         grid: {
-          x: 100,
-          y: 10,
-          width: 260,
-          height: 260,
+          x: '20%',
+          y: '15%',
+          x2:'20%',
+          y2: '15%',
+          width: '60%',
+          height: '70%'
         },
         series: [
           {
             //series中加入每个bar的数据
             name: "签到率",
             type: "bar",
-            barWidth: "20%",
+            barWidth: "30%",
             data: [0.35, 0.2, 0.25, 0.15],
           },
         ],
       },
+      // 饼图
       Option: {
-        title: {
-          text: "×××团队成员签到统计",
-          x: "center",
-          y: "bottom",
-        },
         // echarts选项，所有绘图数据和样式都在这里设置
         legend: {
           //图表上方的图例
+          orient: 'vertical',
+          x: 'left',
+          y: '8%',
+          left: '15%',
           data: ["A同学", "B同学", "C同学", "D同学"],
         },
         tooltip: {
@@ -101,7 +106,7 @@ export default {
           {
             name: "团队成员签到统计",
             type: "pie",
-            barWidth: "60%",
+            barWidth: "30%",
             data: [
               // 扇形图数据格式： {value, name}
               { value: 0.35, name: "A同学" }, // value不一定是比例，echarts会自动转换
@@ -126,8 +131,8 @@ export default {
               },
             },
           },
-        ],
-      },
+        ]
+      }
     };
   },
   mounted() {
@@ -140,9 +145,11 @@ export default {
     // 团队内每个成员签到统计
     let member_chart = echarts.init(
       document.getElementById("memberChart"),
-      "light"
+      "light",
     ); // 初始化echarts, theme为light
     member_chart.setOption(this.Option); // echarts设置选项
+    // 是图表进行自适应
+    window.addEventListener("resize", () => { member_chart.resize();team_chart.resize();});
   },
   methods: {
     onChange(value, dateString) {
