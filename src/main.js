@@ -14,7 +14,10 @@ import {
      Row,
      Col,
      Breadcrumb,
-     Avatar
+     Avatar,
+     Icon,
+     DatePicker,
+     Tabs
  } from 'ant-design-vue';
 import 'normalize.css'
 
@@ -28,6 +31,9 @@ app.use(Col)
 app.use(Menu);
 app.use(Breadcrumb);
 app.use(Avatar);
+app.use(Icon);
+app.use(DatePicker);
+app.use(Tabs);
 
 app.use(router)
 app.mount('#app')
