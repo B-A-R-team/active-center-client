@@ -1,7 +1,7 @@
 /*
  * @Author: lts
  * @Date: 2021-01-15 12:46:41
- * @LastEditTime: 2021-01-19 19:30:51
+ * @LastEditTime: 2021-01-20 09:08:37
  * @FilePath: \active-center-client\src\main.js
  */
 import { createApp } from 'vue'
@@ -25,7 +25,9 @@ import {
      Select,
      Tag,
      Tabs,
-     Affix
+     Affix,
+     Icon,
+     DatePicker
  } from 'ant-design-vue';
 import 'normalize.css'
 import './views/global.less'
@@ -52,6 +54,8 @@ app.use(Select);
 app.use(Tag);
 app.use(Tabs);
 app.use(Affix);
+app.use(Icon);
+app.use(DatePicker);
 
 app.use(router)
 app.mount('#app')
