@@ -16,8 +16,12 @@ import {
      Breadcrumb,
      Avatar,
      Icon,
+<<<<<<< HEAD
      DatePicker,
      Tabs
+=======
+     DatePicker
+>>>>>>> dc4faa37259b69a4088053e7d5667b4fcc0fc8cd
  } from 'ant-design-vue';
 import 'normalize.css'
 
@@ -33,7 +37,10 @@ app.use(Breadcrumb);
 app.use(Avatar);
 app.use(Icon);
 app.use(DatePicker);
+<<<<<<< HEAD
 app.use(Tabs);
+=======
+>>>>>>> dc4faa37259b69a4088053e7d5667b4fcc0fc8cd
 
 app.use(router)
 app.mount('#app')

@@ -12,7 +12,11 @@
     "ant-design-vue": "^2.0.0-rc.8",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+<<<<<<< HEAD
     "echarts": "^5.0.1",
+=======
+    "echarts": "^4.9.0",
+>>>>>>> dc4faa37259b69a4088053e7d5667b4fcc0fc8cd
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0",
     "vue": "^3.0.0",
