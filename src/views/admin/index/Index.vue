@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 21:16:54
- * @LastEditTime: 2021-01-18 14:21:19
+ * @LastEditTime: 2021-01-20 12:38:40
  * @FilePath: \active-center-client\src\views\admin\index\Index.vue
 -->
 <template>
@@ -19,7 +19,7 @@
           <a-menu-item key="/admin/userInfo">
             <router-link to="/admin/userInfo">
               <video-camera-outlined />
-              <span>信息完善</span>
+              <span>个人信息</span>
             </router-link>
           </a-menu-item>
           <a-menu-item key="/admin/usersManage">

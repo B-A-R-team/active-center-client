@@ -1,58 +1,59 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-18 09:52:40
- * @LastEditTime: 2021-01-18 14:19:52
+ * @LastEditTime: 2021-01-20 12:09:41
  * @FilePath: \active-center-client\src\views\admin\usersManage\UsersManage.vue
 -->
 <template>
   <div class="users_manage_box">
     <div class="users_manage_header">
-      <a-select
-        v-model:value="value1"
-        style="width: 120px"
-        @focus="focus"
-        ref="select"
-        @change="handleChange"
-      >
-        <a-select-option value="0"> 请选择搜索类型</a-select-option>
-        <a-select-option value="jack"> Jack </a-select-option>
-        <a-select-option value="lucy"> Lucy </a-select-option>
-        <a-select-option value="disabled" disabled> Disabled </a-select-option>
-        <a-select-option value="Yiminghe"> yiminghe </a-select-option>
-      </a-select>
+      <a-form layout="inline">
+        <a-form-item>
+          <a-select
+            v-model:value="value1"
+            style="width: 120px"
+            @focus="focus"
+            ref="select"
+            @change="handleChange"
+          >
+            <a-select-option value="0" disabled>
+              请选择搜索类型</a-select-option
+            >
+            <a-select-option value="card_id"> 按照卡号查找 </a-select-option>
+            <a-select-option value="stu_id"> 按照学号查找 </a-select-option>
+            <a-select-option value="id"> 按照id查找 </a-select-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item>
+          <a-input placeholder="请输入">
+            <template #prefix
+              ><UserOutlined style="color: rgba(0, 0, 0, 0.25)"
+            /></template>
+          </a-input>
+        </a-form-item>
+        <a-form-item>
+          <a-button type="primary" html-type="submit"> 搜索 </a-button>
+        </a-form-item>
+      </a-form>
     </div>
     <div class="users_manage_table">
-      <a-table :columns="columns" :data-source="data">
+      <a-table :columns="columns" :data-source="usersInfo">
+        <!-- 渲染的表格内容 -->
         <template #name="{ text }">
           <a>{{ text }}</a>
         </template>
+        <!-- 标题 -->
         <template #customTitle>
-          <span><smile-outlined /> Name</span>
+          <span><smile-outlined /> 姓名</span>
         </template>
-        <template #tags="{ text: tags }">
-          <span>
-            <a-tag
-              v-for="tag in tags"
-              :key="tag"
-              :color="
-                tag === 'loser'
-                  ? 'volcano'
-                  : tag.length > 5
-                  ? 'geekblue'
-                  : 'green'
-              "
-            >
-              {{ tag.toUpperCase() }}
-            </a-tag>
-          </span>
+        <template #class_name="{ record }">
+          <span> {{record.class_name}} </span>
         </template>
-        <template #action="{ record }">
+        <template #action>
           <span>
-            <a>Invite 一 {{ record.name }}</a>
-            <a-divider type="vertical" />
-            <a>Delete</a>
-            <a-divider type="vertical" />
-            <a class="ant-dropdown-link"> More actions <down-outlined /> </a>
+            <a>查看详情</a>
+             <a-divider type="vertical" />
+            <a>删除</a>
           </span>
         </template>
       </a-table>
@@ -60,75 +61,18 @@
   </div>
 </template>
 <script>
-const columns = [
-  {
-    dataIndex: "name",
-    key: "name",
-    slots: { title: "customTitle", customRender: "name" },
-  },
-  {
-    title: "Age",
-    dataIndex: "age",
-    key: "age",
-  },
-  {
-    title: "Address",
-    dataIndex: "address",
-    key: "address",
-  },
-  {
-    title: "Tags",
-    key: "tags",
-    dataIndex: "tags",
-    slots: { customRender: "tags" },
-  },
-  {
-    title: "Action",
-    key: "action",
-    slots: { customRender: "action" },
-  },
-];
-
-const data = [
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-    tags: ["nice", "developer"],
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-    tags: ["loser"],
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    address: "Sidney No. 1 Lake Park",
-    tags: ["cool", "teacher"],
-  },
-];
-import { SmileOutlined, DownOutlined } from "@ant-design/icons-vue";
+import { SmileOutlined, UserOutlined } from "@ant-design/icons-vue";
 import { ref } from "vue";
-
+import UsersManage from "./UsersManage";
+import "./UsersManage.less";
 export default {
   name: "UsersManage",
   components: {
     SmileOutlined,
-    DownOutlined,
+    UserOutlined,
   },
-  data() {
-    return {
-      data,
-      columns,
-    };
-  },
-  setup() {
 
+  setup() {
     let value1 = ref("0");
     const focus = (e) => {
       console.log(e);
@@ -140,6 +84,7 @@ export default {
       focus,
       handleChange,
       value1,
+      ...UsersManage(),
     };
   },
 };
