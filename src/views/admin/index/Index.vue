@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 21:16:54
- * @LastEditTime: 2021-01-20 19:33:02
+ * @LastEditTime: 2021-01-21 14:20:07
  * @FilePath: \active-center-client\src\views\admin\index\Index.vue
 -->
 <template>
@@ -79,7 +79,7 @@
         <a-layout-content
           :style="{
             margin: '15px 16px 0 16px',
-            padding: '24px',
+            padding: '10px',
             background: '#fff',
             minHeight: '280px',
           }"
@@ -126,7 +126,5 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-body {
-  overflow-y: hidden;
-}
+
 </style>
