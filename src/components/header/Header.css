@@ -1,0 +1,56 @@
+.header {
+  background-color: #99CCCC;
+  padding: 0.2rem;
+  padding-left: 0.4rem;
+  overflow: hidden;
+  height: 4rem;
+  border-bottom: 1px solid #ccc;
+}
+.header .header_logo_box {
+  height: 4rem;
+  display: flex;
+  align-items: flex-end;
+}
+.header .header_logo_box .header_logo {
+  width: 6rem;
+  height: 3.3rem;
+  border: 1px solid #eee;
+  margin-bottom: 0.5rem;
+}
+.header .header_logo_box .header_txt {
+  font-size: 1.125rem;
+  color: #354747;
+  padding-left: 0.3125rem;
+  margin-bottom: 0.5rem;
+}
+.header .ant-menu-light.ant-menu-root.ant-menu.ant-menu-horizontal {
+  height: 4rem;
+  background-color: #99CCCC;
+}
+.header .my_menu_item {
+  line-height: 3.5rem;
+  padding: 0;
+  margin-left: 1.25rem;
+  height: 95%;
+}
+.header .my_menu_item a {
+  height: 100%;
+  font-size: 1.125rem;
+}
+.header .my_menu_item a span {
+  font-size: 18px;
+}
+@media (max-width: 800px) {
+  .header {
+    padding: 0 1.25rem;
+    margin-left: 0;
+  }
+}
+@media (max-width: 800px) {
+  .header .ant-menu-submenu-title {
+    padding: 0;
+  }
+  .header .ant-menu-submenu-title .anticon.anticon-menu {
+    margin-right: 0;
+  }
+}

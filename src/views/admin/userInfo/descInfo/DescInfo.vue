@@ -1,9 +1,9 @@
 <template>
 <div class="desc_info_box">
    <a-card hoverable class="desc_info">
-    <template #cover>
+    <!-- <template #cover> -->
       <img src="../../../../assets/desc_info.png"/>
-    </template>
+    <!-- </template> -->
     <a-card-meta title="描述">
       <template #description>
         描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述

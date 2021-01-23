@@ -66,7 +66,7 @@
   </div>
 </template>
 <script>
-import "./TeamSignIn.less";
+import "./teamSignIn.less";
 import PartText from "./partText/PartText.vue";
 import * as echarts from "echarts";
 const chartData = [18, 15, 20, 16, 18, 23, 21];
