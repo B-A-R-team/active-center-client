@@ -21,13 +21,13 @@
         <p class="back_home" 
         :class="{'change_color' : isTrue, 'original_color' : isFalse}" 
         @click.prevent="DetailInfo"
-        >HOME
+        >主页
         </p>
         <a-divider/>
         <p class="describe_info"
         :class="{'change_color' : isFalse, 'original_color' : isTrue}" 
         @click.prevent="DescInfo"
-        >ABOUT ME
+        >关于我
         </p>
         <a-divider/>
     </a-col>
