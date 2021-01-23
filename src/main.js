@@ -28,6 +28,8 @@ import {
      Affix,
      Icon,
      DatePicker,
+     Modal,
+     Radio
  } from 'ant-design-vue';
 import 'normalize.css'
 import './views/global.less'
@@ -56,6 +58,8 @@ app.use(Tabs);
 app.use(Affix);
 app.use(Icon);
 app.use(DatePicker);
+app.use(Modal);
+app.use(Radio)
 
 app.use(router)
 app.mount('#app')

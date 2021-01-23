@@ -86,9 +86,9 @@
         >
           <router-view></router-view>
         </a-layout-content>
-        <a-layout-footer :style="{ textAlign: 'center' }"
+        <!-- <a-layout-footer :style="{ textAlign: 'center' }"
           >footer</a-layout-footer
-        >
+        > -->
       </a-layout>
     </a-layout>
   </div>

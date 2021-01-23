@@ -1,0 +1,49 @@
+.person_info_list{  
+    width: 50%;
+    height: 100%;
+    float: right;
+    .person_info_box{
+        margin-top: 150px;
+        // 头像样式
+        // .avatar_box{
+        //     width: 10%;
+        //     height: 10%;
+        //     .ant-avatar ant-avatar-icon{
+        //         width: 100% !important;
+        //         height: 100% !important;
+        //     }
+        // }
+        .user_name{
+            text-align: center;
+            font-size: 20px;
+            font-weight: 600;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+        .back_home, .describe_info{
+            text-align: center;
+            font-weight: 600;
+            cursor: pointer;     
+        }
+        .change_color {
+            color:  rgb(75, 187, 103);
+        }
+        .original_color {
+            color: rgb(115, 117, 115)
+        }
+    
+        .back_home:hover{
+            color: rgb(75, 187, 103);
+        }
+        .describe_info:hover{
+            color: rgb(75, 187, 103);
+        }
+        
+    }
+}
+.component-fade-enter-active, .component-fade-leave-active {
+    transition: opacity .3s ease;
+}
+.component-fade-enter, .component-fade-leave-to
+{
+    opacity: 0;
+}
