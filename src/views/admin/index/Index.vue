@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 21:16:54
- * @LastEditTime: 2021-01-22 20:07:08
+ * @LastEditTime: 2021-01-23 17:48:55
  * @FilePath: \active-center-client\src\views\admin\index\Index.vue
 -->
 <template>
@@ -79,7 +79,6 @@
         <a-layout-content
           :style="{
             margin: '15px 16px 0 16px',
-            padding: '10px',
             minHeight: '280px',
           }"
         >

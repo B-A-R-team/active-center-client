@@ -1,7 +1,7 @@
 /*
  * @Author: lts
  * @Date: 2021-01-15 12:46:41
- * @LastEditTime: 2021-01-22 17:36:05
+ * @LastEditTime: 2021-01-23 17:37:37
  * @FilePath: \active-center-client\src\main.js
  */
 import { createApp } from 'vue'
@@ -28,11 +28,15 @@ import {
      Affix,
      Icon,
      DatePicker,
-     Tooltip
+     Tooltip,
+     Radio,
+     List
  } from 'ant-design-vue';
 import 'normalize.css'
 import './views/global.less'
 import * as echarts from 'echarts'
+// 方便Chrome用来优化页面的滑动性能
+import 'default-passive-events'
 
 const app = createApp(App);
 app.config.productionTip = false;
@@ -58,6 +62,8 @@ app.use(Affix);
 app.use(Icon);
 app.use(DatePicker);
 app.use(Tooltip)
+app.use(Radio);
+app.use(List);
 
 app.use(router)
 app.mount('#app')

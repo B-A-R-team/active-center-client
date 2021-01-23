@@ -12,6 +12,7 @@
     "ant-design-vue": "^2.0.0-rc.8",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "default-passive-events": "^2.0.0",
     "echarts": "^5.0.1",
     "moment": "^2.29.1",
     "normalize.css": "^8.0.1",
