@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-20 18:26:39
- * @LastEditTime: 2021-01-22 15:49:17
+ * @LastEditTime: 2021-01-22 20:02:01
  * @FilePath: \active-center-client\src\views\admin\signIn\personSignIn\PersonSignIn.vue
 -->
 <template>
@@ -9,36 +9,59 @@
     <a-row type="flex" justify="space-between" class="sign_info">
       <a-col :sm="24" :md="12" :xl="6">
         <a-card title="近七天签到次数" :loading="loading">
-          <template #extra
-            ><a href="#"><InfoCircleOutlined /></a
-          ></template>
-          <p>0 次</p>
+          <template #extra>
+            <a-tooltip>
+              <template #title> 七天内的签到的天数 </template>
+              <a><InfoCircleOutlined /></a>
+            </a-tooltip>
+          </template>
+          <div class="show_data">5次</div>
+          <div class="card_footer">
+            <a-tag color="orange"> 努力多一点点，收获多一点点 </a-tag>
+          </div>
         </a-card>
-        <!-- <p>今日是否已签到</p>
-        <p>勤劳多一点点，收获多一点点</p> -->
       </a-col>
       <a-col :sm="24" :md="12" :xl="6">
         <a-card title="签到率" :loading="loading">
-          <template #extra
-            ><a href="#"><InfoCircleOutlined /></a
-          ></template>
-          <p>50%</p>
+          <template #extra>
+            <a-tooltip>
+              <template #title> 七天内的签到率 </template>
+              <a><InfoCircleOutlined /></a>
+            </a-tooltip>
+          </template>
+          <div class="show_data">50%</div>
+          <div class="card_footer">
+            <a-tag color="blue"> 有所进步哦 </a-tag>
+          </div>
         </a-card>
       </a-col>
       <a-col :sm="24" :md="12" :xl="6">
         <a-card title="最早签到时间" :loading="loading">
-          <template #extra
-            ><a href="#"><InfoCircleOutlined /></a
-          ></template>
-          <p>8点</p>
+          <template #extra>
+            <a-tooltip>
+              <template #title> 七天内的中的最早的签到时间 </template>
+              <a><InfoCircleOutlined /></a>
+            </a-tooltip>
+          </template>
+          <div class="show_data">8:10</div>
+          <div class="card_footer">
+            <a-tag color="pink"> 加油 </a-tag>
+          </div>
         </a-card>
       </a-col>
       <a-col :sm="24" :md="12" :xl="6">
         <a-card title="最晚签到时间" :loading="loading">
-          <template #extra
-            ><a href="#"><InfoCircleOutlined /></a
-          ></template>
-          <p>9点</p>
+          <template #extra>
+            <a-tooltip>
+              <template #title> 七天内的最晚的签到时间 </template>
+              <a><InfoCircleOutlined /></a>
+            </a-tooltip>
+          </template>
+          <div class="show_data">9:50</div>
+
+          <div class="card_footer">
+            <a-tag color="green"> 天道酬勤 </a-tag>
+          </div>
         </a-card>
       </a-col>
     </a-row>
@@ -47,7 +70,10 @@
         <a-card style="width: 100%">
           <template #title>
             <span>个人签到情况表</span>
-            <InfoCircleOutlined :style="{ marginLeft: '10px' }" />
+            <a-tooltip>
+              <template #title> 默认展示本周的签到情况表，可以快捷选择本月，本年签到表，也可以查看自定义时间的图表。 </template>
+              <a><InfoCircleOutlined :style="{ marginLeft: '10px' }" /></a>
+            </a-tooltip>
           </template>
           <template #extra>
             <div class="extra_item">
@@ -183,7 +209,7 @@ export default {
       } else {
         const yearFirstDay = getFirstDayOfYear();
         console.log(yearFirstDay);
-        let ChartsData = [20,11,2,0,15,30,1,3,5,6,8,1];
+        let ChartsData = [20, 11, 2, 0, 15, 30, 1, 3, 5, 6, 8, 1];
         perEcharts.setOption(yearChartOptions(ChartsData));
       }
 

@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 21:16:54
- * @LastEditTime: 2021-01-21 14:20:07
+ * @LastEditTime: 2021-01-22 20:07:08
  * @FilePath: \active-center-client\src\views\admin\index\Index.vue
 -->
 <template>
@@ -32,7 +32,7 @@
             </a-menu-item>
             <a-menu-item key="/admin/signIn/allSignIn">
               <router-link to="/admin/signIn/allSignIn">
-                <span><MailOutlined /><span>所有人签到情况</span></span>
+                <span><MailOutlined /><span>活动中心签到情况</span></span>
               </router-link>
             </a-menu-item>
           </a-sub-menu>
@@ -80,7 +80,6 @@
           :style="{
             margin: '15px 16px 0 16px',
             padding: '10px',
-            background: '#fff',
             minHeight: '280px',
           }"
         >
