@@ -28,10 +28,14 @@ import {
      Affix,
      Icon,
      DatePicker,
+     Radio,
+     List
  } from 'ant-design-vue';
 import 'normalize.css'
 import './views/global.less'
 import * as echarts from 'echarts'
+// 方便Chrome用来优化页面的滑动性能
+import 'default-passive-events'
 
 const app = createApp(App);
 app.config.productionTip = false;
@@ -56,6 +60,8 @@ app.use(Tabs);
 app.use(Affix);
 app.use(Icon);
 app.use(DatePicker);
+app.use(Radio);
+app.use(List);
 
 app.use(router)
 app.mount('#app')
