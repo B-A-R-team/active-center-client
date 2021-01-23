@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 21:16:54
- * @LastEditTime: 2021-01-23 18:02:11
+ * @LastEditTime: 2021-01-23 18:34:12
  * @FilePath: \active-center-client\src\views\admin\index\Index.vue
 -->
 <template>
@@ -10,12 +10,12 @@
       <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
         <div class="logo" />
         <a-menu theme="dark" mode="inline" v-model:selectedKeys="selectedKeys">
-          <!-- <a-menu-item key="/admin/signIn">
-            <router-link to="/admin/signIn">
-              <user-outlined />
-              <span>签到管理</span>
+          <a-menu-item key="/admin/userInfo">
+            <router-link to="/admin/userInfo">
+              <video-camera-outlined />
+              <span>个人信息</span>
             </router-link>
-          </a-menu-item> -->
+          </a-menu-item>
           <a-sub-menu key="/admin/signIn">
             <template #title>
               <span><MailOutlined /><span>签到情况</span></span>
@@ -37,12 +37,6 @@
             </a-menu-item>
           </a-sub-menu>
 
-          <a-menu-item key="/admin/userInfo">
-            <router-link to="/admin/userInfo">
-              <video-camera-outlined />
-              <span>个人信息</span>
-            </router-link>
-          </a-menu-item>
           <a-menu-item key="/admin/usersManage">
             <router-link to="/admin/usersManage">
               <video-camera-outlined />
@@ -124,5 +118,4 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-
 </style>

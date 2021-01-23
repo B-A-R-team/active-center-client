@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-20 18:26:39
- * @LastEditTime: 2021-01-22 20:02:01
+ * @LastEditTime: 2021-01-23 20:33:28
  * @FilePath: \active-center-client\src\views\admin\signIn\personSignIn\PersonSignIn.vue
 -->
 <template>
@@ -71,7 +71,9 @@
           <template #title>
             <span>个人签到情况表</span>
             <a-tooltip>
-              <template #title> 默认展示本周的签到情况表，可以快捷选择本月，本年签到表，也可以查看自定义时间的图表。 </template>
+              <template #title>
+                默认展示本周的签到情况表，可以快捷选择本月，本年签到表，也可以查看自定义时间的图表。
+              </template>
               <a><InfoCircleOutlined :style="{ marginLeft: '10px' }" /></a>
             </a-tooltip>
           </template>
@@ -151,13 +153,17 @@ export default {
         "2021-1-27 23:38",
       ];
       let resXAxis = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
-
       perEcharts = echarts.init(perSignInCharts.value);
       perEcharts.setOption(
         weekAndMonthChartOptions(resChartsData, resXAxis, "本周")
       );
+      window.onload = function () {
+        //自适应大小
+        perEcharts.resize();
+      };
       window.onresize = function () {
         //自适应大小
+        // console.log()
         perEcharts.resize();
       };
     });
@@ -198,7 +204,6 @@ export default {
           // let j = i
           resXAxis.push(`${i + 1}号`);
         }
-        console.log(resXAxis);
         perEcharts.setOption(
           weekAndMonthChartOptions(
             ChartsData,

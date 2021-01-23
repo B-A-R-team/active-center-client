@@ -5,7 +5,7 @@
  * @FilePath: \active-center-client\src\views\admin\signIn\teamSignIn\TeamSignIn.vue
 -->
 <template>
-  <div class="sign_in">
+  <div class="team_sign_in">
     <div class="tabs">
       <PartText tabsTitle="数据统计" />
       <a-card

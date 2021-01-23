@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-20 18:26:19
- * @LastEditTime: 2021-01-23 17:34:58
+ * @LastEditTime: 2021-01-23 20:38:16
  * @FilePath: \active-center-client\src\views\admin\signIn\allSignIn\AllSignIn.vue
 -->
 <template>
@@ -32,7 +32,7 @@
       <a-col :sm="24" :md="15" :xl="18" :style="{ height: '450px' }">
         <a-card class="all_card_right">
           <template #title>
-            <span :style="{ marginRight: '10px' }">本周活动中心签到</span>
+            <span :style="{ marginRight: '10px' }">活动中心签到</span>
             <a-tooltip>
               <template #title> 本周活动中心所有人签到总数 </template>
               <a><InfoCircleOutlined /></a>
@@ -107,13 +107,15 @@
       <a-col :sm="24" :md="6" :xl="6">
         <a-card>
           <template #title>
-            <span :style="{ marginRight: '10px' }">个人签到</span>
+            <span :style="{ marginRight: '10px' }">查看个人签到</span>
             <a-tooltip>
-              <template #title> 本周活动中心所有人签到总数 </template>
+              <template #title> 查看个人签到详情 </template>
               <a><InfoCircleOutlined /></a>
             </a-tooltip>
           </template>
           <template #extra> </template>
+          <a-input placeholder="请输入学号"/>
+          <a-button type="primary" :style="{marginTop:'10px'}">查询</a-button>
         </a-card>
       </a-col>
     </a-row>
@@ -127,6 +129,7 @@ import * as echarts from "echarts";
 import {
   selLineChartOptions,
   selTeamLineChartOptions,
+  signInPie,
 } from "./AllSignChartConfig";
 export default {
   name: "AllSignIn",
@@ -152,49 +155,16 @@ export default {
       let pieCharts = echarts.init(allSignInPie.value);
       selLineChart = echarts.init(allSignSelLine.value);
       selTeamLineChart = echarts.init(allSignSelTeamLine.value);
-      pieCharts.setOption({
-        tooltip: {
-          trigger: "item",
-          formatter: "{a} <br/>{b}: {c} ({d}%)",
-        },
-        legend: {
-          data: ["签到", "未签到"],
-        },
-        series: [
-          {
-            name: "签到数据",
-            type: "pie",
-            radius: ["40%", "70%"],
-            avoidLabelOverlap: false,
-            itemStyle: {
-              borderRadius: 10,
-              borderColor: "#fff",
-              borderWidth: 2,
-            },
-            label: {
-              show: false,
-              position: "center",
-            },
-            emphasis: {
-              label: {
-                show: true,
-                fontSize: "30",
-                fontWeight: "bold",
-              },
-            },
-            labelLine: {
-              show: false,
-            },
-            data: [
-              { value: 200, name: "签到" },
-              { value: 100, name: "未签到" },
-            ],
-          },
-        ],
-      });
+      pieCharts.setOption(signInPie());
       const resChartsData = [200, 10, 50, 40, 60, 40, 70, 60];
       selLineChart.setOption(selLineChartOptions(resChartsData));
       selTeamLineChart.setOption(selTeamLineChartOptions(resChartsData));
+      window.onload = function () {
+        //自适应大小
+        pieCharts.resize();
+        selLineChart.resize();
+        selTeamLineChart.resize();
+      };
       window.onresize = function () {
         pieCharts.resize();
         selLineChart.resize();

@@ -1,7 +1,7 @@
 /*
  * @Author: lts
  * @Date: 2021-01-21 20:50:10
- * @LastEditTime: 2021-01-22 16:41:50
+ * @LastEditTime: 2021-01-23 19:47:38
  * @FilePath: \active-center-client\src\views\admin\signIn\personSignIn\personChartsConfig.js
  */
 import { BASR_TIME, FORMAT_DATA } from '../../../../utils/constantsUtil'
@@ -19,7 +19,7 @@ export const weekAndMonthChartOptions = (resChartsData, resXAxis, timeRangeText)
     });
     return {
         title: { text: `${timeRangeText}签到统计`, left: "center" },
-        color: ["#3398DB"],
+        color: ['#FF8106'],
         tooltip: {
             trigger: "axis",
             axisPointer: {
@@ -67,10 +67,10 @@ export const yearChartOptions = (myChartsData) => {
     for (let i = 0; i < 12; i++) {
         xAxisData.push(`${i + 1}月`);
     }
-    console.log(xAxisData)
+    // console.log(xAxisData)
     return {
         title: { text: `${new Date().getFullYear()}签到统计`, left: "center" },
-        color: ["#3398DB"],
+        color: ['#FF8106'],
         tooltip: {
             trigger: "axis",
             axisPointer: {
@@ -87,14 +87,14 @@ export const yearChartOptions = (myChartsData) => {
             type: "category",
             boundaryGap: false, // 使x坐标在不在中间
             data: xAxisData,
-            name:'月份'
+            name: '月份'
         },
         yAxis: {
             type: "value",
             splitLine: {
-                show: true, 
+                show: true,
             },
-            name:'次数'
+            name: '次数'
         },
         series: [
             {
