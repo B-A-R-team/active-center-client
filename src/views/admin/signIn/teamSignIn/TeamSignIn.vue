@@ -1,28 +1,25 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-16 09:31:18
- * @LastEditTime: 2021-01-23 20:57:44
+ * @LastEditTime: 2021-01-24 19:46:33
  * @FilePath: \active-center-client\src\views\admin\signIn\teamSignIn\TeamSignIn.vue
 -->
 <template>
   <div class="team_sign_in">
     <div class="tabs">
       <PartText tabsTitle="数据统计" />
-      <a-card
-        class="card"
-        headStyle="font-size:1.2rem;text-align:center"
-        v-for="item in signInList"
-        :key="item.id"
-      >
-        <a-card-grid class="card_grid">
-          <span>姓名：</span>
-          <span>{{ item.userName }}</span>
-        </a-card-grid>
-        <a-card-grid class="card_grid">
-          <span>签到时间：</span>
-          <span>{{ item.signInTime }}</span>
-        </a-card-grid>
-      </a-card>
+      <div class="card_box">
+        <a-card class="card" v-for="item in signInList" :key="item.id">
+          <a-card-grid class="card_grid">
+            <span>姓名：</span>
+            <span>{{ item.userName }}</span>
+          </a-card-grid>
+          <a-card-grid class="card_grid">
+            <span>签到时间：</span>
+            <span>{{ item.signInTime }}</span>
+          </a-card-grid>
+        </a-card>
+      </div>
     </div>
     <div class="data_statistic">
       <PartText tabsTitle="本周数据统计" />
@@ -123,11 +120,52 @@ export default {
           id: "2",
           userName: "mike",
           signInTime: "2021-01-20 08:22:10",
-        }
+        },
+        {
+          id: "2",
+          userName: "mike",
+          signInTime: "2021-01-20 08:22:10",
+        },
+        {
+          id: "2",
+          userName: "mike",
+          signInTime: "2021-01-20 08:22:10",
+        },
+        {
+          id: "2",
+          userName: "mike",
+          signInTime: "2021-01-20 08:22:10",
+        },
+        {
+          id: "2",
+          userName: "mike",
+          signInTime: "2021-01-20 08:22:10",
+        },
+        {
+          id: "2",
+          userName: "mike",
+          signInTime: "2021-01-20 08:22:10",
+        },
+        {
+          id: "2",
+          userName: "mike",
+          signInTime: "2021-01-20 08:22:10",
+        },
+        {
+          id: "2",
+          userName: "mike",
+          signInTime: "2021-01-20 08:22:10",
+        },
+        {
+          id: "2",
+          userName: "mike",
+          signInTime: "2021-01-20 08:22:10",
+        },
       ],
       dataChartShow: true,
       chartData,
       data,
+      isShow: false,
     };
   },
   methods: {
@@ -149,15 +187,15 @@ export default {
         xAxis: {
           type: "category",
           data: [
-            "星期一",
-            "星期二",
-            "星期三",
-            "星期四",
-            "星期五",
-            "星期六",
-            "星期日",
+            "周一",
+            "周二",
+            "周三",
+            "周四",
+            "周五",
+            "周六",
+            "周日",
           ],
-          name: "星期",
+          name: "日期",
           nameTextStyle: {
             fontWeight: 400,
             fontSize: 16,
@@ -176,8 +214,8 @@ export default {
           },
         },
         grid: {
-          x: "3%",
-          x2: "25%",
+          x: "2%",
+          x2: "10%",
           // right: "10%",
           // bottom: "3%",
           containLabel: true,
@@ -210,14 +248,14 @@ export default {
     },
     getSignInNumber() {
       let chartData = this.chartData;
-      this.data.forEach((v,i) => {
-        chartData.forEach((item,index) => {
-          if(i === index) {
-            v.signInNumber = item
+      this.data.forEach((v, i) => {
+        chartData.forEach((item, index) => {
+          if (i === index) {
+            v.signInNumber = item;
           }
-        })
-      })
-    }
+        });
+      });
+    },
   },
   mounted() {
     this.getDataChart();
