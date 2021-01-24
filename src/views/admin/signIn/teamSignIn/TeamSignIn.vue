@@ -1,11 +1,11 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-16 09:31:18
- * @LastEditTime: 2021-01-24 19:46:33
+ * @LastEditTime: 2021-01-24 20:03:25
  * @FilePath: \active-center-client\src\views\admin\signIn\teamSignIn\TeamSignIn.vue
 -->
 <template>
-  <div class="team_sign_in">
+  <div class="sign_in">
     <div class="tabs">
       <PartText tabsTitle="数据统计" />
       <div class="card_box">
