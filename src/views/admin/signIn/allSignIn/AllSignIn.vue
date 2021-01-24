@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-20 18:26:19
- * @LastEditTime: 2021-01-24 17:16:27
+ * @LastEditTime: 2021-01-24 20:33:24
  * @FilePath: \active-center-client\src\views\admin\signIn\allSignIn\AllSignIn.vue
 -->
 <template>
@@ -142,7 +142,7 @@
                 ok-text="确认"
                 cancel-text="取消"
                 @ok="hideModal"
-                dialogClass="myModalChart"
+                class="myModalChart"
               >
                <PersonSignIn/>
               </a-modal>
