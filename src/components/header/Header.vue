@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 16:40:01
- * @LastEditTime: 2021-01-19 20:44:13
+ * @LastEditTime: 2021-01-24 14:10:27
  * @FilePath: \active-center-client\src\components\header\Header.vue
 -->
 <template>
@@ -10,7 +10,10 @@
       <a-row type="flex" justify="center">
         <a-col :xs="20" :sm="20" :md="14" :lg="15" :xl="12">
           <div class="header_logo_box">
-            <div class="header_logo">logo</div>
+            <div class="header_logo">
+              <img src="../../assets/logo.png" alt="" />
+            </div>
+
             <p class="header_txt">好好学习，天天向上</p>
           </div>
         </a-col>

@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-18 17:12:38
- * @LastEditTime: 2021-01-23 16:53:13
+ * @LastEditTime: 2021-01-24 10:43:46
  * @FilePath: \active-center-client\src\views\index\notification\Notification.vue
 -->
 <template>
@@ -141,8 +141,8 @@ export default {
         ],
       });
       myChart.setOption({
-        title:{text:'签到统计',left:'center'},
-        color: ["#3398DB"],
+        title:{text:'七天签到统计',left:'center'},
+        color: ["#70f0fc"],
         tooltip: {
           trigger: "axis",
           axisPointer: {
@@ -159,7 +159,7 @@ export default {
         xAxis: [
           {
             type: "category",
-            data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+            data:  ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
             axisTick: {
               alignWithLabel: true,
             },
@@ -175,7 +175,7 @@ export default {
             name: "直接访问",
             type: "bar",
             barWidth: "60%",
-            data: [10, 52, 200, 334, 390, 330, 220],
+            data: [10, 52, 60, 20, 53, 44, 30],
           },
         ],
       });

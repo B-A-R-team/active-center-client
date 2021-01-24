@@ -1,7 +1,7 @@
 /*
  * @Author: lts
  * @Date: 2021-01-23 11:39:40
- * @LastEditTime: 2021-01-23 19:41:41
+ * @LastEditTime: 2021-01-24 15:42:58
  * @FilePath: \active-center-client\src\views\admin\signIn\allSignIn\AllSignChartConfig.js
  */
 export const signInPie = () => {
@@ -198,7 +198,7 @@ export const selTeamLineChartOptions = (myChartsData, time = 'week') => {
             {
                 name: '团队1',
                 type: 'line',
-                data: [10, 5, 6, 7, 8, 9, 0],
+                data: [0, 2, 5, 7, 8, 9, 15],
                 smooth: true,
                 emphasis: {
                     focus: 'series'
@@ -207,7 +207,7 @@ export const selTeamLineChartOptions = (myChartsData, time = 'week') => {
             {
                 name: '团队2',
                 type: 'line',
-                data: [20, 5, 15, 9, 8, 3, 10],
+                data: [1, 3, 6, 2, 10, 11, 13],
                 smooth: true,
                 emphasis: {
                     focus: 'series'
@@ -216,7 +216,7 @@ export const selTeamLineChartOptions = (myChartsData, time = 'week') => {
             {
                 name: '团队3',
                 type: 'line',
-                data: [3, 0, 6, 7, 0, 10, 0],
+                data: [2, 5, 4, 7, 10, 15, 14],
                 smooth: true,
                 emphasis: {
                     focus: 'series'
@@ -225,7 +225,7 @@ export const selTeamLineChartOptions = (myChartsData, time = 'week') => {
             {
                 name: '团队4',
                 type: 'line',
-                data: [2, 6, 9, 12, 8, 13, 0],
+                data: [6, 10, 9, 15, 16,18, 19],
                 smooth: true,
                 emphasis: {
                     focus: 'series'
@@ -234,7 +234,7 @@ export const selTeamLineChartOptions = (myChartsData, time = 'week') => {
             {
                 name: '团队5',
                 type: 'line',
-                data: [6, 7, 6, 12, 9, 3, 13],
+                data: [3, 6, 9, 7, 8, 8, 8],
                 smooth: true,
                 emphasis: {
                     focus: 'series'
@@ -244,7 +244,7 @@ export const selTeamLineChartOptions = (myChartsData, time = 'week') => {
             {
                 name: '团队6',
                 type: 'line',
-                data: [3, 0, 6, 8, 8, 6, 2],
+                data: [2, 5, 5, 6, 7, 8, 9],
                 smooth: true,
                 emphasis: {
                     focus: 'series'
@@ -253,7 +253,7 @@ export const selTeamLineChartOptions = (myChartsData, time = 'week') => {
             {
                 name: '团队7',
                 type: 'line',
-                data: [3, 0, 6, 8, 8, 6, 1],
+                data: [3, 6, 6, 7, 7, 10, 5],
                 smooth: true,
                 emphasis: {
                     focus: 'series'
@@ -262,7 +262,7 @@ export const selTeamLineChartOptions = (myChartsData, time = 'week') => {
             {
                 name: '团队8',
                 type: 'line',
-                data: [3, 0, 6, 8, 8, 6, 3],
+                data: [2, 5, 5, 15, 16, 13, 14],
                 smooth: true,
                 emphasis: {
                     focus: 'series'
@@ -271,7 +271,7 @@ export const selTeamLineChartOptions = (myChartsData, time = 'week') => {
             {
                 name: '团队9',
                 type: 'line',
-                data: [3, 0, 6, 8, 8, 6, 2],
+                data: [5, 7, 9, 10, 8, 8, 8],
                 smooth: true,
                 emphasis: {
                     focus: 'series'
@@ -280,7 +280,7 @@ export const selTeamLineChartOptions = (myChartsData, time = 'week') => {
             {
                 name: '团队10',
                 type: 'line',
-                data: [3, 0, 6, 8, 0, 6, 5],
+                data: [1, 1, 2, 2, 4, 4, 5],
                 smooth: true,
                 emphasis: {
                     focus: 'series'
@@ -289,7 +289,7 @@ export const selTeamLineChartOptions = (myChartsData, time = 'week') => {
             {
                 name: '团队11',
                 type: 'line',
-                data: [3, 0, 6, 8, 8, 6, 6],
+                data: [3, 6, 6, 7, 7, 8, 9],
                 smooth: true,
                 emphasis: {
                     focus: 'series'
@@ -298,7 +298,7 @@ export const selTeamLineChartOptions = (myChartsData, time = 'week') => {
             {
                 name: '团队12',
                 type: 'line',
-                data: [3, 0, 6, 8, 8, 6, 8],
+                data: [1, 5, 7, 8, 12, 13, 14],
                 smooth: true,
                 emphasis: {
                     focus: 'series'
@@ -307,7 +307,7 @@ export const selTeamLineChartOptions = (myChartsData, time = 'week') => {
             {
                 name: '团队13',
                 type: 'line',
-                data: [3, 0, 6, 8, 0, 6, 9],
+                data: [3, 5, 6, 8, 6, 7, 6],
                 smooth: true,
                 emphasis: {
                     focus: 'series'
@@ -316,7 +316,7 @@ export const selTeamLineChartOptions = (myChartsData, time = 'week') => {
             {
                 name: '团队14',
                 type: 'line',
-                data: [3, 0, 6, 0, 8, 6, 10],
+                data: [2, 1, 3, 1, 3, 5, 7],
                 smooth: true,
                 emphasis: {
                     focus: 'series'
@@ -325,7 +325,7 @@ export const selTeamLineChartOptions = (myChartsData, time = 'week') => {
             {
                 name: '团队15',
                 type: 'line',
-                data: [3, 0, 6, 8, 8, 6, 0],
+                data: [2, 3, 4, 5, 6, 9, 8],
                 smooth: true,
                 emphasis: {
                     focus: 'series'
@@ -334,7 +334,7 @@ export const selTeamLineChartOptions = (myChartsData, time = 'week') => {
             {
                 name: '团队16',
                 type: 'line',
-                data: [3, 0, 6, 8, 10, 0, 18],
+                data: [5, 6, 6, 8, 9, 6, 10],
                 smooth: true,
                 emphasis: {
                     focus: 'series'
@@ -343,7 +343,7 @@ export const selTeamLineChartOptions = (myChartsData, time = 'week') => {
             {
                 name: '团队17',
                 type: 'line',
-                data: [3, 5, 6, 8, 8, 6, 18],
+                data: [3, 5, 6, 8, 8, 6, 10],
                 smooth: true,
                 emphasis: {
                     focus: 'series'

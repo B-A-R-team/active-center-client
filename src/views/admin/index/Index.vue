@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 21:16:54
- * @LastEditTime: 2021-01-23 18:34:12
+ * @LastEditTime: 2021-01-24 10:24:44
  * @FilePath: \active-center-client\src\views\admin\index\Index.vue
 -->
 <template>
@@ -78,9 +78,9 @@
         >
           <router-view></router-view>
         </a-layout-content>
-        <a-layout-footer :style="{ textAlign: 'center' }"
-          >footer</a-layout-footer
-        >
+        <a-layout-footer :style="{ textAlign: 'center' }">
+          Copyright © 2021 BAR Team. All rights reserved.
+        </a-layout-footer>
       </a-layout>
     </a-layout>
   </div>

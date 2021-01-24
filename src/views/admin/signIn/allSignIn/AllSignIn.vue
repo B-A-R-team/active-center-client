@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-20 18:26:19
- * @LastEditTime: 2021-01-23 20:38:16
+ * @LastEditTime: 2021-01-24 17:16:27
  * @FilePath: \active-center-client\src\views\admin\signIn\allSignIn\AllSignIn.vue
 -->
 <template>
@@ -104,7 +104,7 @@
           ></div>
         </a-card>
       </a-col>
-      <a-col :sm="24" :md="6" :xl="6">
+      <a-col :xs="24" :sm="24" :md="24" :lg="6" :xl="6" class="all_two_right">
         <a-card>
           <template #title>
             <span :style="{ marginRight: '10px' }">查看个人签到</span>
@@ -114,29 +114,66 @@
             </a-tooltip>
           </template>
           <template #extra> </template>
-          <a-input placeholder="请输入学号"/>
-          <a-button type="primary" :style="{marginTop:'10px'}">查询</a-button>
+          <div class="stu_find">
+            <a-input placeholder="请输入学号" />
+            <a-button type="primary" :style="{ marginTop: '10px' }"
+              >查询</a-button
+            >
+          </div>
+
+          <div class="stu_info">
+            <a-divider />
+            <div class="stu_header">学生信息级签到情况</div>
+            <div class="stu_body">
+              <span>姓名 <span>张三</span></span>
+              <span>学号 <span>184804263</span></span>
+              <span>班级 <span>18级.net2班</span></span>
+              <span>团队 <span>bar</span></span>
+              <span>联系方式 <span>1555555555555</span></span>
+              <span>今日签到情况 <span>未签到</span></span>
+            </div>
+            <div class="stu_footer">
+              <a-button type="primary" @click="showModal"
+                >点击查看他的签到记录</a-button
+              >
+              <a-modal
+                v-model:visible="visible"
+                title="Modal"
+                ok-text="确认"
+                cancel-text="取消"
+                @ok="hideModal"
+                dialogClass="myModalChart"
+              >
+               <PersonSignIn/>
+              </a-modal>
+            </div>
+          </div>
         </a-card>
       </a-col>
     </a-row>
   </div>
 </template>
 <script>
+import PersonSignIn from '../personSignIn/PersonSignIn.vue'
 import { InfoCircleOutlined } from "@ant-design/icons-vue";
 import "./AllSignIn.less";
+import './ModelInfo.less'
 import { onMounted, ref } from "vue";
 import * as echarts from "echarts";
 import {
   selLineChartOptions,
   selTeamLineChartOptions,
   signInPie,
+  
 } from "./AllSignChartConfig";
 export default {
   name: "AllSignIn",
   components: {
     InfoCircleOutlined,
+    PersonSignIn
   },
   setup() {
+    let visible = ref(false);
     let extraConfig = [
       { key: "week", value: "本周" },
       { key: "month", value: "本月" },
@@ -195,6 +232,12 @@ export default {
       console.log(e);
       console.log(selLineChart);
     };
+    const hideModal = () => {
+      visible.value = false;
+    };
+    const showModal = () => {
+      visible.value = true;
+    };
     return {
       allSignInPie,
       activeKey,
@@ -206,6 +249,9 @@ export default {
       handleClickTeamItem,
       activeTeamKey,
       allSignSelTeamLine,
+      hideModal,
+      visible,
+      showModal,
     };
   },
 };

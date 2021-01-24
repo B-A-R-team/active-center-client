@@ -32,7 +32,7 @@
         min-height: 20rem;
         height    : 100%;
 
-   
+
 
         .ant-card-extra {
             display: flex;
@@ -99,6 +99,87 @@
             display  : block;
             flex     : 0 0 27%;
             max-width: 27%;
+        }
+    }
+
+    .all_two_right {
+        .ant-card {
+            height: 100%;
+        }
+ 
+
+        .stu_info {
+            color: black;
+
+            .stu_header {
+                font-size: 16px;
+            }
+
+            .stu_body {
+                margin-top     : 1rem;
+                display        : flex;
+                flex-wrap      : wrap;
+                justify-content: space-between;
+                >span {
+                    text-align: center;
+                    min-height: 130px;
+                    padding: .75rem;
+                    border: 1px solid #eee;
+                    flex :0 0 49.9999%;
+                    
+                    >span{
+                        word-break:break-all;
+                        display: block;
+                        font-size: 20px;
+                        margin-top: .8rem;
+                    }
+                    transition: all .2s;
+                    &:hover {
+                        box-shadow: 0 0 .625rem #eee;
+                    }
+                    
+                }
+                
+                @media (max-width:768px) {
+                    span {
+                        flex :0 0 49.9999%;
+                        // height: 130px;
+                    }
+                }
+        
+                @media (min-width:768px) {
+                    span {
+                        flex :0 0 49.9999%;
+                        // height: 130px;
+                    }
+                }
+        
+                // @media (min-width:1200px) {
+
+                //     span {
+                //         border: 1px solid #eee;
+                //         flex :0 0 33.3333%;
+                //         height: 130px;
+                //     }
+                // }
+                // @media (min-width:1500px) {
+                //     span {
+                //         border: 1px solid #eee;
+                //         width : 49.9999%;
+                //         height: 130px;
+                //     }
+                // }
+            }
+            .stu_footer {
+                width: 100%;
+                .ant-btn.ant-btn-primary {
+                    width: 100%;
+                    margin-top: 1rem;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                }
+            }
         }
     }
 
