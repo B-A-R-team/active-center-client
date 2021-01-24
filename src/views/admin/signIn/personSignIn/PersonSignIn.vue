@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-20 18:26:39
- * @LastEditTime: 2021-01-23 20:33:28
+ * @LastEditTime: 2021-01-24 21:05:01
  * @FilePath: \active-center-client\src\views\admin\signIn\personSignIn\PersonSignIn.vue
 -->
 <template>
@@ -96,7 +96,7 @@
           </template>
           <div
             ref="perSignInCharts"
-            :style="{ width: '100%', height: '400px' }"
+            :style="{ width: '100%', height: '400px',minWidth:'500px' }"
           ></div>
         </a-card>
       </a-col>
@@ -124,6 +124,7 @@ export default {
   components: {
     InfoCircleOutlined,
   },
+
   setup() {
     // 选项配置
     let extraConfig = [
@@ -157,15 +158,18 @@ export default {
       perEcharts.setOption(
         weekAndMonthChartOptions(resChartsData, resXAxis, "本周")
       );
-      window.onload = function () {
-        //自适应大小
+      window.addEventListener('load', function() {
         perEcharts.resize();
-      };
-      window.onresize = function () {
-        //自适应大小
-        // console.log()
+      })
+      window.addEventListener('resize' ,function() {
         perEcharts.resize();
-      };
+
+      })
+      // window.onresize = function () {
+      //   //自适应大小
+      //   // console.log()
+      //   perEcharts.resize();
+      // };
     });
     const timeChange = () => {};
     const handleClickItem = (key) => {

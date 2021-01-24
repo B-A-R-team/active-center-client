@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-20 18:26:19
- * @LastEditTime: 2021-01-24 20:33:24
+ * @LastEditTime: 2021-01-24 21:10:10
  * @FilePath: \active-center-client\src\views\admin\signIn\allSignIn\AllSignIn.vue
 -->
 <template>
@@ -143,8 +143,9 @@
                 cancel-text="取消"
                 @ok="hideModal"
                 class="myModalChart"
+                destroyOnClose
               >
-               <PersonSignIn/>
+                <PersonSignIn />
               </a-modal>
             </div>
           </div>
@@ -154,23 +155,22 @@
   </div>
 </template>
 <script>
-import PersonSignIn from '../personSignIn/PersonSignIn.vue'
+import PersonSignIn from "../personSignIn/PersonSignIn.vue";
 import { InfoCircleOutlined } from "@ant-design/icons-vue";
 import "./AllSignIn.less";
-import './ModelInfo.less'
+import "./ModelInfo.less";
 import { onMounted, ref } from "vue";
 import * as echarts from "echarts";
 import {
   selLineChartOptions,
   selTeamLineChartOptions,
   signInPie,
-  
 } from "./AllSignChartConfig";
 export default {
   name: "AllSignIn",
   components: {
     InfoCircleOutlined,
-    PersonSignIn
+    PersonSignIn,
   },
   setup() {
     let visible = ref(false);
@@ -202,11 +202,11 @@ export default {
         selLineChart.resize();
         selTeamLineChart.resize();
       };
-      window.onresize = function () {
+      window.addEventListener("resize", function () {
         pieCharts.resize();
         selLineChart.resize();
         selTeamLineChart.resize();
-      };
+      });
     });
     const handleClickItem = (key) => {
       if (key === extraConfig[0].key) {
