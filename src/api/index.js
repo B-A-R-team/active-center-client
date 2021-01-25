@@ -14,11 +14,11 @@
 import axios from 'axios';
 import warnning from '../utils/warnning';
 
-axios.defaults.baseURL = 'https://www.barteam.cn:2992/api/v1/'
+axios.defaults.baseURL = 'http://www.barteam.cn:2048/api/'
 
 axios.interceptors.request.use(
   (config) => {
-    const token = window.sessionStorage.getItem('token') || '';
+    const token = window.localStorage.getItem('token') || '';
     if (token !== '') {
       config.headers.Authorization = `Bearer ${token}`;
     }

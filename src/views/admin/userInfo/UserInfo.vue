@@ -11,12 +11,12 @@
   <a-row type="flex" justify="center" class="person_info_list">
         <a-col :span="4" class="person_info_box">
           <!-- <div class="avatar_box"> -->
-            <a-avatar :size="120">
+            <a-avatar :size="120" srcset="userInfoForm.avatar_url">
                 <template #icon><UserOutlined /></template>
             </a-avatar>
           <!-- </div> -->
         <a-divider/>
-        <p class="user_name">姓名</p>
+        <p class="user_name">{{userInfoForm.name}}</p>
         <a-divider/>
         <p class="back_home" 
         :class="{'change_color' : isTrue, 'original_color' : isFalse}" 
@@ -38,6 +38,7 @@ import DetailInfo from "./detailInfo/DetailInfo";
 import DescInfo from "./descInfo/DescInfo";
 import "./UserInfo.less";
 import { UserOutlined } from "@ant-design/icons-vue";
+// import axios from "../../../api"
 export default {
   components: {
       DetailInfo,
@@ -49,7 +50,11 @@ export default {
     return{
       comName: 'DetailInfo',
       isTrue: true,
-      isFalse: false
+      isFalse: false,
+      userInfoForm:{
+        avatar_url: "",
+        name: "",
+      }
     }
   },
   methods:{
@@ -63,6 +68,11 @@ export default {
           this.isFalse = true
           this.isTrue = false
         }
+  },
+  created(){
+          const userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
+          this.userInfoForm.avatar_url = userInfo.avatar_url;
+          this.userInfoForm.name = userInfo.name;
   }
 };
 </script>
