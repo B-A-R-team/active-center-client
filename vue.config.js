@@ -1,7 +1,7 @@
 /*
  * @Author: lts
  * @Date: 2021-01-15 14:52:54
- * @LastEditTime: 2021-01-25 11:51:08
+ * @LastEditTime: 2021-01-25 14:01:08
  * @FilePath: \active-center-client\vue.config.js
  */
 module.exports = {

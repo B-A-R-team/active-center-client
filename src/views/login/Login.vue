@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 14:30:42
- * @LastEditTime: 2021-01-25 11:53:19
+ * @LastEditTime: 2021-01-25 14:04:11
  * @FilePath: \active-center-client\src\views\login\Login.vue
 -->
 <template>
@@ -17,19 +17,10 @@
       >
         <div class="login_container">
           <div class="login_box">
-            <div class="avatar_box">
-              <a-avatar :size="64">
-                <template #icon><UserOutlined /></template>
-              </a-avatar>
-            </div>
-            <a-form :model="form" :rules="rules">
+            <a-form :model="loginForm" :rules="rules" >
               <div class="a_form_item">
-                <a-form-item
-                  name="stu_id"
-                  :label-col="{ span: 20 }"
-                  :wrapper-col="{ span: 24 }"
-                >
-                  <a-input v-model:value="form.stu_id" placeholder="请输入学号">
+                <a-form-item name="stu_id" :label-col="{span:20}" :wrapper-col="{span:24}" >
+                  <a-input v-model:value="loginForm.stu_id" placeholder="请输入学号">
                     <template #prefix>
                       <UserOutlined style="color: rgba(0, 0, 0, 0.25)" />
                     </template>
@@ -41,7 +32,7 @@
                   :wrapper-col="{ span: 24 }"
                 >
                   <a-input
-                    v-model:value="form.password"
+                    v-model:value="loginForm.password"
                     type="password"
                     placeholder="请输入密码"
                   >
@@ -51,10 +42,8 @@
                   </a-input>
                 </a-form-item>
                 <a-form-item class="btns">
-                  <a-button type="primary" @click="handleClick">
-                    登录
-                  </a-button>
-                  <a-button style="margin-left: 10px"> 重置 </a-button>
+                  <a-button type="primary" @click="login"> 登录 </a-button>
+                  <a-button style="margin-left: 10px" @click="reset"> 重置 </a-button>
                 </a-form-item>
               </div>
             </a-form>
@@ -68,6 +57,7 @@
 import axios from "../../api";
 import { UserOutlined, LockOutlined } from "@ant-design/icons-vue";
 import "./Login.less";
+import { message } from 'ant-design-vue';
 export default {
   name: "Login",
   components: {
@@ -76,27 +66,50 @@ export default {
   },
   data() {
     return {
-      form: {
+      loginForm: {
         stu_id: "",
         password: "",
       },
+      // 存储用户信息
+      userInfo: "",
       rules: {
         stu_id: [{ required: true, message: "请输入学号", trigger: "blur" }],
         password: [{ required: true, message: "请输入密码", trigger: "blur" }],
       },
     };
   },
+  created(){
+    var _self = this;
+    document.onkeydown = function () {
+      var key = window.event.keyCode;
+      if (key == 13) {
+        _self.login('loginForm'); //自己写的登录方法，点击事件
+      }
+  }
+  },
   methods: {
-    handleClick() {
-      // console.log(this.form.stu_id,this.form.password)
-      axios.post('/login',{
-        stu_id:this.form.stu_id,
-        password:this.form.password
-      }).then(res => {
-        console.log(res)
-      })
-  
+        login() {
+      //    登录请求
+        axios.post('login', {
+          stu_id: this.loginForm.stu_id,
+          password: this.loginForm.password
+        })
+          .then(res => {
+            console.log(res)
+            if (res.message === 'success') {
+              message.success('登录成功');
+              this.userInfo = res.data
+              window.localStorage.setItem('userInfo', JSON.stringify(this.userInfo))
+              window.localStorage.setItem('token', res.token)
+               //2、通过编程式导航跳转到后台主页，路由地址是/home
+              this.$router.push('/admin').catch(() => { })
+            } 
+          })
     },
+    // 重置表单内容
+    reset() {
+      this.loginForm = []
+    }
   },
 };
 </script>

@@ -2,11 +2,11 @@
   <div class="detail_info">
     <div class="inner_box">
       <div class="more_info">
-        <p class="info-title">学号 : 184804500</p>
+        <p class="info-title">学号 : {{userInfoForm.stu_id}}</p>
         <p class="info-title">性别 : 暂无</p>
         <p class="info-title">班级 : 暂无</p>
         <p class="info-title">联系方式 : 暂无</p>
-        <p class="info-title">团队 : Bar Tearm</p>
+        <p class="info-title">团队 : {{userInfoForm.team_id}}</p>
         <a-button
           ghost
           size="large"
@@ -84,6 +84,10 @@ export default {
         {validator: checkPhone, trigger: "blur"}
         ],
       },
+      userInfoForm:{
+        stu_id: "",
+        team_id:""
+      }
     }
   },
   methods: {
@@ -95,6 +99,11 @@ export default {
       this.$refs.ruleFormRef.resetFields()
     }
   },
+  created(){
+          const userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
+          this.userInfoForm.team_id = userInfo.team_id;
+          this.userInfoForm.stu_id = userInfo.stu_id;
+  }
 }
 </script>
 <style lang="less" scoped>
