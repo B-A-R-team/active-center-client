@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-20 18:26:19
- * @LastEditTime: 2021-01-24 21:10:10
+ * @LastEditTime: 2021-01-25 11:17:38
  * @FilePath: \active-center-client\src\views\admin\signIn\allSignIn\AllSignIn.vue
 -->
 <template>
@@ -145,7 +145,7 @@
                 class="myModalChart"
                 destroyOnClose
               >
-                <PersonSignIn />
+                <PersonSignIn  :allSignInFlag="true"/>
               </a-modal>
             </div>
           </div>
@@ -225,12 +225,12 @@ export default {
 
     const handleClickTeamItem = (key) => {
       console.log(key);
-      console.log(selTeamLineChart);
+      // console.log(selTeamLineChart);
       activeTeamKey.value = key;
     };
     const timeChange = (e) => {
       console.log(e);
-      console.log(selLineChart);
+      // console.log(selLineChart);
     };
     const hideModal = () => {
       visible.value = false;

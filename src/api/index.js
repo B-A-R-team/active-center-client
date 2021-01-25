@@ -1,7 +1,7 @@
 /*
  * @Author: lts
  * @Date: 2021-01-25 08:54:02
- * @LastEditTime: 2021-01-25 09:09:26
+ * @LastEditTime: 2021-01-25 11:51:17
  * @FilePath: \active-center-client\src\api\index.js
  */
 /*
@@ -14,7 +14,7 @@
 import axios from 'axios';
 import warnning from '../utils/warnning';
 
-axios.defaults.baseURL = 'https://www.barteam.cn:2992/api/v1/'
+axios.defaults.baseURL = 'http://www.barteam.cn:2048/api/'
 
 axios.interceptors.request.use(
   (config) => {

@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-20 18:26:39
- * @LastEditTime: 2021-01-24 21:05:01
+ * @LastEditTime: 2021-01-25 11:14:26
  * @FilePath: \active-center-client\src\views\admin\signIn\personSignIn\PersonSignIn.vue
 -->
 <template>
@@ -124,8 +124,11 @@ export default {
   components: {
     InfoCircleOutlined,
   },
-
-  setup() {
+  props:{
+    allSignInFlag:Boolean
+  },
+  setup(props) {
+    console.log( props,props.allSignInFlag)
     // 选项配置
     let extraConfig = [
       { key: "week", value: "本周" },
@@ -165,11 +168,7 @@ export default {
         perEcharts.resize();
 
       })
-      // window.onresize = function () {
-      //   //自适应大小
-      //   // console.log()
-      //   perEcharts.resize();
-      // };
+
     });
     const timeChange = () => {};
     const handleClickItem = (key) => {

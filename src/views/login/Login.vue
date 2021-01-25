@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 14:30:42
- * @LastEditTime: 2021-01-20 08:47:54
+ * @LastEditTime: 2021-01-25 11:53:19
  * @FilePath: \active-center-client\src\views\login\Login.vue
 -->
 <template>
@@ -22,16 +22,24 @@
                 <template #icon><UserOutlined /></template>
               </a-avatar>
             </div>
-            <a-form :model="form" :rules="rules" >
+            <a-form :model="form" :rules="rules">
               <div class="a_form_item">
-                <a-form-item name="stu_id" :label-col="{span:20}" :wrapper-col="{span:24}" >
+                <a-form-item
+                  name="stu_id"
+                  :label-col="{ span: 20 }"
+                  :wrapper-col="{ span: 24 }"
+                >
                   <a-input v-model:value="form.stu_id" placeholder="请输入学号">
                     <template #prefix>
                       <UserOutlined style="color: rgba(0, 0, 0, 0.25)" />
                     </template>
                   </a-input>
                 </a-form-item>
-                <a-form-item name="password" :label-col="{span:20}" :wrapper-col="{span:24}">
+                <a-form-item
+                  name="password"
+                  :label-col="{ span: 20 }"
+                  :wrapper-col="{ span: 24 }"
+                >
                   <a-input
                     v-model:value="form.password"
                     type="password"
@@ -43,7 +51,9 @@
                   </a-input>
                 </a-form-item>
                 <a-form-item class="btns">
-                  <a-button type="primary"> 登录 </a-button>
+                  <a-button type="primary" @click="handleClick">
+                    登录
+                  </a-button>
                   <a-button style="margin-left: 10px"> 重置 </a-button>
                 </a-form-item>
               </div>
@@ -55,6 +65,7 @@
   </div>
 </template>
 <script>
+import axios from "../../api";
 import { UserOutlined, LockOutlined } from "@ant-design/icons-vue";
 import "./Login.less";
 export default {
@@ -75,10 +86,19 @@ export default {
       },
     };
   },
-  methods: {},
+  methods: {
+    handleClick() {
+      // console.log(this.form.stu_id,this.form.password)
+      axios.post('/login',{
+        stu_id:this.form.stu_id,
+        password:this.form.password
+      }).then(res => {
+        console.log(res)
+      })
+  
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
-
-
 </style>
