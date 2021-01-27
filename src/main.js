@@ -32,7 +32,8 @@ import {
      Radio,
      List,
      Modal,
-     message
+     message,
+     empty
  } from 'ant-design-vue';
 import 'normalize.css'
 import './views/global.less'
@@ -67,6 +68,7 @@ app.use(Tooltip)
 app.use(Radio);
 app.use(List);
 app.use(Modal);
+app.use(empty);
 app.config.globalProperties.$message = message;
 
 app.use(router)

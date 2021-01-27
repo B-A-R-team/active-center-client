@@ -1,9 +1,9 @@
 .sign_in {
   width: 100%;
   height: 100%;
-  display: flex;
+
   background-color: rgb(255, 255, 255);
-  padding: 3% 0 3% 3%;
+  padding: 3%;
 
   .active {
     color: #3db389 !important;
@@ -11,19 +11,20 @@
   }
 
   .tabs {
-    width: 40%;
+    width: 100%;
 
     .card_box {
       height: 30rem;
-      padding-right: 3%;
       overflow-y: scroll;
+      border: .1rem solid #ccc;
+      border-radius: .1rem;
 
       .card {
         .card_grid {
           width: 50%;
           display: flex;
           align-items: center;
-          height: 0.3rem;
+          height: 4rem;
 
           span {
             font-size: 0.9rem;
@@ -34,8 +35,9 @@
   }
 
   .data_statistic {
-    width: 50%;
-    margin-left: 5%;
+    width: 100%;
+    // margin-left: 5%;
+    margin-top: 5%;
 
     .data_button {
 
@@ -48,6 +50,7 @@
 
         .data_list {
           margin-top: 1rem;
+          padding: 1.1rem;
 
           .sign_in_title {
             font-family: "微软雅黑";
@@ -72,9 +75,8 @@
     }
 
     .data_statistic {
-      margin-top: calc(100vh - 15rem);
+      margin-top: calc(100vh - 50rem);
       width: 100%;
-      margin-left: -100%;
       padding-right: 3%;
 
       .ant-card-head-title {
@@ -94,4 +96,3 @@
 
   }
 }
-// 这个文件有毒
