@@ -1,7 +1,7 @@
 /*
  * @Author: lts
  * @Date: 2021-01-15 12:46:41
- * @LastEditTime: 2021-01-23 17:56:41
+ * @LastEditTime: 2021-01-28 16:13:49
  * @FilePath: \active-center-client\src\main.js
  */
 import { createApp } from 'vue'
@@ -32,7 +32,9 @@ import {
      Radio,
      List,
      Modal,
-     message
+     message,
+     Spin,
+     Empty
  } from 'ant-design-vue';
 import 'normalize.css'
 import './views/global.less'
@@ -67,6 +69,8 @@ app.use(Tooltip)
 app.use(Radio);
 app.use(List);
 app.use(Modal);
+app.use(Spin);
+app.use(Empty);
 app.config.globalProperties.$message = message;
 
 app.use(router)

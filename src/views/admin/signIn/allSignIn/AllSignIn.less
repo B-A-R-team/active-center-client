@@ -116,11 +116,24 @@
             }
 
             .stu_body {
+                .ant-empty {
+                    width: 100%;
+                    height: 438px;
+                    .ant-empty-image{
+                        margin-top: 120px;
+                    }
+                }
                 margin-top     : 1rem;
                 display        : flex;
                 flex-wrap      : wrap;
                 justify-content: space-between;
-                >span {
+                .stu_body_div {
+                    width: 100%;
+                    display        : flex;
+                    flex-wrap      : wrap;
+                    justify-content: space-between;
+                }
+                .stu_body_div >span {
                     text-align: center;
                     min-height: 130px;
                     padding: .75rem;
@@ -137,7 +150,6 @@
                     &:hover {
                         box-shadow: 0 0 .625rem #eee;
                     }
-                    
                 }
                 
                 @media (max-width:768px) {
@@ -153,33 +165,18 @@
                         // height: 130px;
                     }
                 }
-        
-                // @media (min-width:1200px) {
-
-                //     span {
-                //         border: 1px solid #eee;
-                //         flex :0 0 33.3333%;
-                //         height: 130px;
-                //     }
-                // }
-                // @media (min-width:1500px) {
-                //     span {
-                //         border: 1px solid #eee;
-                //         width : 49.9999%;
-                //         height: 130px;
-                //     }
-                // }
-            }
-            .stu_footer {
-                width: 100%;
-                .ant-btn.ant-btn-primary {
+                .stu_footer {
                     width: 100%;
-                    margin-top: 1rem;
-                    overflow: hidden;
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
+                    .ant-btn.ant-btn-primary {
+                        width: 100%;
+                        margin-top: 1rem;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                    }
                 }
             }
+            
         }
     }
 
