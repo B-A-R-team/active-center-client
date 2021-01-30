@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-20 18:26:19
- * @LastEditTime: 2021-01-28 20:38:32
+ * @LastEditTime: 2021-01-28 21:19:30
  * @FilePath: \active-center-client\src\views\admin\signIn\allSignIn\AllSignIn.vue
 -->
 <template>
@@ -120,7 +120,7 @@
           </template>
           <template #extra> </template>
           <div class="stu_find">
-            <a-input placeholder="请输入学号" v-model:value="stuId" />
+            <a-input placeholder="请输入学号"  :maxlength="10" v-model:value="stuId" />
             <a-button
               type="primary"
               :style="{ marginTop: '10px' }"
@@ -421,6 +421,7 @@ export default {
           end: time[1],
         },
       });
+      console.log(resChartData)
       const { count_list } = resChartData.data;
       selLineChart.setOption(selLineChartOptions(count_list, "selTime"));
       setTimeout(() => {
@@ -480,7 +481,6 @@ export default {
         userInfoIsShow.value = true;
         userInfoLoading.value = false;
       } else {
-        console.log(111111);
         warnning("警告！", "学号不存在");
         userInfoIsShow.value = false;
         userInfoLoading.value = false;

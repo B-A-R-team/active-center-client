@@ -1,13 +1,20 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-18 17:12:38
- * @LastEditTime: 2021-01-24 10:43:46
+ * @LastEditTime: 2021-01-30 14:14:49
  * @FilePath: \active-center-client\src\views\index\notification\Notification.vue
 -->
 <template>
   <div>
     <a-row type="flex" justify="space-between" class="notification_box">
-      <a-col class="notification notification_one" :xs="24" :sm="24" :md="24" :lg="9" :xl="9" >
+      <a-col
+        class="notification notification_one"
+        :xs="24"
+        :sm="24"
+        :md="24"
+        :lg="9"
+        :xl="9"
+      >
         <span>
           <div>
             <a-divider type="vertical" />
@@ -31,21 +38,26 @@
         </span>
         <a-divider />
         <div class="notification_content">
-          <a-tabs
-            default-active-key="1"
-            tab-position="bottom"
-            @change="handleChange"
-          >
-            <a-tab-pane tab="折线图" key="1" forceRender>
-              <div
-                ref="indexChart"
-                :style="{ width: '100%', height: '300px' }"
-              ></div>
-            </a-tab-pane>
-            <a-tab-pane tab="饼图" key="2" forceRender>
-              <div ref="test" :style="{ width: '100%', height: '300px' }"></div>
-            </a-tab-pane>
-          </a-tabs>
+          <a-spin :spinning="loading">
+            <a-tabs
+              default-active-key="1"
+              tab-position="bottom"
+              @change="handleChange"
+            >
+              <a-tab-pane tab="折线图" key="1" forceRender>
+                <div
+                  ref="indexChart"
+                  :style="{ width: '100%', height: '300px' }"
+                ></div>
+              </a-tab-pane>
+              <a-tab-pane tab="饼图" key="2" forceRender>
+                <div
+                  ref="test"
+                  :style="{ width: '100%', height: '300px' }"
+                ></div>
+              </a-tab-pane>
+            </a-tabs>
+          </a-spin>
         </div>
       </a-col>
     </a-row>
@@ -56,20 +68,41 @@ import { onMounted, ref } from "vue";
 import * as echarts from "echarts";
 import { NotificationOutlined } from "@ant-design/icons-vue";
 import "./Notification.less";
+import axios from "../../../api";
+import { getFirstAndEndDayOfWeek } from "../../../utils/getStartAndEndUtil";
+import { ErrorNotification } from "../../../utils/warnning";
+import { barChartOptions } from "./chartOptions";
 export default {
   name: "Notification",
   components: {
     NotificationOutlined,
   },
   setup() {
+    let loading = ref(true);
     let indexChart = ref(null);
     let test = ref(null);
     const handleChange = () => {
       // console.log(e);
     };
-    onMounted(() => {
+    onMounted(async () => {
+      loading.value = true;
+      let barChart = echarts.init(indexChart.value);
+      const { startTime, endTime } = getFirstAndEndDayOfWeek();
+      try {
+        const resChartData = await axios("/sign/time", {
+          params: {
+            start: startTime,
+            end: endTime,
+          },
+        });
+        const { count_list } = resChartData.data;
+        barChart.setOption(barChartOptions(count_list));
+        loading.value = false;
+      } catch (error) {
+        ErrorNotification("错误", "网络问题");
+        loading.value = false;
+      }
       //需要获取到element,所以是onMounted的Hook
-      let myChart = echarts.init(indexChart.value);
       let myChart2 = echarts.init(test.value);
       // console.log(indexChart.value);
       // console.log(test.value);
@@ -140,49 +173,10 @@ export default {
           },
         ],
       });
-      myChart.setOption({
-        title:{text:'七天签到统计',left:'center'},
-        color: ["#70f0fc"],
-        tooltip: {
-          trigger: "axis",
-          axisPointer: {
-            // 坐标轴指示器，坐标轴触发有效
-            type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
-          },
-        },
-        grid: {
-          left: "3%",
-          right: "4%",
-          bottom: "3%",
-          containLabel: true,
-        },
-        xAxis: [
-          {
-            type: "category",
-            data:  ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
-            axisTick: {
-              alignWithLabel: true,
-            },
-          },
-        ],
-        yAxis: [
-          {
-            type: "value",
-          },
-        ],
-        series: [
-          {
-            name: "直接访问",
-            type: "bar",
-            barWidth: "60%",
-            data: [10, 52, 60, 20, 53, 44, 30],
-          },
-        ],
-      });
 
       window.onresize = function () {
         //自适应大小
-        myChart.resize();
+        barChart.resize();
         myChart2.resize();
       };
     });
@@ -190,6 +184,7 @@ export default {
       handleChange,
       indexChart,
       test,
+      loading,
     };
   },
 };

@@ -1,7 +1,7 @@
 /*
  * @Author: lts
  * @Date: 2021-01-15 12:46:41
- * @LastEditTime: 2021-01-20 19:19:28
+ * @LastEditTime: 2021-01-30 16:15:46
  * @FilePath: \active-center-client\src\router\index.js
  */
 import { createRouter, createWebHistory } from 'vue-router'
@@ -42,8 +42,6 @@ const routes = [
       {
         path: '/admin/signIn',
         redirect: '/admin/signIn/personSignIn',
-        // name: 'TeamSignIn',
-        // component: () => import('../views/admin/signIn/teamSignIn/TeamSignIn.vue'),
       },
       {
         path: '/admin/signIn/teamSignIn',
@@ -82,6 +80,12 @@ const router = createRouter({
 })
 router.beforeEach((to, from, next) => {
   NProgress.start()
+  const token = window.localStorage.getItem('token')
+  if (to.name === 'Login' && token) {
+    return next({ name: 'Admin' });
+  }
+  if (to.name !== 'Login' && !token) next({ name: 'Login' });
+  // 如果用户未能验证身份，则 `next` 会被调用两次
   next()
 })
 

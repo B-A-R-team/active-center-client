@@ -1,7 +1,7 @@
 /*
  * @Author: lts
  * @Date: 2021-01-15 12:46:41
- * @LastEditTime: 2021-01-28 20:57:11
+ * @LastEditTime: 2021-01-30 12:33:51
  * @FilePath: \active-center-client\src\main.js
  */
 import { createApp } from 'vue'
@@ -34,7 +34,8 @@ import {
      Modal,
      message,
      Spin,
-     Empty
+     Empty,
+     Upload
  } from 'ant-design-vue';
 import 'normalize.css'
 import './views/global.less'
@@ -72,6 +73,7 @@ app.use(Modal);
 app.use(Spin);
 app.use(Empty);
 app.config.globalProperties.$message = message;
+app.use(Upload)
 
 app.use(router)
 app.mount('#app')
