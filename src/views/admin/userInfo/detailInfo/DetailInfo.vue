@@ -2,11 +2,12 @@
   <div class="detail_info">
     <div class="inner_box">
       <div class="more_info">
-        <p class="info-title">学号 : {{userInfoForm.stu_id}}</p>
-        <p class="info-title">性别 : 暂无</p>
-        <p class="info-title">班级 : 暂无</p>
-        <p class="info-title">联系方式 : 暂无</p>
-        <p class="info-title">团队 : {{userInfoForm.team_id}}</p>
+        <p class="info-title">学号 : {{parentmsg.stu_id}}</p>
+        <p class="info-title" v-if="parentmsg.gender==0">性别 : 女</p>
+        <p class="info-title" v-else>性别 : 男</p>
+        <p class="info-title">班级 : {{parentmsg.class_name}}</p>
+        <p class="info-title">联系方式 : {{parentmsg.phone}}</p>
+        <p class="info-title">团队 : {{parentmsg.team}}</p>
         <a-button
           ghost
           size="large"
@@ -21,6 +22,7 @@
       ok-text="确认"
       cancel-text="取消"
       @cancel="modalClosed"
+      @ok="updateMsg"
     >
       <a-form
         :model="form"
@@ -28,21 +30,19 @@
         ref="ruleFormRef"
       >
         <a-form-item
-          name="class_name"
-          :label-col="{span:4}"
-          :wrapper-col="{span:18}"
-          label="班级"
-        >
-          <a-input v-model:value="form.class_name" />
-        </a-form-item>
-        <a-form-item
           name="gender"
           :label-col="{span:4}"
           :wrapper-col="{span:18}"
           label="性别"
         >
-          <a-radio v-model:value="form.gender">男</a-radio>
-          <a-radio v-model:value="form.gender">女</a-radio>
+          <a-radio-group v-model:value="form.gender">
+            <a-radio :value="0">
+              女
+            </a-radio>
+            <a-radio :value="1">
+              男
+            </a-radio>
+          </a-radio-group>
         </a-form-item>
         <a-form-item
           name="phone"
@@ -59,34 +59,33 @@
 </template>
 <script>
 import "./DetailInfo.less";
+import axios from '../../../../api'
+import { message } from 'ant-design-vue';
 export default {
   name: "DetailInfo",
+  inject: ['reload'],
+  props: ["parentmsg"],
   data() {
     // 验证电话号码规则
-    var checkPhone = (rule, value, callback) => {
+    let checkPhone = async (rule, value) => {
       const regphone = /^[1][3,4,5,7,8][0-9]{9}$/
       if (regphone.test(value)) {
         //  手机号合法
-        return callback()
+        return Promise.resolve();
       }
-      callback(new Error('请输入合法的手机号'))
-    }
+      return Promise.reject("请输入合法得手机号");
+    };
     return {
       visible: false,
-      form: {
-        class_name: '',
-        phone: '',
-        gender: ''
-      },
       rules: {
-        class_name: [{ required: true, message: "请输入班级", trigger: "blur" }],
         phone: [{ required: true, message: "请输入电话号码", trigger: "blur" },
-        {validator: checkPhone, trigger: "blur"}
+        { validator: checkPhone, trigger: "blur" }
         ],
       },
-      userInfoForm:{
-        stu_id: "",
-        team_id:""
+      id: "",
+      form: {
+        phone: "",
+        gender: ""
       }
     }
   },
@@ -95,14 +94,33 @@ export default {
       this.visible = true;
     },
     // 监听修改信息对话框的关闭事件
-    modalClosed(){
+    modalClosed() {
       this.$refs.ruleFormRef.resetFields()
-    }
+    },
+    updateMsg() {
+      axios.patch('user/' + this.id, {
+        gender: this.form.gender,
+        phone: this.form.phone,
+      })
+        .then((res) => {
+          console.log(res)
+          if (res.message === 'success') {
+            message.success('修改成功');
+
+          } else {
+            message.error('修改失败');
+          }
+        });
+      this.visible = false
+      this.reload()
+    },
   },
-  created(){
-          const userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
-          this.userInfoForm.team_id = userInfo.team_id;
-          this.userInfoForm.stu_id = userInfo.stu_id;
+  created() {
+    const userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
+    this.id = userInfo.id
+    // 从父组件接收到的数据赋给form
+    this.form.phone = this.parentmsg.phone
+    this.form.gender = this.parentmsg.gender
   }
 }
 </script>
