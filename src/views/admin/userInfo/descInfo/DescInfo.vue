@@ -41,9 +41,9 @@ import axios from '../../../../api'
 import { message } from 'ant-design-vue';
 import { FormOutlined } from "@ant-design/icons-vue";
 export default {
-  inject:['reload'],
   name: "DescInfo",
-  props: ["parentmsg"],
+  props: ['parentmsg'],
+  emits: ['change'],
   components: {
     FormOutlined,
   },
@@ -67,13 +67,15 @@ export default {
         .then((res) => {
           console.log(res)
           if (res.message === 'success') {
+              this.$emit('change', {
+              comment: this.form.comment,
+            })
             message.success('修改成功');
           } else {
             message.error('修改失败');
           }
         });
         this.visible = false
-        this.reload()
     }
   },
   created(){

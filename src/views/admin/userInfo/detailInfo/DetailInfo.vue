@@ -3,8 +3,14 @@
     <div class="inner_box">
       <div class="more_info">
         <p class="info-title">学号 : {{parentmsg.stu_id}}</p>
-        <p class="info-title" v-if="parentmsg.gender==0">性别 : 女</p>
-        <p class="info-title" v-else>性别 : 男</p>
+        <p
+          class="info-title"
+          v-if="parentmsg.gender==0"
+        >性别 : 女</p>
+        <p
+          class="info-title"
+          v-else
+        >性别 : 男</p>
         <p class="info-title">班级 : {{parentmsg.class_name}}</p>
         <p class="info-title">联系方式 : {{parentmsg.phone}}</p>
         <p class="info-title">团队 : {{parentmsg.team}}</p>
@@ -13,6 +19,15 @@
           size="large"
           @click="showModal"
         >修改</a-button>
+      </div>
+    </div>
+    <div class="spin_box">
+      <div class="spin_box_child">
+        <a-spin
+          :spinning="spinning" 
+          size="large"
+        >
+        </a-spin>
       </div>
     </div>
     <!-- 修改对话框 -->
@@ -25,17 +40,16 @@
       @ok="updateMsg"
     >
       <a-form
-        :model="form"
+        :model="formDetail"
         :rules="rules"
         ref="ruleFormRef"
       >
         <a-form-item
-          name="gender"
           :label-col="{span:4}"
           :wrapper-col="{span:18}"
           label="性别"
         >
-          <a-radio-group v-model:value="form.gender">
+          <a-radio-group v-model:value="formDetail.gender">
             <a-radio :value="0">
               女
             </a-radio>
@@ -51,7 +65,7 @@
           label="电话"
           has-feedback
         >
-          <a-input v-model:value="form.phone" />
+          <a-input v-model:value="formDetail.phone" />
         </a-form-item>
       </a-form>
     </a-modal>
@@ -63,8 +77,8 @@ import axios from '../../../../api'
 import { message } from 'ant-design-vue';
 export default {
   name: "DetailInfo",
-  inject: ['reload'],
-  props: ["parentmsg"],
+  props: ['parentmsg'],
+  emits: ['change'],
   data() {
     // 验证电话号码规则
     let checkPhone = async (rule, value) => {
@@ -79,14 +93,15 @@ export default {
       visible: false,
       rules: {
         phone: [{ required: true, message: "请输入电话号码", trigger: "blur" },
-        { validator: checkPhone, trigger: "blur" }
+        { validator: checkPhone, len: 11, trigger: "blur" }
         ],
       },
       id: "",
-      form: {
+      formDetail: {
         phone: "",
         gender: ""
-      }
+      },
+      spinning: false,
     }
   },
   methods: {
@@ -99,28 +114,37 @@ export default {
     },
     updateMsg() {
       axios.patch('user/' + this.id, {
-        gender: this.form.gender,
-        phone: this.form.phone,
+        gender: this.formDetail.gender,
+        phone: this.formDetail.phone,
       })
         .then((res) => {
           console.log(res)
           if (res.message === 'success') {
+            this.$emit('change', {
+              gender: this.formDetail.gender,
+              phone: this.formDetail.phone,
+            })
             message.success('修改成功');
-
           } else {
             message.error('修改失败');
           }
         });
       this.visible = false
-      this.reload()
+      this.spinning = true
+    },
+  },
+  watch: {
+    parentmsg(v) {
+      this.formDetail.phone = v.phone;
+      this.formDetail.gender = v.gender;
     },
   },
   created() {
     const userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
     this.id = userInfo.id
-    // 从父组件接收到的数据赋给form
-    this.form.phone = this.parentmsg.phone
-    this.form.gender = this.parentmsg.gender
+    // 从父组件接收到的数据赋给formDetail
+    this.formDetail.phone = this.parentmsg.phone
+    this.formDetail.gender = this.parentmsg.gender
   }
 }
 </script>
