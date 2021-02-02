@@ -1,7 +1,7 @@
 /*
  * @Author: lts
  * @Date: 2021-01-15 14:52:54
- * @LastEditTime: 2021-01-25 14:01:08
+ * @LastEditTime: 2021-01-31 20:55:55
  * @FilePath: \active-center-client\vue.config.js
  */
 module.exports = {
@@ -10,8 +10,8 @@ module.exports = {
       less: {
         lessOptions: {
           modifyVars: {
-            'primary-color': '#1DA57A',
-            'link-color': '#1DA57A',
+            'primary-color': '#f5222d',
+            'link-color': '#f5222d',
             'border-radius-base': '2px',
           },
           javascriptEnabled: true,

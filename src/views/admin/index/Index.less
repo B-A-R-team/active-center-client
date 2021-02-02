@@ -1,7 +1,13 @@
+@import '../../../utils/color.less';
 .admin_app {
     // height: 100vh;
     .ant-layout {
         min-height: 100vh;
+        // .ant-layout-sider {
+        //     width: 15.625rem!important;
+        //     max-width: 15.625rem!important;
+        //     min-width: 15.625rem!important;
+        // }
     }
     #components-layout-demo-custom-trigger {
         height: 100%;
@@ -14,14 +20,27 @@
             transition : color 0.3s;
 
             &:hover {
-                color: #1890ff;
+                color: (@themeColor);
             }
         }
 
         .logo {
-            height    : 32px;
-            background: rgba(255, 255, 255, 0.2);
+            height    : 35px;
+            // background: rgba(255, 255, 255, 0.2);
             margin    : 16px;
+            // text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            span {
+                margin-left: .8125rem;
+                font-size: 25px;
+                color: #fff;
+                // width: 95.42px;
+                overflow:hidden;
+                text-overflow:ellipsis; 
+                white-space:nowrap; 
+            }
         }
     }
 
@@ -37,7 +56,7 @@
             display    : flex;
             align-items: center;
             top        : 0;
-            right      : 4.5rem;
+            right      : 2rem;
             cursor     : pointer;
 
             .user_name {

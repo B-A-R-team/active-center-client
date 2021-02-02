@@ -1,7 +1,7 @@
 /*
  * @Author: lts
  * @Date: 2021-01-25 08:54:02
- * @LastEditTime: 2021-01-30 16:11:43
+ * @LastEditTime: 2021-01-31 10:03:11
  * @FilePath: \active-center-client\src\api\index.js
  */
 /*
@@ -19,7 +19,7 @@ axios.defaults.baseURL = 'http://www.barteam.cn:2048/api/'
 axios.interceptors.request.use(
   (config) => {
     const time_key = window.localStorage.getItem('time_key')
-    console.log(time_key)
+    // console.log(time_key)
     let myDate = new Date().getTime()
     if(myDate >= parseInt(time_key)) {
       window.localStorage.clear()

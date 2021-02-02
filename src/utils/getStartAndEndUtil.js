@@ -1,7 +1,7 @@
 /*
  * @Author: lts
  * @Date: 2021-01-25 15:09:19
- * @LastEditTime: 2021-01-26 13:04:28
+ * @LastEditTime: 2021-01-31 09:53:44
  * @FilePath: \active-center-client\src\utils\getStartAndEndUtil.js
  */
 import moment from 'moment'
@@ -9,9 +9,9 @@ import { FORMAT_DATA } from './constantsUtil'
 export const getFirstAndEndDayOfWeek = () => {
    let date = new Date()
    let endDate = new Date()
-   endDate.setDate(date.getDate() - date.getDay() + 7)
-   //    console.log(moment(endDate.getTime()).format(FORMAT_DATA))
-   date.setDate(date.getDate() - date.getDay() + 1)
+   let day = (date.getDay() === 0 ? 7 : date.getDay())
+   endDate.setDate(date.getDate() - day + 7)
+   date.setDate(date.getDate() - day + 1)
    date.setHours(0, 0, 0, 0)
    return { startTime: moment(date.getTime()).format(FORMAT_DATA), endTime: moment(endDate.getTime()).format(FORMAT_DATA) }
 }
@@ -32,6 +32,6 @@ export const getFirstAndEndDayOfYear = () => {
    date.setHours(0, 0, 0, 0)
    endDate.setDate(31)
    endDate.setMonth(11)
-   
+
    return { startTime: moment(date.getTime()).format(FORMAT_DATA), endTime: moment(endDate.getTime()).format(FORMAT_DATA) }
 }  

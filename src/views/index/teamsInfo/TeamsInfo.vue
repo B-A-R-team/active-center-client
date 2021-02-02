@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-18 17:14:19
- * @LastEditTime: 2021-01-30 15:57:43
+ * @LastEditTime: 2021-01-31 10:37:18
  * @FilePath: \active-center-client\src\views\index\teamsInfo\TeamsInfo.vue
 -->
 <template>
@@ -84,9 +84,9 @@ export default {
     });
     onMounted(async () => {
       const res = await axios("/team");
-      console.log(res);
+      // console.log(res);
       teamsInfo.value  = res.data
-      console.log(teamsInfo)
+      // console.log(teamsInfo)
     });
     return {
       swiper_options,

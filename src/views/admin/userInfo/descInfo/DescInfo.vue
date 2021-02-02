@@ -1,3 +1,9 @@
+<!--
+ * @Author: lts
+ * @Date: 2021-01-23 18:07:31
+ * @LastEditTime: 2021-01-31 17:23:31
+ * @FilePath: \active-center-client\src\views\admin\userInfo\descInfo\DescInfo.vue
+-->
 <template>
   <div class="desc_info_box">
     <a-card

@@ -1,14 +1,23 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 21:16:54
- * @LastEditTime: 2021-01-30 16:43:56
+ * @LastEditTime: 2021-02-01 17:31:21
  * @FilePath: \active-center-client\src\views\admin\index\Index.vue
 -->
 <template>
   <div class="admin_app">
     <a-layout id="components-layout-demo-custom-trigger">
-      <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
-        <div class="logo" />
+      <a-layout-sider
+        :style="{ width: '256px', minWidth: '256px',maxWidth:'256px' }"
+        v-model:collapsed="collapsed"
+        :trigger="null"
+        collapsible
+      >
+        <div class="logo" >
+          <img src="../../../assets/bar.jpg" :style="{height:'100%'}" alt="">
+      
+          <span v-if="!collapsed">BAR团队</span>
+        </div>
         <a-menu theme="dark" mode="inline" v-model:selectedKeys="selectedKeys">
           <a-menu-item key="/admin/userInfo">
             <router-link to="/admin/userInfo">
@@ -96,7 +105,7 @@ import {
   MenuFoldOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons-vue";
-import "./Index.less";
+// import "./Index.less";
 import { ref, createVNode } from "vue";
 import { useRouter } from "vue-router";
 import { Modal } from "ant-design-vue";
@@ -116,7 +125,6 @@ export default {
     // console.log(ctx.$router.options.history.location);
     let collapsed = ref(false);
     let userInfo = ref(JSON.parse(window.localStorage.getItem("userInfo")));
-    // console.log(userInfo.value);
     provide("ec", echarts); //向子组件传递echarts
     const logout = () => {
       Modal.confirm({
@@ -142,4 +150,5 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+@import './Index.less';
 </style>

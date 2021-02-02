@@ -1,7 +1,7 @@
 /*
  * @Author: lts
  * @Date: 2021-01-15 12:46:41
- * @LastEditTime: 2021-01-30 16:15:46
+ * @LastEditTime: 2021-01-31 21:09:48
  * @FilePath: \active-center-client\src\router\index.js
  */
 import { createRouter, createWebHistory } from 'vue-router'
@@ -84,7 +84,7 @@ router.beforeEach((to, from, next) => {
   if (to.name === 'Login' && token) {
     return next({ name: 'Admin' });
   }
-  if (to.name !== 'Login' && !token) next({ name: 'Login' });
+  if (to.name !== 'Login' && !token && to.name !== 'Index') next({ name: 'Login' });
   // 如果用户未能验证身份，则 `next` 会被调用两次
   next()
 })

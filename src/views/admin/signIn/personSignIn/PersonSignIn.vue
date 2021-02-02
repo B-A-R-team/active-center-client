@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-20 18:26:39
- * @LastEditTime: 2021-01-28 20:23:33
+ * @LastEditTime: 2021-02-01 17:39:26
  * @FilePath: \active-center-client\src\views\admin\signIn\personSignIn\PersonSignIn.vue
 -->
 <template>
@@ -93,7 +93,7 @@
               :style="{ width: '256px', display: 'inline-block' }"
               :placeholder="['开始日期', '结束日期']"
             /> </template
-          >s
+          >
           <a-spin :spinning="lineLoading">
             <div
               ref="perSignInCharts"

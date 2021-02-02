@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-16 09:31:10
- * @LastEditTime: 2021-01-23 18:05:27
+ * @LastEditTime: 2021-01-31 17:27:00
  * @FilePath: \active-center-client\src\views\admin\userInfo\UserInfo.vue
 -->
 <template>

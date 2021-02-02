@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 16:40:01
- * @LastEditTime: 2021-01-24 14:10:27
+ * @LastEditTime: 2021-01-30 22:09:53
  * @FilePath: \active-center-client\src\components\header\Header.vue
 -->
 <template>
@@ -14,7 +14,7 @@
               <img src="../../assets/logo.png" alt="" />
             </div>
 
-            <p class="header_txt">好好学习，天天向上</p>
+            <p class="header_txt">软件学院创新创业孵化基地</p>
           </div>
         </a-col>
         <a-col :xs="4" :sm="4" :md="10" :lg="6" :xl="6">
