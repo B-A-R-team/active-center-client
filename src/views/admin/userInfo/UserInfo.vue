@@ -55,7 +55,7 @@
     </a-row>
     <!-- 修改头像弹框 -->
     <a-modal
-      v-model:visible="visible"
+      v-model="visible"
       :footer="null"
     >
       <div

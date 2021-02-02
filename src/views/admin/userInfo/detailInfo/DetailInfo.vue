@@ -1,34 +1,31 @@
 <template>
   <div class="detail_info">
     <div class="inner_box">
-      <div class="more_info">
-        <p class="info-title">学号 : {{parentmsg.stu_id}}</p>
-        <p
-          class="info-title"
-          v-if="parentmsg.gender==0"
-        >性别 : 女</p>
-        <p
-          class="info-title"
-          v-else
-        >性别 : 男</p>
-        <p class="info-title">班级 : {{parentmsg.class_name}}</p>
-        <p class="info-title">联系方式 : {{parentmsg.phone}}</p>
-        <p class="info-title">团队 : {{parentmsg.team}}</p>
-        <a-button
-          ghost
-          size="large"
-          @click="showModal"
-        >修改</a-button>
-      </div>
-    </div>
-    <div class="spin_box">
       <a-spin
         :spinning="spinning"
         size="large"
       >
+        <div class="more_info">
+          <p class="info-title">学号 : {{parentmsg.stu_id}}</p>
+          <p
+            class="info-title"
+            v-if="parentmsg.gender==0"
+          >性别 : 女</p>
+          <p
+            class="info-title"
+            v-else
+          >性别 : 男</p>
+          <p class="info-title">班级 : {{parentmsg.class_name}}</p>
+          <p class="info-title">联系方式 : {{parentmsg.phone}}</p>
+          <p class="info-title">团队 : {{parentmsg.team}}</p>
+          <a-button
+            ghost
+            size="large"
+            @click="showModal"
+          >修改</a-button>
+        </div>
       </a-spin>
     </div>
-    <!-- 修改对话框 -->
     <a-modal
       v-model:visible="visible"
       title="修改信息"
@@ -111,29 +108,35 @@ export default {
       this.$refs.ruleFormRef.resetFields();
     },
     updateMsg() {
-
-      axios.patch('user/' + this.id, {
-        gender: this.formDetail.gender,
-        phone: this.formDetail.phone,
-      })
-        .then((res) => {
-          console.log(res)
-          if (res.message === 'success') {
-            this.$emit('change', {
-              gender: this.formDetail.gender,
-              phone: this.formDetail.phone,
-            })
-            message.success('修改成功');
-          } else {
-            message.error("修改失败");
-          }
+      this.$refs.ruleFormRef
+        .validate()
+        .then(() => {
+          axios.patch('user/' + this.id, {
+            gender: this.formDetail.gender,
+            phone: this.formDetail.phone,
+          })
+            .then((res) => {
+              console.log(res)
+              if (res.message === 'success') {
+                this.$emit('change', {
+                  gender: this.formDetail.gender,
+                  phone: this.formDetail.phone,
+                })
+                message.success('修改成功');
+              } else {
+                message.error("修改失败");
+              }
+            });
+          this.visible = false
+          this.spinning = true
+          setTimeout(() => {
+            this.spinning = false
+          }, 1000)
+        })
+        .catch(error => {
+          console.log('error', error);
         });
-      this.visible = false
-      this.spinning = true
-      setTimeout(() => {
-        this.spinning = false
-      }, 1000)
-    },
+    }
   },
   watch: {
     parentmsg(v) {

@@ -13,6 +13,10 @@
       <!-- <template #cover> -->
       <img src="../../../../assets/desc_info.png" />
       <!-- </template> -->
+      <a-spin
+        :spinning="spinning"
+        size="large"
+      >
       <a-card-meta title="描述">
         <template #description>
           <div class="custom-icons-list">
@@ -24,14 +28,8 @@
           {{parentmsg.comment}}
         </template>
       </a-card-meta>
-    </a-card>
-    <div class="spin_box_two">
-      <a-spin
-        :spinning="spinning"
-        size="large"
-      >
       </a-spin>
-    </div>
+    </a-card>
     <!-- 修改对话框 -->
     <a-modal
       v-model:visible="visible"
