@@ -16,12 +16,22 @@
       <a-card-meta title="描述">
         <template #description>
           <div class="custom-icons-list">
-          <FormOutlined :style="{ fontSize: '25px' }" @click="showModal"/>
+            <FormOutlined
+              :style="{ fontSize: '25px' }"
+              @click="showModal"
+            />
           </div>
           {{parentmsg.comment}}
         </template>
       </a-card-meta>
     </a-card>
+    <div class="spin_box_two">
+      <a-spin
+        :spinning="spinning"
+        size="large"
+      >
+      </a-spin>
+    </div>
     <!-- 修改对话框 -->
     <a-modal
       v-model:visible="visible"
@@ -30,13 +40,14 @@
       cancel-text="取消"
       @ok="updateCom"
     >
-      <a-form
-        :model="form"
-      >
-      <a-form-item label="修改信息" :label-col="{span:4}"
-          :wrapper-col="{span:18}">
-      <a-textarea v-model:value="form.comment"/>
-    </a-form-item>
+      <a-form :model="formDesc">
+        <a-form-item
+          label="修改信息"
+          :label-col="{span:4}"
+          :wrapper-col="{span:18}"
+        >
+          <a-textarea v-model:value="formDesc.comment" />
+        </a-form-item>
       </a-form>
     </a-modal>
   </div>
@@ -47,19 +58,20 @@ import axios from '../../../../api'
 import { message } from 'ant-design-vue';
 import { FormOutlined } from "@ant-design/icons-vue";
 export default {
-  inject:['reload'],
   name: "DescInfo",
-  props: ["parentmsg"],
+  props: ['parentmsg'],
+  emits: ['change'],
   components: {
     FormOutlined,
   },
   data() {
     return {
       visible: false,
-      form:{
+      formDesc: {
         comment: ""
       },
-      id:"",
+      id: "",
+      spinning: false,
     }
   },
   methods: {
@@ -68,25 +80,31 @@ export default {
     },
     updateCom() {
       axios.patch('user/' + this.id, {
-        comment: this.form.comment,
+        comment: this.formDesc.comment,
       })
         .then((res) => {
           console.log(res)
           if (res.message === 'success') {
+            this.$emit('change', {
+              comment: this.formDesc.comment,
+            })
             message.success('修改成功');
           } else {
             message.error('修改失败');
           }
         });
-        this.visible = false
-        this.reload()
+      this.visible = false
+      this.spinning = true
+      setTimeout(() => {
+        this.spinning = false
+      }, 1000)
     }
   },
-  created(){
+  created() {
     const userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
     this.id = userInfo.id
     // 从父组件接收到的数据赋给form
-    this.form.comment = this.parentmsg.comment
+    this.formDesc.comment = this.parentmsg.comment
   }
 }
 </script>
