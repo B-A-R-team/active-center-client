@@ -1,17 +1,17 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-20 18:26:39
- * @LastEditTime: 2021-01-24 21:05:01
+ * @LastEditTime: 2021-01-28 20:23:33
  * @FilePath: \active-center-client\src\views\admin\signIn\personSignIn\PersonSignIn.vue
 -->
 <template>
   <div>
     <a-row type="flex" justify="space-between" class="sign_info">
       <a-col :sm="24" :md="12" :xl="6">
-        <a-card title="近七天签到次数" :loading="loading">
+        <a-card title="本周签到次数" :loading="loading">
           <template #extra>
             <a-tooltip>
-              <template #title> 七天内的签到的天数 </template>
+              <template #title> 本周的签到的天数 </template>
               <a><InfoCircleOutlined /></a>
             </a-tooltip>
           </template>
@@ -25,7 +25,7 @@
         <a-card title="签到率" :loading="loading">
           <template #extra>
             <a-tooltip>
-              <template #title> 七天内的签到率 </template>
+              <template #title> 本周的签到率 </template>
               <a><InfoCircleOutlined /></a>
             </a-tooltip>
           </template>
@@ -53,7 +53,7 @@
         <a-card title="最晚签到时间" :loading="loading">
           <template #extra>
             <a-tooltip>
-              <template #title> 七天内的最晚的签到时间 </template>
+              <template #title> 本周最晚的签到时间 </template>
               <a><InfoCircleOutlined /></a>
             </a-tooltip>
           </template>
@@ -92,12 +92,14 @@
               @change="timeChange"
               :style="{ width: '256px', display: 'inline-block' }"
               :placeholder="['开始日期', '结束日期']"
-            />
-          </template>
-          <div
-            ref="perSignInCharts"
-            :style="{ width: '100%', height: '400px',minWidth:'500px' }"
-          ></div>
+            /> </template
+          >s
+          <a-spin :spinning="lineLoading">
+            <div
+              ref="perSignInCharts"
+              :style="{ width: '100%', height: '400px', minWidth: '500px' }"
+            ></div>
+          </a-spin>
         </a-card>
       </a-col>
     </a-row>
@@ -112,20 +114,25 @@ import moment from "moment";
 import {
   getFirstDayOfWeek,
   getFirstDayOfMonth,
-  getFirstDayOfYear,
 } from "../../../../utils/timeUtil";
+import { getFirstAndEndDayOfYear } from "../../../../utils/getStartAndEndUtil";
 import { FORMAT_DATA } from "../../../../utils/constantsUtil";
 import {
   weekAndMonthChartOptions,
   yearChartOptions,
 } from "./personChartsConfig";
+import axios from "../../../../api";
 export default {
   name: "PersonSignIn",
   components: {
     InfoCircleOutlined,
   },
-
-  setup() {
+  props: {
+    allSignInFlag: Boolean,
+  },
+  setup(props) {
+    console.log(props, props.allSignInFlag);
+    let lineLoading = ref(true)
     // 选项配置
     let extraConfig = [
       { key: "week", value: "本周" },
@@ -140,10 +147,15 @@ export default {
     let loading = ref(true);
     // dataPicker
     let selectTime = ref();
+    let userId = 0;
     setTimeout(() => {
       loading.value = false;
     }, 1000);
-    onMounted(() => {
+    onMounted(async () => {
+      userId = JSON.parse(localStorage.getItem("userInfo")).id;
+      console.log(userId);
+      const res = await axios("sign/user/" + userId + "?type=week");
+      console.log(res);
       let resChartsData = [
         "2021-1-21 06:38",
         "2021-1-22 07:38",
@@ -158,21 +170,17 @@ export default {
       perEcharts.setOption(
         weekAndMonthChartOptions(resChartsData, resXAxis, "本周")
       );
-      window.addEventListener('load', function() {
+      lineLoading.value = false
+      window.addEventListener("load", function () {
         perEcharts.resize();
-      })
-      window.addEventListener('resize' ,function() {
+      });
+      window.addEventListener("resize", function () {
         perEcharts.resize();
-
-      })
-      // window.onresize = function () {
-      //   //自适应大小
-      //   // console.log()
-      //   perEcharts.resize();
-      // };
+      });
     });
     const timeChange = () => {};
-    const handleClickItem = (key) => {
+    const handleClickItem = async (key) => {
+      lineLoading.value = true
       let time = moment(new Date().getTime()).format(FORMAT_DATA);
       if (key === extraConfig[0].key) {
         const monday = getFirstDayOfWeek();
@@ -205,7 +213,6 @@ export default {
         ];
         let resXAxis = [];
         for (let i = 0; i < 31; i++) {
-          // let j = i
           resXAxis.push(`${i + 1}号`);
         }
         perEcharts.setOption(
@@ -216,16 +223,23 @@ export default {
           )
         );
       } else {
-        const yearFirstDay = getFirstDayOfYear();
-        console.log(yearFirstDay);
-        let ChartsData = [20, 11, 2, 0, 15, 30, 1, 3, 5, 6, 8, 1];
-        perEcharts.setOption(yearChartOptions(ChartsData));
+        const { startTime, endTime } = getFirstAndEndDayOfYear();
+        const resData = await axios("/sign/time", {
+          params: {
+            start: startTime,
+            end: endTime,
+            user_id: userId,
+          },
+        });
+        perEcharts.setOption(yearChartOptions(resData.data.user_sign));
       }
 
       // console.log(time);
 
       // console.log(key);
       activeKey.value = key;
+      lineLoading.value = false
+
     };
     return {
       loading,
@@ -235,6 +249,7 @@ export default {
       extraConfig,
       handleClickItem,
       activeKey,
+      lineLoading
     };
   },
 };

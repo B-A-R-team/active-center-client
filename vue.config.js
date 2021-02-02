@@ -1,7 +1,7 @@
 /*
  * @Author: lts
  * @Date: 2021-01-15 14:52:54
- * @LastEditTime: 2021-01-20 13:46:59
+ * @LastEditTime: 2021-01-25 14:01:08
  * @FilePath: \active-center-client\vue.config.js
  */
 module.exports = {
@@ -19,4 +19,10 @@ module.exports = {
       },
     },
   },
+  devServer: {
+    open: true,
+    host: 'localhost',
+    port: 8080,
+    https: false,
+  }
 };

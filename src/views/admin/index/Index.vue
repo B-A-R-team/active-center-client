@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 21:16:54
- * @LastEditTime: 2021-01-24 10:24:44
+ * @LastEditTime: 2021-01-30 16:43:56
  * @FilePath: \active-center-client\src\views\admin\index\Index.vue
 -->
 <template>
@@ -62,7 +62,8 @@
           />
           <div class="user_info">
             <a-avatar />
-            <span class="user_name">用户名称</span>
+            <span class="user_name">{{ userInfo.name }}</span>
+            <a-button @click="logout">退出</a-button>
           </div>
         </a-layout-header>
         <a-breadcrumb style="margin: 16px 0 0 0">
@@ -93,9 +94,12 @@ import {
   VideoCameraOutlined,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
+  ExclamationCircleOutlined,
 } from "@ant-design/icons-vue";
 import "./Index.less";
-import { ref } from "vue";
+import { ref, createVNode } from "vue";
+import { useRouter } from "vue-router";
+import { Modal } from "ant-design-vue";
 export default {
   name: "Admin",
   components: {
@@ -103,16 +107,36 @@ export default {
     VideoCameraOutlined,
     MenuUnfoldOutlined,
     MenuFoldOutlined,
+    // eslint-disable-next-line vue/no-unused-components
+    ExclamationCircleOutlined,
   },
   setup() {
+    let router = useRouter();
     const { ctx } = getCurrentInstance(); // 取态this
-    console.log(ctx.$router.options.history.location);
-    provide("ec", echarts); //向子组件传递echarts
-    let selectedKeys = ref([ctx.$router.options.history.location]);
+    // console.log(ctx.$router.options.history.location);
     let collapsed = ref(false);
+    let userInfo = ref(JSON.parse(window.localStorage.getItem("userInfo")));
+    // console.log(userInfo.value);
+    provide("ec", echarts); //向子组件传递echarts
+    const logout = () => {
+      Modal.confirm({
+        title: "提示",
+        icon: createVNode(ExclamationCircleOutlined),
+        content: "确定要退出登录么？",
+        okText: "确认",
+        cancelText: "取消",
+        onOk() {
+          window.localStorage.clear();
+          router.replace("/login");
+        },
+      });
+    };
+    let selectedKeys = ref([ctx.$router.options.history.location]);
     return {
       selectedKeys,
       collapsed,
+      userInfo,
+      logout,
     };
   },
 };

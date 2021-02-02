@@ -7,22 +7,23 @@
 <template>
   <div class="sign_in">
     <div class="tabs">
-      <PartText tabsTitle="数据统计" />
+      <PartText :tabsTitle=teamTodaySignInfo />
       <div class="card_box">
-        <a-card class="card" v-for="item in signInList" :key="item.id">
+        <a-empty v-show="emptyShow" style="display:flex;flex-direction:column;height:100%;justify-content:center;align-items:center"/>
+        <a-card class="card" v-show="!emptyShow" v-for="item in signInList" :key="item.user_id">
           <a-card-grid class="card_grid">
             <span>姓名：</span>
-            <span>{{ item.userName }}</span>
+            <span>{{ item.user_name }}</span>
           </a-card-grid>
           <a-card-grid class="card_grid">
             <span>签到时间：</span>
-            <span>{{ item.signInTime }}</span>
+            <span>{{ item.sign_time }}</span>
           </a-card-grid>
         </a-card>
       </div>
     </div>
     <div class="data_statistic">
-      <PartText tabsTitle="本周数据统计" />
+      <PartText :tabsTitle=teamSignInfo /> 
       <div class="button_group">
         <a-button-group>
           <a-button
@@ -66,37 +67,39 @@
 import "./TeamSignIn.less";
 import PartText from "./partText/PartText.vue";
 import * as echarts from "echarts";
-const chartData = [18, 15, 20, 16, 18, 23, 21];
+import axios from "../../../../api";
 const data = [
   {
-    title: "星期一",
+    title: "",
     signInNumber: "",
   },
   {
-    title: "星期二",
+    title: "",
     signInNumber: "",
   },
   {
-    title: "星期三",
+    title: "",
     signInNumber: "",
   },
   {
-    title: "星期四",
+    title: "",
     signInNumber: "",
   },
   {
-    title: "星期五",
+    title: "",
     signInNumber: "",
   },
   {
-    title: "星期六",
+    title: "",
     signInNumber: "",
   },
   {
-    title: "星期日",
+    title: "",
     signInNumber: "",
   },
 ];
+const userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
+const teamId = userInfo.team_id;
 export default {
   name: "TeamSignIn",
   components: {
@@ -104,81 +107,40 @@ export default {
   },
   data() {
     return {
-      teamName: "BARTeam",
-      signInList: [
-        {
-          id: "0",
-          userName: "smallBlack",
-          signInTime: "2021-01-20 08:22:16",
-        },
-        {
-          id: "1",
-          userName: "jackson",
-          signInTime: "2021-01-20 08:22:12",
-        },
-        {
-          id: "2",
-          userName: "mike",
-          signInTime: "2021-01-20 08:22:10",
-        },
-        {
-          id: "2",
-          userName: "mike",
-          signInTime: "2021-01-20 08:22:10",
-        },
-        {
-          id: "2",
-          userName: "mike",
-          signInTime: "2021-01-20 08:22:10",
-        },
-        {
-          id: "2",
-          userName: "mike",
-          signInTime: "2021-01-20 08:22:10",
-        },
-        {
-          id: "2",
-          userName: "mike",
-          signInTime: "2021-01-20 08:22:10",
-        },
-        {
-          id: "2",
-          userName: "mike",
-          signInTime: "2021-01-20 08:22:10",
-        },
-        {
-          id: "2",
-          userName: "mike",
-          signInTime: "2021-01-20 08:22:10",
-        },
-        {
-          id: "2",
-          userName: "mike",
-          signInTime: "2021-01-20 08:22:10",
-        },
-        {
-          id: "2",
-          userName: "mike",
-          signInTime: "2021-01-20 08:22:10",
-        },
-      ],
+      signInList: [],
       dataChartShow: true,
-      chartData,
       data,
-      isShow: false,
+      emptyShow: true,
+      teamTodaySignInfo: '',
+      teamSignInfo: '',
+      teamId
     };
   },
   methods: {
-    callback(val) {
-      console.log(val);
-    },
     toggleDataChart() {
       this.dataChartShow = true;
     },
     toggleDataList() {
       this.dataChartShow = false;
     },
-    getDataChart() {
+    async getTeamSignInfo() {
+      const { data }  = await axios.get(`sign/team/${this.teamId}?type=week`);
+      const { team_sign } = data;
+      const { date_list } = data;
+      let newChartData;
+      for(let i = 0; i < team_sign.length; i++) {
+        if(team_sign[i].id === this.teamId) {
+          newChartData = team_sign[i].chartData;
+          this.teamTodaySignInfo = team_sign[i].name + '签到信息';
+          this.teamSignInfo = team_sign[i].name + '本周签到统计';
+          team_sign[i].chartData.forEach((el,index) => {
+            this.data[index].signInNumber = el
+          })
+        }
+      }
+      date_list.forEach((v,i) => {
+        this.data[i].title = v
+      });
       // 初始化柱形图的实例对象
       const dataChart = echarts.init(this.$refs.dataChart);
       // 配置配置项和数据
@@ -186,15 +148,7 @@ export default {
         // x轴
         xAxis: {
           type: "category",
-          data: [
-            "周一",
-            "周二",
-            "周三",
-            "周四",
-            "周五",
-            "周六",
-            "周日",
-          ],
+          data: date_list,
           name: "日期",
           nameTextStyle: {
             fontWeight: 400,
@@ -233,7 +187,7 @@ export default {
             name: "签到人数",
             type: "bar",
             barWidth: "35%",
-            data: this.chartData,
+            data: newChartData,
             itemStyle: {
               borderRadius: 5,
             },
@@ -242,26 +196,27 @@ export default {
       };
       // 将配置项给实例对象，用于数据显示
       dataChart.setOption(dataChartOption);
-      window.onresize = function () {
+      window.addEventListener("load",function(){
         dataChart.resize();
-      };
+      })
+      window.addEventListener("resize",function(){
+        dataChart.resize();
+      })
     },
-    getSignInNumber() {
-      let chartData = this.chartData;
-      this.data.forEach((v, i) => {
-        chartData.forEach((item, index) => {
-          if (i === index) {
-            v.signInNumber = item;
-          }
-        });
-      });
-    },
+    async getTeamTodaySignInfo() {
+      const { data } = await axios.get(`sign/team/${this.teamId}?type=today`);
+      this.signInList = data;
+      if(data.length === 0) {
+        this.emptyShow = true;
+      } else {
+        this.emptyShow = false
+      }
+    }
   },
   mounted() {
-    this.getDataChart();
-    this.getSignInNumber();
-  },
-  computed: {},
+    this.getTeamTodaySignInfo();
+    this.getTeamSignInfo();
+  }
 };
 </script>
 <style lang="less" scoped>

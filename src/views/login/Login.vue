@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 14:30:42
- * @LastEditTime: 2021-01-20 08:47:54
+ * @LastEditTime: 2021-01-30 16:05:16
  * @FilePath: \active-center-client\src\views\login\Login.vue
 -->
 <template>
@@ -74,9 +74,9 @@
   </div>
 </template>
 <script>
+import axios from "../../api";
 import { UserOutlined, LockOutlined } from "@ant-design/icons-vue";
 import "./Login.less";
-import axios from '../../api'
 import { message } from 'ant-design-vue';
 export default {
   name: "Login",
@@ -126,6 +126,10 @@ export default {
             this.userInfo = res.data
             window.localStorage.setItem('userInfo', JSON.stringify(this.userInfo))
             window.localStorage.setItem('token', res.token)
+            let date = new Date()
+            date.setDate(date.getDate() + 3)
+            console.log(date.getTime().toString())
+            window.localStorage.setItem('time_key',date.getTime().toString())
             //2、通过编程式导航跳转到后台主页，路由地址是/admin
             this.$router.push('/admin').catch(() => { })
           }

@@ -1,10 +1,47 @@
 /*
  * @Author: lts
  * @Date: 2021-01-23 11:39:40
- * @LastEditTime: 2021-01-24 15:42:58
+ * @LastEditTime: 2021-01-28 20:27:31
  * @FilePath: \active-center-client\src\views\admin\signIn\allSignIn\AllSignChartConfig.js
  */
-export const signInPie = () => {
+import { daysChangeMonthsArr } from '../../../../utils/timeUtil'
+/**
+ * @description: 在所有人中格式化数据
+ * @param {*data} everyMonthTotal
+ * @return {*格式化的data}
+ */
+const everyMonthTotal = (data) => {
+    let myArr = []
+    data.forEach(item => {
+        let temp = 0
+        for (let i = 0; i < item.length; i++) {
+            temp += item[i].count
+        }
+        myArr.push(temp)
+    })
+    return myArr
+}
+
+/**
+ * @description: 在团队charts中格式化数据
+ * @param {*data} everyMonthTotalTeam
+ * @return {*格式化的data}
+ */
+const everyMonthTotalTeam = (data) => {
+    let myArr = data.map(item => {
+        return item.reduce(function (accumulator, currentValue) {
+            return parseInt(accumulator) + parseInt(currentValue);
+        });
+    })
+    return myArr
+}
+
+/**
+ * @description: 饼图的配置项
+ * @param {*} signInPie
+ * @return {*返回配置项}
+ */
+export const signInPie = (signInCount,notSingInCount) => {
     return {
         tooltip: {
             trigger: "item",
@@ -17,6 +54,11 @@ export const signInPie = () => {
             '#F06060',
             '#20B2AA',
         ],
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
         series: [
             {
                 name: "签到数据",
@@ -43,18 +85,35 @@ export const signInPie = () => {
                     show: false,
                 },
                 data: [
-                    { value: 200, name: "签到" },
-                    { value: 100, name: "未签到" },
+                    { value: signInCount, name: "签到" },
+                    { value: notSingInCount, name: "未签到" },
                 ],
             },
         ],
     }
 }
 
+/**
+ * @description: 团队所有人折线图
+ * @param {myChartsData:后台拿到的数据，time:请求时间段} selLineChartOptions
+ * @return {*配置项}
+ */
 export const selLineChartOptions = (myChartsData, time = 'week') => {
     let xAxisData = []
     let date = new Date()
     let timeRangeText
+    //处理数据
+    let allPeopleData = [];
+    if (time !== 'year') {
+        myChartsData.forEach((item) => {
+            allPeopleData.push(item.count);
+        });
+    } else {
+        let data = daysChangeMonthsArr(myChartsData)
+        console.log(data)
+        allPeopleData = everyMonthTotal(data)
+    }
+
     if (time === 'week') {
         timeRangeText = '本周'
         xAxisData = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
@@ -63,11 +122,16 @@ export const selLineChartOptions = (myChartsData, time = 'week') => {
         for (let i = 0; i < 31; i++) {
             xAxisData.push(`${i + 1}号`);
         }
-    } else {
+    } else if(time === 'year'){
         timeRangeText = date.getFullYear() + '年'
         for (let i = 0; i < 12; i++) {
             xAxisData.push(`${i + 1}月`);
         }
+    } else {
+        timeRangeText = '时间段'
+        myChartsData.forEach((item) => {
+            xAxisData.push(item.date);
+        });
     }
     return {
         title: { text: `${timeRangeText}签到统计`, left: "center" },
@@ -84,6 +148,11 @@ export const selLineChartOptions = (myChartsData, time = 'week') => {
                 );
             },
         },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
         xAxis: {
             type: "category",
             boundaryGap: false, // 使x坐标在不在中间
@@ -99,14 +168,48 @@ export const selLineChartOptions = (myChartsData, time = 'week') => {
         },
         series: [
             {
-                data: myChartsData,
+                data: allPeopleData,
                 type: "line",
             },
         ],
     }
 }
-export const selTeamLineChartOptions = (myChartsData, time = 'week') => {
+
+/**
+ * @description: 团队折线图
+ * @param {myChartsData:后台拿到的数据，time:请求时间段} selTeamLineChartOptions
+ * @return {echarts配置项}
+ */
+export const selTeamLineChartOptions = (myChartsData, time = 'week',date_list) => {
+    let legendData = []
+    if (time !== 'year') {
+        myChartsData.forEach((item) => {
+            legendData.push(item.name)
+            item.type = 'line'
+            item.data = item.chartData
+            item.smooth = true
+            item.emphasis = {}
+            item.emphasis.focus = 'series'
+            delete item.chartData
+            delete item.id
+        })
+    } else {
+        myChartsData.forEach(item => {
+            let tempData = daysChangeMonthsArr(item.chartData)
+            let data = everyMonthTotalTeam(tempData)
+            legendData.push(item.name)
+            item.type = 'line'
+            item.data = data
+            item.smooth = true
+            item.emphasis = {}
+            item.emphasis.focus = 'series'
+            delete item.chartData
+            delete item.id
+        })
+    }
+
     let xAxisData = []
+
     let date = new Date()
     let timeRangeText
     if (time === 'week') {
@@ -117,18 +220,19 @@ export const selTeamLineChartOptions = (myChartsData, time = 'week') => {
         for (let i = 0; i < 31; i++) {
             xAxisData.push(`${i + 1}号`);
         }
-    } else {
+    } else if (time === 'year'){
         timeRangeText = date.getFullYear() + '年'
         for (let i = 0; i < 12; i++) {
             xAxisData.push(`${i + 1}月`);
             console.log(timeRangeText)
-
         }
+    } else {
+        console.log('selTime')
+        xAxisData = date_list
+        // changeDayTimeArr(startAndEndTime)
+
     }
-    let legendData = []
-    for (let i = 0; i < 17; i++) {
-        legendData.push(`团队${i + 1}`)
-    }
+    // console.log(xAxisData)
     return {
         title: {
             text: '团队折线'
@@ -161,7 +265,7 @@ export const selTeamLineChartOptions = (myChartsData, time = 'week') => {
         xAxis: {
             type: 'category',
             boundaryGap: false,
-            data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+            data: xAxisData
         },
         yAxis: {
             type: 'value',
@@ -194,161 +298,7 @@ export const selTeamLineChartOptions = (myChartsData, time = 'week') => {
             '#8A2BE2',
             '#FFF0F5'
         ],
-        series: [
-            {
-                name: '团队1',
-                type: 'line',
-                data: [0, 2, 5, 7, 8, 9, 15],
-                smooth: true,
-                emphasis: {
-                    focus: 'series'
-                },
-            },
-            {
-                name: '团队2',
-                type: 'line',
-                data: [1, 3, 6, 2, 10, 11, 13],
-                smooth: true,
-                emphasis: {
-                    focus: 'series'
-                },
-            },
-            {
-                name: '团队3',
-                type: 'line',
-                data: [2, 5, 4, 7, 10, 15, 14],
-                smooth: true,
-                emphasis: {
-                    focus: 'series'
-                },
-            },
-            {
-                name: '团队4',
-                type: 'line',
-                data: [6, 10, 9, 15, 16,18, 19],
-                smooth: true,
-                emphasis: {
-                    focus: 'series'
-                },
-            },
-            {
-                name: '团队5',
-                type: 'line',
-                data: [3, 6, 9, 7, 8, 8, 8],
-                smooth: true,
-                emphasis: {
-                    focus: 'series'
-                },
-            },
-
-            {
-                name: '团队6',
-                type: 'line',
-                data: [2, 5, 5, 6, 7, 8, 9],
-                smooth: true,
-                emphasis: {
-                    focus: 'series'
-                },
-            },
-            {
-                name: '团队7',
-                type: 'line',
-                data: [3, 6, 6, 7, 7, 10, 5],
-                smooth: true,
-                emphasis: {
-                    focus: 'series'
-                },
-            },
-            {
-                name: '团队8',
-                type: 'line',
-                data: [2, 5, 5, 15, 16, 13, 14],
-                smooth: true,
-                emphasis: {
-                    focus: 'series'
-                },
-            },
-            {
-                name: '团队9',
-                type: 'line',
-                data: [5, 7, 9, 10, 8, 8, 8],
-                smooth: true,
-                emphasis: {
-                    focus: 'series'
-                },
-            },
-            {
-                name: '团队10',
-                type: 'line',
-                data: [1, 1, 2, 2, 4, 4, 5],
-                smooth: true,
-                emphasis: {
-                    focus: 'series'
-                },
-            },
-            {
-                name: '团队11',
-                type: 'line',
-                data: [3, 6, 6, 7, 7, 8, 9],
-                smooth: true,
-                emphasis: {
-                    focus: 'series'
-                },
-            },
-            {
-                name: '团队12',
-                type: 'line',
-                data: [1, 5, 7, 8, 12, 13, 14],
-                smooth: true,
-                emphasis: {
-                    focus: 'series'
-                },
-            },
-            {
-                name: '团队13',
-                type: 'line',
-                data: [3, 5, 6, 8, 6, 7, 6],
-                smooth: true,
-                emphasis: {
-                    focus: 'series'
-                },
-            },
-            {
-                name: '团队14',
-                type: 'line',
-                data: [2, 1, 3, 1, 3, 5, 7],
-                smooth: true,
-                emphasis: {
-                    focus: 'series'
-                },
-            },
-            {
-                name: '团队15',
-                type: 'line',
-                data: [2, 3, 4, 5, 6, 9, 8],
-                smooth: true,
-                emphasis: {
-                    focus: 'series'
-                },
-            },
-            {
-                name: '团队16',
-                type: 'line',
-                data: [5, 6, 6, 8, 9, 6, 10],
-                smooth: true,
-                emphasis: {
-                    focus: 'series'
-                },
-            },
-            {
-                name: '团队17',
-                type: 'line',
-                data: [3, 5, 6, 8, 8, 6, 10],
-                smooth: true,
-                emphasis: {
-                    focus: 'series'
-                },
-            },
-        ]
+        series: myChartsData
     }
 }
+

@@ -1,11 +1,21 @@
 /*
  * @Author: lts
  * @Date: 2021-01-21 20:50:10
- * @LastEditTime: 2021-01-23 19:47:38
+ * @LastEditTime: 2021-01-28 20:33:02
  * @FilePath: \active-center-client\src\views\admin\signIn\personSignIn\personChartsConfig.js
  */
 import { BASR_TIME, FORMAT_DATA } from '../../../../utils/constantsUtil'
 import moment from 'moment'
+import {daysChangeMonthsArr} from '../../../../utils/timeUtil'
+
+const everyMonthTotal = (data) => {
+    let myArr = data.map(item => {
+        return item.reduce(function (accumulator, currentValue) {
+            return parseInt(accumulator) + parseInt(currentValue);
+        });
+    })
+    return myArr
+}
 
 /**
  * @description: 用于生成week的echarts的配置项
@@ -33,6 +43,11 @@ export const weekAndMonthChartOptions = (resChartsData, resXAxis, timeRangeText)
                     resChartsData[timeItem]
                 );
             },
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
         },
         xAxis: {
             type: "category",
@@ -67,7 +82,8 @@ export const yearChartOptions = (myChartsData) => {
     for (let i = 0; i < 12; i++) {
         xAxisData.push(`${i + 1}月`);
     }
-    // console.log(xAxisData)
+    let tempData = daysChangeMonthsArr(myChartsData)
+    myChartsData = everyMonthTotal(tempData)
     return {
         title: { text: `${new Date().getFullYear()}签到统计`, left: "center" },
         color: ['#FF8106'],
@@ -82,6 +98,11 @@ export const yearChartOptions = (myChartsData) => {
                     `<span style='color:#3db389;display:block'>${e[0].name}</span>${e[0].value}次`
                 );
             },
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
         },
         xAxis: {
             type: "category",

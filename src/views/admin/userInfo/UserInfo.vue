@@ -58,45 +58,20 @@
       v-model:visible="visible"
       :footer="null"
     >
-      <a-upload
-        v-model:fileList="fileList"
-        class="avatar-uploader"
-        list-type="picture-card"
-        :show-upload-list="false"
-        :before-upload="beforeUpload"
-        @preview="handlePreview"
-        @change="handleChange"
+      <div
+        class="bigImg-div"
+        @click="toGetImg"
       >
         <img
-          v-if="previewImage"
-          :src="previewImage"
-          alt="avatar"
-        />
-        <div v-else>
-          <plus-outlined/>
-          <div class="ant-upload-text">上传头像</div>
-        </div>
-      </a-upload>
+          class="bigImg"
+          :src=valueUrl
+          v-if="valueUrl"
+        >
+      </div>
       <a-button
         type="primary"
-        :disabled="fileList.length === 0"
-        style="margin-top: 16px"
-        @click="upDataPic"
-      >
-        更新
-      </a-button>
-    </a-modal>
-    <!-- 头像预览 -->
-    <a-modal
-      :visible="previewVisible"
-      :footer="null"
-      @cancel="handleCancel"
-    >
-      <img
-        alt="example"
-        style="width: 100%"
-        :src="previewImage"
-      />
+        @click="uploadFile"
+      >更新</a-button>
     </a-modal>
   </div>
 </template>
@@ -104,25 +79,15 @@
 import DetailInfo from "./detailInfo/DetailInfo";
 import DescInfo from "./descInfo/DescInfo";
 import "./UserInfo.less";
-import axios from "../../../api"
+import axios from "../../../api";
 import { message } from 'ant-design-vue';
-import { PlusOutlined } from '@ant-design/icons-vue'
 
-function getBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-  });
-}
-
+let inputElement = null
 export default {
   name: "UserInfo",
   components: {
     DetailInfo,
     DescInfo,
-    PlusOutlined,
   },
   data() {
     return {
@@ -132,11 +97,9 @@ export default {
       id: "",
       userInfoForm: {
       },
-      fileList: [],
       visible: false,
-      previewVisible: false,
-      previewImage: "",
-      file: '',
+      valueUrl: '',
+      files: ''
     }
   },
   methods: {
@@ -166,27 +129,49 @@ export default {
       this.visible = true;
     },
 
-    handleChange(e) {
-      this.file = e.file;
-    },
-    // 返回false手动上传
-    beforeUpload() {
-      return false;
-    },
-    handleCancel() {
-      this.previewVisible = false;
-    },
-    async handlePreview() {
-      if (!this.file.url && !this.file.preview) {
-        this.file.preview = await getBase64(this.file.originFileObj);
+    // 点击动态生成input控件
+    toGetImg() {
+      if (inputElement === null) {
+        // 生成文件上传的控件
+        inputElement = document.createElement('input')
+        inputElement.setAttribute('type', 'file')
+        inputElement.style.display = 'none'
+
+        if (window.addEventListener) {
+          inputElement.addEventListener('change', this.onGetLocalFile, false)
+        } else {
+          inputElement.attachEvent('onchange', this.onGetLocalFile)
+        }
+        document.body.appendChild(inputElement)
       }
-      this.previewImage = this.file.url || this.file.preview;
-      this.previewVisible = true;
+      inputElement.click()
     },
-    // 上传头像
-    upDataPic() {
-      const formData = new FormData();
-      formData.append('avatar', this.file);
+    // 获取当地图片
+    onGetLocalFile(el) {
+      if (el && el.target && el.target.files && el.target.files.length > 0) {
+        this.files = el.target.files[0]
+        const isLt2M = this.files.size / 1024 / 1024 < 2
+        // 判断上传文件的大小
+        if (!isLt2M) {
+          message.error('上传头像图片大小不能超过 2MB!')
+        } else if (this.files.type.indexOf('image') === -1) { //如果不是图片格式
+          message.error('请选择图片文件');
+        } else {
+          const that = this;
+          const reader = new FileReader(); // 创建读取文件对象
+          reader.readAsDataURL(el.target.files[0]); // 发起异步请求，读取文件
+          reader.onload = function () { // 文件读取完成后
+            // 读取完成后，将结果赋值给img的src
+            that.valueUrl = this.result;
+          };
+        }
+      }
+    },
+    // 上传图片
+    uploadFile() {
+      // 数据传到后台
+      const formData = new FormData()
+      formData.append('avatar', this.files);
       axios.post('upload/avatar/' + this.id, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -195,40 +180,60 @@ export default {
         .then(res => {
           if (res.message == 'success') {
             message.success('上传头像成功')
-          
-            this.fileList = []
-            // this.userInfoForm.avatar_url = res.data.avatar_url
+            this.userInfoForm.avatar_url = res.data.avatar_url
+            this.valueUrl = ''
           } else {
             message.error('上传头像失败')
           }
         })
     },
-
-    dataChange({ gender, phone, comment }) {
-      this.userInfoForm.gender = gender;
-      this.userInfoForm.phone = phone;
-      this.userInfoForm.comment = comment;
-    }
+    dataChange(data) {
+      if (this.comName === 'DetailInfo') {
+        this.userInfoForm.gender = data.gender;
+        this.userInfoForm.phone = data.phone;
+      } else {
+        this.userInfoForm.comment = data.comment;
+      }
+    },
   },
   created() {
     const userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
     this.id = userInfo.id
     this.getUserInfo()
-  }
+  },
+  // 清除文件上传的控件
+  beforeUnmount() {
+    if (inputElement) {
+      if (window.addEventListener) {
+        inputElement.removeEventListener('change', this.onGetLocalFile, false)
+      } else {
+        inputElement.detachEvent('onchange', this.onGetLocalFile)
+      }
+      document.body.removeChild(inputElement)
+      inputElement = null
+      console.log('========inputelement destroy')
+    }
+  },
 }
 </script>
 <style lang="less" scoped>
-.avatar-uploader > .ant-upload {
-  width: 128px;
-  height: 128px;
+.bigImg-div {
+  width: 200px;
+  height: 200px;
+  border-radius: 100%;
+  overflow: hidden;
+  border: 1px solid #ddd;
+  margin: 0 auto;
+  cursor: pointer;
+  .bigImg {
+    display: block;
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
+  }
 }
-.ant-upload-select-picture-card i {
-  font-size: 32px;
-  color: #999;
-}
-
-.ant-upload-select-picture-card .ant-upload-text {
-  margin-top: 8px;
-  color: #666;
+.ant-btn {
+  margin-left: calc(50% - 31.92px);
+  margin-top: 10px;
 }
 </style>

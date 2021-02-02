@@ -22,13 +22,11 @@
       </div>
     </div>
     <div class="spin_box">
-      <div class="spin_box_child">
-        <a-spin
-          :spinning="spinning" 
-          size="large"
-        >
-        </a-spin>
-      </div>
+      <a-spin
+        :spinning="spinning"
+        size="large"
+      >
+      </a-spin>
     </div>
     <!-- 修改对话框 -->
     <a-modal
@@ -99,7 +97,7 @@ export default {
       id: "",
       formDetail: {
         phone: "",
-        gender: ""
+        gender: "",
       },
       spinning: false,
     }
@@ -113,6 +111,7 @@ export default {
       this.$refs.ruleFormRef.resetFields()
     },
     updateMsg() {
+
       axios.patch('user/' + this.id, {
         gender: this.formDetail.gender,
         phone: this.formDetail.phone,
@@ -131,6 +130,9 @@ export default {
         });
       this.visible = false
       this.spinning = true
+      setTimeout(() => {
+        this.spinning = false
+      }, 1000)
     },
   },
   watch: {
