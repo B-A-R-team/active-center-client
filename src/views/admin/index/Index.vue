@@ -21,34 +21,34 @@
         <a-menu theme="dark" mode="inline" v-model:selectedKeys="selectedKeys">
           <a-menu-item key="/admin/userInfo">
             <router-link to="/admin/userInfo">
-              <video-camera-outlined />
+              <UserOutlined />
               <span>个人信息</span>
             </router-link>
           </a-menu-item>
           <a-sub-menu key="/admin/signIn">
             <template #title>
-              <span><MailOutlined /><span>签到情况</span></span>
+              <span><PieChartOutlined /><span>签到情况</span></span>
             </template>
             <a-menu-item key="/admin/signIn/personSignIn">
               <router-link to="/admin/signIn/personSignIn">
-                <span><MailOutlined /><span>个人签到情况</span></span>
+                <span><SolutionOutlined /><span>个人签到情况</span></span>
               </router-link>
             </a-menu-item>
             <a-menu-item key="/admin/signIn/teamSignIn">
               <router-link to="/admin/signIn/teamSignIn">
-                <span><MailOutlined /><span>团队签到情况</span></span>
+                <span><TeamOutlined /><span>团队签到情况</span></span>
               </router-link>
             </a-menu-item>
             <a-menu-item key="/admin/signIn/allSignIn">
               <router-link to="/admin/signIn/allSignIn">
-                <span><MailOutlined /><span>活动中心签到情况</span></span>
+                <span><FileTextOutlined /><span>活动中心签到情况</span></span>
               </router-link>
             </a-menu-item>
           </a-sub-menu>
 
           <a-menu-item key="/admin/usersManage">
             <router-link to="/admin/usersManage">
-              <video-camera-outlined />
+              <SettingOutlined />
               <span>用户管理</span>
             </router-link>
           </a-menu-item>
@@ -99,8 +99,12 @@
 import * as echarts from "echarts";
 import { getCurrentInstance, provide } from "vue";
 import {
-  MailOutlined,
-  VideoCameraOutlined,
+  UserOutlined,
+  TeamOutlined,
+  SettingOutlined,
+  SolutionOutlined,
+  PieChartOutlined,
+  FileTextOutlined,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   ExclamationCircleOutlined,
@@ -112,8 +116,12 @@ import { Modal } from "ant-design-vue";
 export default {
   name: "Admin",
   components: {
-    MailOutlined,
-    VideoCameraOutlined,
+    UserOutlined,
+    TeamOutlined,
+    SettingOutlined,
+    SolutionOutlined,
+    PieChartOutlined,
+    FileTextOutlined,
     MenuUnfoldOutlined,
     MenuFoldOutlined,
     // eslint-disable-next-line vue/no-unused-components
