@@ -1,28 +1,67 @@
 /*
  * @Author: lts
  * @Date: 2021-01-21 20:50:10
- * @LastEditTime: 2021-01-28 20:33:02
+ * @LastEditTime: 2021-02-03 18:07:21
  * @FilePath: \active-center-client\src\views\admin\signIn\personSignIn\personChartsConfig.js
  */
 import { BASR_TIME, FORMAT_DATA } from '../../../../utils/constantsUtil'
 import moment from 'moment'
-import {daysChangeMonthsArr} from '../../../../utils/timeUtil'
+import { daysChangeMonthsArr, changeDayTimeArr } from '../../../../utils/timeUtil'
+import { getFirstAndEndDayOfWeek, getFirstAndEndDayOfMonth } from '../../../../utils/getStartAndEndUtil'
+const getMidDate = (flag,arr) => {
+    if (flag === 'week') {
+        const { startTime, endTime } = getFirstAndEndDayOfWeek()
+        return changeDayTimeArr([startTime, endTime])
+    } else if (flag === 'month') {
+        const { startTime, endTime } = getFirstAndEndDayOfMonth()
+        return changeDayTimeArr([startTime, endTime])
+    } else {
+        return changeDayTimeArr([arr[0], arr[1]])
+    }
+}
 
 const everyMonthTotal = (data) => {
     let myArr = data.map(item => {
-        return item.reduce(function (accumulator, currentValue) {
-            return parseInt(accumulator) + parseInt(currentValue);
-        });
+        let i = 0
+        item.forEach(item => {
+            if (item[0]) {
+                i++
+            }
+        })
+        return i
     })
     return myArr
 }
-
 /**
  * @description: 用于生成week的echarts的配置项
  * @param {resChartsData 表格数据, resXAxis 横坐标} weekChartOptions
  * @return {echarts配置项}
  */
 export const weekAndMonthChartOptions = (resChartsData, resXAxis, timeRangeText) => {
+    let tempArr = []
+    let tempDate = new Date()
+    tempDate.setHours(0, 0, 0, 0)
+    const hm = moment(tempDate.getTime()).format(FORMAT_DATA).substr(10)
+    if(!Array.isArray(timeRangeText)) {
+        if (timeRangeText === '本周') {
+            tempArr = getMidDate('week')
+        } else {
+            tempArr = getMidDate('month')
+        }
+    } else {
+        tempArr = getMidDate('selTime',timeRangeText)
+        timeRangeText = `${timeRangeText[0]} 到 ${timeRangeText[1]} `
+    }
+   
+
+    resChartsData = resChartsData.map((item, index) => {
+        if (item[0]) {
+            let date = new Date(item[0])
+            return (moment(date.getTime()).format(FORMAT_DATA))
+        } else {
+            return tempArr[index]
+        }
+    })
     let myChartsData = resChartsData.map((item) => {
         let timeStr = BASR_TIME + " " + item.substr(11);
         return timeStr;
@@ -39,8 +78,8 @@ export const weekAndMonthChartOptions = (resChartsData, resXAxis, timeRangeText)
             formatter(e) {
                 const timeItem = resXAxis.findIndex((item) => item === e[0].name);
                 return (
-                    `<span style='color:#3db389;display:block'>${e[0].name}</span> ` +
-                    resChartsData[timeItem]
+                    `<span style='color:#f5222d;display:block'>${e[0].name}</span> ` +
+                    (resChartsData[timeItem].substr(10) === hm ? '当日未签到' : `签到时间:${resChartsData[timeItem].substr(10)}`)
                 );
             },
         },
@@ -85,7 +124,7 @@ export const yearChartOptions = (myChartsData) => {
     let tempData = daysChangeMonthsArr(myChartsData)
     myChartsData = everyMonthTotal(tempData)
     return {
-        title: { text: `${new Date().getFullYear()}签到统计`, left: "center" },
+        title: { text: `${new Date().getFullYear()}年签到统计`, left: "center" },
         color: ['#FF8106'],
         tooltip: {
             trigger: "axis",
@@ -115,7 +154,8 @@ export const yearChartOptions = (myChartsData) => {
             splitLine: {
                 show: true,
             },
-            name: '次数'
+            name: '次数',
+            minInterval: 1
         },
         series: [
             {
@@ -125,3 +165,14 @@ export const yearChartOptions = (myChartsData) => {
         ],
     }
 }
+
+
+// const failEveryMonthTotal = (data) => {
+//     console.log(data)
+//     let myArr = data.map(item => {
+//         return item.reduce(function (accumulator, currentValue) {
+//             return parseInt(accumulator) + parseInt(currentValue);
+//         });
+//     })
+//     return myArr
+// }

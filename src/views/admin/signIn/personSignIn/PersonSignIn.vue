@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-20 18:26:39
- * @LastEditTime: 2021-02-01 17:39:26
+ * @LastEditTime: 2021-02-03 21:20:35
  * @FilePath: \active-center-client\src\views\admin\signIn\personSignIn\PersonSignIn.vue
 -->
 <template>
@@ -15,7 +15,7 @@
               <a><InfoCircleOutlined /></a>
             </a-tooltip>
           </template>
-          <div class="show_data">5次</div>
+          <div class="show_data">{{ signInfo.signCount }}次</div>
           <div class="card_footer">
             <a-tag color="orange"> 努力多一点点，收获多一点点 </a-tag>
           </div>
@@ -29,7 +29,7 @@
               <a><InfoCircleOutlined /></a>
             </a-tooltip>
           </template>
-          <div class="show_data">50%</div>
+          <div class="show_data">{{ signInfo.signRate }}</div>
           <div class="card_footer">
             <a-tag color="blue"> 有所进步哦 </a-tag>
           </div>
@@ -43,7 +43,7 @@
               <a><InfoCircleOutlined /></a>
             </a-tooltip>
           </template>
-          <div class="show_data">8:10</div>
+          <div class="show_data">{{ signInfo.earlyTime }}</div>
           <div class="card_footer">
             <a-tag color="pink"> 加油 </a-tag>
           </div>
@@ -57,7 +57,7 @@
               <a><InfoCircleOutlined /></a>
             </a-tooltip>
           </template>
-          <div class="show_data">9:50</div>
+          <div class="show_data">{{ signInfo.lastTime }}</div>
 
           <div class="card_footer">
             <a-tag color="green"> 天道酬勤 </a-tag>
@@ -92,8 +92,8 @@
               @change="timeChange"
               :style="{ width: '256px', display: 'inline-block' }"
               :placeholder="['开始日期', '结束日期']"
-            /> </template
-          >
+            />
+          </template>
           <a-spin :spinning="lineLoading">
             <div
               ref="perSignInCharts"
@@ -107,21 +107,23 @@
 </template>
 <script>
 import { InfoCircleOutlined } from "@ant-design/icons-vue";
+
 import "./PersonSignIn.less";
-import { onMounted, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import * as echarts from "echarts";
-import moment from "moment";
 import {
-  getFirstDayOfWeek,
-  getFirstDayOfMonth,
-} from "../../../../utils/timeUtil";
-import { getFirstAndEndDayOfYear } from "../../../../utils/getStartAndEndUtil";
-import { FORMAT_DATA } from "../../../../utils/constantsUtil";
+  getFirstAndEndDayOfYear,
+  getFirstAndEndDayOfWeek,
+  getFirstAndEndDayOfMonth,
+  //  getFirstAndEndDayOfMonth
+} from "../../../../utils/getStartAndEndUtil";
 import {
   weekAndMonthChartOptions,
   yearChartOptions,
 } from "./personChartsConfig";
 import axios from "../../../../api";
+import { getPerSignInfo } from "./getPerSign.js";
+
 export default {
   name: "PersonSignIn",
   components: {
@@ -129,10 +131,17 @@ export default {
   },
   props: {
     allSignInFlag: Boolean,
+    id:Number
   },
   setup(props) {
-    console.log(props, props.allSignInFlag);
-    let lineLoading = ref(true)
+    let signInfo = reactive({
+      signCount: "0",
+      signRate: "",
+      earlyTime: "",
+      lastTime: "",
+    });
+    // console.log(props, props.allSignInFlag,props.id);
+    let lineLoading = ref(true);
     // 选项配置
     let extraConfig = [
       { key: "week", value: "本周" },
@@ -152,25 +161,33 @@ export default {
       loading.value = false;
     }, 1000);
     onMounted(async () => {
-      userId = JSON.parse(localStorage.getItem("userInfo")).id;
-      console.log(userId);
-      const res = await axios("sign/user/" + userId + "?type=week");
-      console.log(res);
-      let resChartsData = [
-        "2021-1-21 06:38",
-        "2021-1-22 07:38",
-        "2021-1-23 09:38",
-        "2021-1-24 14:38",
-        "2021-1-25 10:38",
-        "2021-1-26 06:38",
-        "2021-1-27 23:38",
-      ];
+      if (!props.allSignInFlag) {
+        userId = JSON.parse(localStorage.getItem("userInfo")).id;
+      } else {
+        userId = props.id
+      }
+      const { startTime, endTime } = getFirstAndEndDayOfWeek();
+      const res = await axios("/sign/time", {
+        params: {
+          start: startTime,
+          end: endTime,
+          user_id: userId,
+        },
+      });
+      let { signCount, signRate, earlyTime, lastTime } = getPerSignInfo(
+        res.data.user_sign
+      );
+      signInfo.signCount = signCount;
+      signInfo.signRate = signRate;
+      signInfo.earlyTime = earlyTime;
+      signInfo.lastTime = lastTime;
+
       let resXAxis = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
       perEcharts = echarts.init(perSignInCharts.value);
       perEcharts.setOption(
-        weekAndMonthChartOptions(resChartsData, resXAxis, "本周")
+        weekAndMonthChartOptions(res.data.user_sign, resXAxis, "本周")
       );
-      lineLoading.value = false
+      lineLoading.value = false;
       window.addEventListener("load", function () {
         perEcharts.resize();
       });
@@ -178,46 +195,53 @@ export default {
         perEcharts.resize();
       });
     });
-    const timeChange = () => {};
+    const timeChange = async (e, time) => {
+      activeKey.value = "selTime";
+      lineLoading.value = true;
+      console.log(e);
+      const res = await axios("/sign/time", {
+        params: {
+          start: time[0],
+          end: time[1],
+          user_id: userId,
+        },
+      });
+      let resXAxis = res.data.date_list;
+      perEcharts.setOption(
+        weekAndMonthChartOptions(res.data.user_sign, resXAxis, time)
+      );
+      lineLoading.value = false;
+    };
     const handleClickItem = async (key) => {
-      lineLoading.value = true
-      let time = moment(new Date().getTime()).format(FORMAT_DATA);
+      activeKey.value = key;
+      lineLoading.value = true;
       if (key === extraConfig[0].key) {
-        const monday = getFirstDayOfWeek();
-        console.log(monday);
-        console.log(time);
-        let resChartsData = [
-          "2021-01-21 14:38",
-          "2021-01-22 09:38",
-          "2021-01-23 22:38",
-          "2021-01-24 00:38",
-          "2021-01-25 10:38",
-          "2021-01-26 23:38",
-          "2021-01-27 00:38",
-        ];
+        const { startTime, endTime } = getFirstAndEndDayOfWeek();
+        const res = await axios("/sign/time", {
+          params: {
+            start: startTime,
+            end: endTime,
+            user_id: userId,
+          },
+        });
+
         let resXAxis = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
         perEcharts.setOption(
-          weekAndMonthChartOptions(resChartsData, resXAxis, "本周")
+          weekAndMonthChartOptions(res.data.user_sign, resXAxis, "本周")
         );
       } else if (key === extraConfig[1].key) {
-        const monthFirstDay = getFirstDayOfMonth();
-        console.log(monthFirstDay);
-        let ChartsData = [
-          "2021-11-18 06:38",
-          "2021-11-18 09:38",
-          "2021-11-20 10:45",
-          "2021-11-21 11:35",
-          "2021-11-25 15:18",
-          "2021-11-27 22:48",
-          "2021-11-29 23:38",
-        ];
-        let resXAxis = [];
-        for (let i = 0; i < 31; i++) {
-          resXAxis.push(`${i + 1}号`);
-        }
+        const { startTime, endTime } = getFirstAndEndDayOfMonth();
+        const res = await axios("/sign/time", {
+          params: {
+            start: startTime,
+            end: endTime,
+            user_id: userId,
+          },
+        });
+        let resXAxis = res.data.date_list;
         perEcharts.setOption(
           weekAndMonthChartOptions(
-            ChartsData,
+            res.data.user_sign,
             resXAxis,
             `${new Date().getMonth() + 1}月`
           )
@@ -233,13 +257,7 @@ export default {
         });
         perEcharts.setOption(yearChartOptions(resData.data.user_sign));
       }
-
-      // console.log(time);
-
-      // console.log(key);
-      activeKey.value = key;
-      lineLoading.value = false
-
+      lineLoading.value = false;
     };
     return {
       loading,
@@ -249,7 +267,8 @@ export default {
       extraConfig,
       handleClickItem,
       activeKey,
-      lineLoading
+      lineLoading,
+      signInfo,
     };
   },
 };

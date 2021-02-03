@@ -1,7 +1,7 @@
 /*
  * @Author: lts
  * @Date: 2021-01-22 08:14:49
- * @LastEditTime: 2021-01-27 13:21:07
+ * @LastEditTime: 2021-02-03 21:19:19
  * @FilePath: \active-center-client\src\utils\timeUtil.js
  */
 import moment from 'moment'
@@ -57,21 +57,19 @@ export const daysChangeMonthsArr = (days) => {
  * @return {Array} 返回这个开始时间和结束时间中间的日期
  */
 export const  changeDayTimeArr = (arr) => {
-   // console.log(arr)
-   
    let startDate = new Date(arr[0])
    let endDate = new Date(arr[1])
    let date = new Date(arr[0])
+   date.setHours(0,0,0)
    let xArr = [moment(date.getTime()).format(FORMAT_DATA)]
    let days = (endDate.getTime() - startDate.getTime())/1000/3600/24
-
-   console.log(days)
-   for (let i = 0; i < days; i++) {
-      console.log(111)
+   for (let i = 0; i < parseInt(days); i++) {
+      // console.log(111)
       date.setDate(date.getDate() + 1)
-      console.log(moment(date.getTime()).format(FORMAT_DATA))
+      date.setHours(0,0,0)
+      // console.log(moment(date.getTime()).format(FORMAT_DATA))
       xArr.push(moment(date.getTime()).format(FORMAT_DATA))
    }
-   console.log(xArr)
+   // console.log(xArr)
    return xArr
 }

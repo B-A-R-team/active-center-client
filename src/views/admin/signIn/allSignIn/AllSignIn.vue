@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-20 18:26:19
- * @LastEditTime: 2021-02-01 17:13:13
+ * @LastEditTime: 2021-02-03 21:19:55
  * @FilePath: \active-center-client\src\views\admin\signIn\allSignIn\AllSignIn.vue
 -->
 <template>
@@ -179,7 +179,7 @@
                     <template #title>
                        <span :style="{fontWeight:'600',fontSize:'18px'}"> {{userInfo.name}}的签到详情</span>
                     </template>
-                      <PersonSignIn :allSignInFlag="true" />
+                      <PersonSignIn :allSignInFlag="true" :id="userInfo.id"/>
                     </a-modal>
                   </div>
                 </div>
@@ -241,7 +241,7 @@ export default {
 
     let stuId = ref("");
     let userInfo = reactive({
-      id: "暂无",
+      id: -1,
       phone: "暂无",
       name: "暂无",
       team: "暂无",
@@ -421,7 +421,7 @@ export default {
           end: time[1],
         },
       });
-      console.log(resChartData)
+      // console.log(resChartData)
       const { count_list } = resChartData.data;
       selLineChart.setOption(selLineChartOptions(count_list, "selTime"));
       setTimeout(() => {
@@ -465,19 +465,19 @@ export default {
         },
       });
       const resUserInfo = resData.data;
-      console.log(resUserInfo);
+      // console.log(resUserInfo);
       if (resUserInfo && resUserInfo.id) {
         const res = await axios(
-          "sign/user/" + resData.data.id + "?type=today "
+          "/sign/time?user_id=" + resData.data.id 
         );
-        console.log(res.data);
+        // console.log(res.data);
         userInfo.name = resUserInfo.name;
         userInfo.id = resUserInfo.id;
         userInfo.class_name = resUserInfo.class_name;
         userInfo.phone = resUserInfo.phone;
         userInfo.stu_id = resUserInfo.stu_id;
         userInfo.team = resUserInfo.team;
-        userInfo.is_sign = res.data[0] ? true : false;
+        userInfo.is_sign = res.data.user_sign[0] ? true : false;
         userInfoIsShow.value = true;
         userInfoLoading.value = false;
       } else {
