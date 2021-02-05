@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-20 18:26:19
- * @LastEditTime: 2021-01-28 21:19:30
+ * @LastEditTime: 2021-02-02 21:02:44
  * @FilePath: \active-center-client\src\views\admin\signIn\allSignIn\AllSignIn.vue
 -->
 <template>

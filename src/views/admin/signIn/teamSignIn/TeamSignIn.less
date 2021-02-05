@@ -1,9 +1,7 @@
 .sign_in {
   width: 100%;
   height: 100%;
-
-  background-color: rgb(255, 255, 255);
-  padding: 3%;
+  padding: 1%;
 
   .active {
     color: #3db389 !important;
@@ -12,22 +10,38 @@
 
   .tabs {
     width: 100%;
+    background-color: rgb(255, 255, 255);
+    padding: 3%;
 
     .card_box {
-      height: 30rem;
-      overflow-y: scroll;
-      border: .1rem solid #ccc;
-      border-radius: .1rem;
+      width: 100%;
+
+      .empty_container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
 
       .card {
-        .card_grid {
-          width: 50%;
-          display: flex;
-          align-items: center;
-          height: 4rem;
+        border: none;
 
-          span {
-            font-size: 0.9rem;
+        .card_grid_wrap {
+          width: calc(100% / 3.2);
+          margin: 1%;
+
+          .card_grid_container {
+            .span_title {
+              font-size: 1.001rem;
+              font-weight: 600;
+            }
+
+            .span_content {
+              font-size: 0.9rem;
+              font-weight: 500;
+            }
           }
         }
       }
@@ -36,33 +50,24 @@
 
   .data_statistic {
     width: 100%;
-    // margin-left: 5%;
-    margin-top: 5%;
+    margin-top: 2%;
 
-    .data_button {
+    .query_team_info {
+      width: 100%;
+      background-color: rgb(255, 255, 255);
+      padding: 3%;
 
-      .data_show {
+      .choose_time {
+        display: flex;
+        justify-content: space-between;
 
-        .data_chart {
-          width: 100%;
-          height: 50vh;
-        }
+        .time_change {}
 
-        .data_list {
-          margin-top: 1rem;
-          padding: 1.1rem;
+      }
 
-          .sign_in_title {
-            font-family: "微软雅黑";
-            font-weight: bold;
-          }
-
-          .sign_in_number {
-            font-size: 1.6rem;
-            display: flex;
-            justify-content: center;
-          }
-        }
+      .date_chart_time {
+        width: 100%;
+        height: 30rem;
       }
     }
   }
@@ -70,28 +75,39 @@
   @media(max-width: 800px) {
 
     .tabs {
-      width: 100%;
-      padding-right: 3%;
+      // width: 100%;
+      // padding-right: 3%;
     }
 
     .data_statistic {
       margin-top: calc(100vh - 50rem);
       width: 100%;
-      padding-right: 3%;
+      // padding-right: 3%;
+      display: block;
 
       .ant-card-head-title {
         font-size: 0.8rem;
       }
 
-      .data_button {
-        .data_show {
-          .data_list {
-            .sign_in_title {
-              font-size: .6rem;
+      .team_week_info {
+        width: 100%;
+        margin-top: calc(100vh - 50rem);
+
+        .data_button {
+          .data_show {
+            .data_list {
+              .sign_in_title {
+                font-size: .6rem;
+              }
             }
           }
         }
       }
+
+      .query_team_info {
+        width: 100%
+      }
+
     }
 
   }
