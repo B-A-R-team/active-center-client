@@ -175,6 +175,7 @@ export const selLineChartOptions = (myChartsData, time = 'week') => {
     }
 }
 
+
 /**
  * @description: 团队折线图
  * @param {myChartsData:后台拿到的数据，time:请求时间段} selTeamLineChartOptions
