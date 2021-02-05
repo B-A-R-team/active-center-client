@@ -3,27 +3,59 @@
         margin-left: 56.6% !important;
     }
 }
+
 .login_col {
-    margin-top: 1rem;
-    // min-height: 800px;
-    min-height: calc(100vh - 30rem);
-    display: flex;
-    justify-content: center;
+    background-color: #fff;
+    margin-top      : 1rem;
+    min-height      : calc(100vh - 24rem);
+    display         : flex;
+    justify-content : center;
+
     .login_container {
-        display: flex;
-        align-items: center;
-        width: 60%;
-        height: auto;
+
+        display        : flex;
+        flex-direction : column;
+        align-items    : center;
+        width          : 60%;
+        height         : auto;
         justify-content: center;
+
+        .ant-divider {
+            span {
+                font-size: 30px;
+            }
+        }
+
         .login_box {
-            flex: 0 0 40%;
+            text-align: center;
+            .ant-avatar {
+                margin-bottom: 1.25rem;
+            }
+            margin-top: 6.25rem;
+            flex      : 0 0 70%;
+            width     : 50%;
+
             .avatar_box {
-                text-align: center;
+                text-align   : center;
                 margin-bottom: .625rem;
             }
+
             .ant-row.btns.ant-form-item {
                 justify-content: center;
             }
         }
+
+        .ant-divider-horizontal.ant-divider-with-text-center::before,
+        .ant-divider-horizontal.ant-divider-with-text-left::before,
+        .ant-divider-horizontal.ant-divider-with-text-right::before,
+        .ant-divider-horizontal.ant-divider-with-text-center::after,
+        .ant-divider-horizontal.ant-divider-with-text-left::after,
+        .ant-divider-horizontal.ant-divider-with-text-right::after {
+            border-top: 1px solid rgb(182, 182, 182)
+        }
+
+
+
+
     }
 }

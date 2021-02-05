@@ -1,15 +1,12 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 14:30:42
- * @LastEditTime: 2021-01-30 16:05:16
+ * @LastEditTime: 2021-02-05 20:10:15
  * @FilePath: \active-center-client\src\views\login\Login.vue
 -->
 <template>
   <div>
-    <a-row
-      type="flex"
-      justify="center"
-    >
+    <a-row type="flex" justify="center">
       <a-col
         class="login_col utils_left"
         :xs="24"
@@ -19,16 +16,19 @@
         :xl="18"
       >
         <div class="login_container">
+          <a-divider>登录</a-divider>
           <div class="login_box">
-            <a-form
-              :model="loginForm"
-              :rules="rules"
-            >
+            <a-avatar :size="80" style="backgroundcolor: #f5222d">
+              <template #icon>
+                <UserOutlined />
+              </template>
+            </a-avatar>
+            <a-form :model="loginForm" :rules="rules">
               <div class="a_form_item">
                 <a-form-item
                   name="stu_id"
-                  :label-col="{span:20}"
-                  :wrapper-col="{span:24}"
+                  :label-col="{ span: 20 }"
+                  :wrapper-col="{ span: 24 }"
                 >
                   <a-input
                     v-model:value="loginForm.stu_id"
@@ -41,8 +41,8 @@
                 </a-form-item>
                 <a-form-item
                   name="password"
-                  :label-col="{span:20}"
-                  :wrapper-col="{span:24}"
+                  :label-col="{ span: 20 }"
+                  :wrapper-col="{ span: 24 }"
                 >
                   <a-input
                     v-model:value="loginForm.password"
@@ -55,15 +55,12 @@
                   </a-input>
                 </a-form-item>
                 <a-form-item class="btns">
-                  <a-button
-                    type="primary"
-                    @click="login"
-                    @keyup.enter="login"
-                  > 登录 </a-button>
-                  <a-button
-                    style="margin-left: 10px"
-                    @click="reset"
-                  > 重置 </a-button>
+                  <a-button type="primary" @click="login" @keyup.enter="login">
+                    登录
+                  </a-button>
+                  <a-button style="margin-left: 10px" @click="reset">
+                    重置
+                  </a-button>
                 </a-form-item>
               </div>
             </a-form>
@@ -77,7 +74,8 @@
 import axios from "../../api";
 import { UserOutlined, LockOutlined } from "@ant-design/icons-vue";
 import "./Login.less";
-import { message } from 'ant-design-vue';
+import NProgress from "nprogress";
+import { message } from "ant-design-vue";
 export default {
   name: "Login",
   components: {
@@ -98,49 +96,60 @@ export default {
       },
     };
   },
-  created(){
+  created() {
     var t = this;
-      document.onkeydown = function(e){
-        if(window.event == undefined){
-          var key = e.keyCode;
-        }else{
-          key = window.event.keyCode;
-        }
-      //enter的ASCII码是13
-        if(key == 13){
-          t.login();
-        }
+    document.onkeydown = function (e) {
+      if (window.event == undefined) {
+        var key = e.keyCode;
+      } else {
+        key = window.event.keyCode;
       }
+      //enter的ASCII码是13
+      if (key == 13) {
+        t.login();
+      }
+    };
   },
   methods: {
     login() {
+      NProgress.start();
       //    登录请求
-      axios.post('login', {
-        stu_id: this.loginForm.stu_id,
-        password: this.loginForm.password
-      })
+      axios
+        .post("login", {
+          stu_id: this.loginForm.stu_id,
+          password: this.loginForm.password,
+        })
         .then((res) => {
-          console.log(res)
-          if (res.message === 'success') {
-            message.success('登录成功');
-            this.userInfo = res.data
-            window.localStorage.setItem('userInfo', JSON.stringify(this.userInfo))
-            window.localStorage.setItem('token', res.token)
-            let date = new Date()
-            date.setDate(date.getDate() + 3)
-            console.log(date.getTime().toString())
-            window.localStorage.setItem('time_key',date.getTime().toString())
+          console.log(res);
+          if (res.message === "success") {
+            message.success("登录成功");
+            this.userInfo = res.data;
+            window.localStorage.setItem(
+              "userInfo",
+              JSON.stringify(this.userInfo)
+            );
+            window.localStorage.setItem("token", res.token);
+            let date = new Date();
+            date.setDate(date.getDate() + 3);
+            console.log(date.getTime().toString());
+            window.localStorage.setItem("time_key", date.getTime().toString());
             //2、通过编程式导航跳转到后台主页，路由地址是/admin
-            this.$router.push('/admin').catch(() => { })
+            NProgress.done();
+            this.$router.push("/admin").catch(() => {});
+          } else {
+            NProgress.done();
           }
         })
+        .catch(() => {
+          NProgress.done();
+        });
     },
     // 重置表单内容
     reset() {
-      this.loginForm = []
+      this.loginForm = [];
     },
-  }
-}
+  },
+};
 </script>
 <style lang="less" scoped>
 </style>
