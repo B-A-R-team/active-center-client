@@ -1,10 +1,8 @@
 <template>
   <div class="detail_info">
+    <a-spin :spinning="spinning"  size="large">
     <div class="inner_box">
-      <a-spin
-        :spinning="spinning"
-        size="large"
-      >
+    
         <div class="more_info">
           <p class="info-title">学号 : {{parentmsg.stu_id}}</p>
           <p
@@ -24,7 +22,7 @@
             @click="showModal"
           >修改</a-button>
         </div>
-      </a-spin>
+  
     </div>
     <a-modal
       v-model:visible="visible"
@@ -64,6 +62,7 @@
         </a-form-item>
       </a-form>
     </a-modal>
+    </a-spin>
   </div>
 </template>
 <script>

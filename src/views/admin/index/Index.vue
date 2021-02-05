@@ -1,21 +1,25 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 21:16:54
- * @LastEditTime: 2021-02-01 17:31:21
+ * @LastEditTime: 2021-02-05 17:35:46
  * @FilePath: \active-center-client\src\views\admin\index\Index.vue
 -->
 <template>
   <div class="admin_app">
     <a-layout id="components-layout-demo-custom-trigger">
       <a-layout-sider
-        :style="{ width: '256px', minWidth: '256px',maxWidth:'256px' }"
+        :style="{ width: '256px', minWidth: '256px', maxWidth: '256px' }"
         v-model:collapsed="collapsed"
         :trigger="null"
         collapsible
       >
-        <div class="logo" >
-          <img src="../../../assets/bar.jpg" :style="{height:'100%'}" alt="">
-      
+        <div class="logo">
+          <img
+            src="../../../assets/bar.jpg"
+            :style="{ height: '100%' }"
+            alt=""
+          />
+
           <span v-if="!collapsed">BAR团队</span>
         </div>
         <a-menu theme="dark" mode="inline" v-model:selectedKeys="selectedKeys">
@@ -70,7 +74,7 @@
             @click="() => (collapsed = !collapsed)"
           />
           <div class="user_info">
-            <a-avatar />
+            <a-avatar :src="avatar_url" />
             <span class="user_name">{{ userInfo.name }}</span>
             <a-button @click="logout">退出</a-button>
           </div>
@@ -113,6 +117,8 @@ import {
 import { ref, createVNode } from "vue";
 import { useRouter } from "vue-router";
 import { Modal } from "ant-design-vue";
+import { BASE_URL } from "../../../utils/constantsUtil";
+
 export default {
   name: "Admin",
   components: {
@@ -128,12 +134,20 @@ export default {
     ExclamationCircleOutlined,
   },
   setup() {
+    let avatar_url = ref("");
+    const getAvatar = () => {
+      avatar_url.value =
+        BASE_URL +
+        JSON.parse(window.localStorage.getItem("userInfo")).avatar_url;
+    };
+    getAvatar();
     let router = useRouter();
     const { ctx } = getCurrentInstance(); // 取态this
     // console.log(ctx.$router.options.history.location);
     let collapsed = ref(false);
     let userInfo = ref(JSON.parse(window.localStorage.getItem("userInfo")));
     provide("ec", echarts); //向子组件传递echarts
+    provide("getAvatar", getAvatar);
     const logout = () => {
       Modal.confirm({
         title: "提示",
@@ -153,10 +167,12 @@ export default {
       collapsed,
       userInfo,
       logout,
+      avatar_url,
+      getAvatar,
     };
   },
 };
 </script>
 <style lang="less" scoped>
-@import './Index.less';
+@import "./Index.less";
 </style>
