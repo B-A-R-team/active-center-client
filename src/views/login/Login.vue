@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 14:30:42
- * @LastEditTime: 2021-02-05 20:10:15
+ * @LastEditTime: 2021-02-05 20:29:21
  * @FilePath: \active-center-client\src\views\login\Login.vue
 -->
 <template>
@@ -18,7 +18,7 @@
         <div class="login_container">
           <a-divider>登录</a-divider>
           <div class="login_box">
-            <a-avatar :size="80" style="backgroundcolor: #f5222d">
+            <a-avatar :size="80" :style="{ backgroundColor: '#f5222d' }">
               <template #icon>
                 <UserOutlined />
               </template>

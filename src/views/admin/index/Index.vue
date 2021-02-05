@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 21:16:54
- * @LastEditTime: 2021-02-05 17:35:46
+ * @LastEditTime: 2021-02-05 20:41:27
  * @FilePath: \active-center-client\src\views\admin\index\Index.vue
 -->
 <template>
@@ -73,7 +73,16 @@
             class="trigger"
             @click="() => (collapsed = !collapsed)"
           />
+
           <div class="user_info">
+            <div class="callback_home">
+              <a-tooltip>
+                <template #title> 返回首页 </template>
+                <router-link to="/">
+                <HomeOutlined :style="{ fontSize: '25px' }"  />
+                </router-link>
+              </a-tooltip>
+            </div>
             <a-avatar :src="avatar_url" />
             <span class="user_name">{{ userInfo.name }}</span>
             <a-button @click="logout">退出</a-button>
@@ -112,6 +121,7 @@ import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   ExclamationCircleOutlined,
+  HomeOutlined,
 } from "@ant-design/icons-vue";
 // import "./Index.less";
 import { ref, createVNode } from "vue";
@@ -130,6 +140,7 @@ export default {
     FileTextOutlined,
     MenuUnfoldOutlined,
     MenuFoldOutlined,
+    HomeOutlined,
     // eslint-disable-next-line vue/no-unused-components
     ExclamationCircleOutlined,
   },

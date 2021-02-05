@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 16:40:01
- * @LastEditTime: 2021-01-30 22:09:53
+ * @LastEditTime: 2021-02-05 20:27:35
  * @FilePath: \active-center-client\src\components\header\Header.vue
 -->
 <template>
@@ -26,8 +26,11 @@
             <a-menu-item class="my_menu_item">
               <router-link to="/"> <home-outlined />首页</router-link>
             </a-menu-item>
-            <a-menu-item class="my_menu_item">
+            <a-menu-item class="my_menu_item" v-if="!isLogin">
               <router-link to="/login"><login-outlined />登录</router-link>
+            </a-menu-item>
+             <a-menu-item class="my_menu_item"  v-if="isLogin">
+              <router-link to="/login"><login-outlined />进入</router-link>
             </a-menu-item>
           </a-menu>
         </a-col>
@@ -42,6 +45,7 @@ import {
   MenuOutlined,
 } from "@ant-design/icons-vue";
 import "./Header.less";
+import { ref } from 'vue';
 export default {
   name: "Header",
   components: {
@@ -49,11 +53,19 @@ export default {
     LoginOutlined,
   },
   setup() {
+    let isLogin = ref(false)
+    let userInfo = window.localStorage.getItem('userInfo')
+    let token =  window.localStorage.getItem('token')
+    let timeKey = window.localStorage.getItem('time_key')
+    if(userInfo&&token&&timeKey) {
+      isLogin.value = true
+    }
     const backIcon = () => {
       return <MenuOutlined />;
     };
     return {
       backIcon,
+      isLogin
     };
   },
 };

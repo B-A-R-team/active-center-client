@@ -1,7 +1,7 @@
 /*
  * @Author: lts
  * @Date: 2021-01-30 14:07:11
- * @LastEditTime: 2021-01-31 16:51:42
+ * @LastEditTime: 2021-02-05 20:21:37
  * @FilePath: \active-center-client\src\views\index\notification\chartOptions.js
  */
 export const barChartOptions = (resData) => {
@@ -186,7 +186,7 @@ export const barChartOptions = (resData) => {
             }
         },
         grid: {
-            // top:'30%',
+            top:'23%',
             left: "3%",
             right: "4%",
             bottom: "3%",
@@ -225,6 +225,7 @@ export const barChartOptions = (resData) => {
             },
         },
         yAxis: {
+            minInterval:1,
             show: true,
             // splitNumber: 4,
             axisLine: {
