@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 21:16:54
- * @LastEditTime: 2021-02-05 20:41:27
+ * @LastEditTime: 2021-02-06 09:13:46
  * @FilePath: \active-center-client\src\views\admin\index\Index.vue
 -->
 <template>
@@ -79,7 +79,7 @@
               <a-tooltip>
                 <template #title> 返回首页 </template>
                 <router-link to="/">
-                <HomeOutlined :style="{ fontSize: '25px' }"  />
+                  <HomeOutlined :style="{ fontSize: '25px' }" />
                 </router-link>
               </a-tooltip>
             </div>
@@ -89,9 +89,7 @@
           </div>
         </a-layout-header>
         <a-breadcrumb style="margin: 16px 0 0 0">
-          <a-breadcrumb-item>Home</a-breadcrumb-item>
-          <a-breadcrumb-item>List</a-breadcrumb-item>
-          <a-breadcrumb-item>App</a-breadcrumb-item>
+          <a-breadcrumb-item v-for="(item,index) in breadcrumbArr " :key="index">{{item}}</a-breadcrumb-item>
         </a-breadcrumb>
         <a-layout-content
           :style="{
@@ -110,7 +108,7 @@
 </template>
 <script>
 import * as echarts from "echarts";
-import { getCurrentInstance, provide } from "vue";
+import { getCurrentInstance, onMounted, provide } from "vue";
 import {
   UserOutlined,
   TeamOutlined,
@@ -124,7 +122,7 @@ import {
   HomeOutlined,
 } from "@ant-design/icons-vue";
 // import "./Index.less";
-import { ref, createVNode } from "vue";
+import { ref, createVNode, watch } from "vue";
 import { useRouter } from "vue-router";
 import { Modal } from "ant-design-vue";
 import { BASE_URL } from "../../../utils/constantsUtil";
@@ -145,6 +143,22 @@ export default {
     ExclamationCircleOutlined,
   },
   setup() {
+    let breadcrumbArr = ref(["首页"]);
+    const { ctx } = getCurrentInstance(); // 取态this
+    // console.log(ctx.$router.options.history.location);
+    let breadcrumbConfig = [
+      { url: "/admin/userInfo", name: "个人信息" },
+      {
+        url: "/admin/signIn",
+        name: "签到情况",
+        children: [
+          { url: "/admin/signIn/personSignIn", name: "个人签到情况" },
+          { url: "/admin/signIn/teamSignIn", name: "团队签到情况" },
+          { url: "/admin/signIn/allSignIn", name: "活动中心签到情况" },
+        ],
+      },
+      { url: "/admin/usersManage", name: "用户管理" },
+    ];
     let avatar_url = ref("");
     const getAvatar = () => {
       avatar_url.value =
@@ -153,8 +167,39 @@ export default {
     };
     getAvatar();
     let router = useRouter();
-    const { ctx } = getCurrentInstance(); // 取态this
-    // console.log(ctx.$router.options.history.location);
+    watch(router.currentRoute, (val) => {
+      const { fullPath } = val;
+      console.log(fullPath);
+      breadcrumbConfig.forEach((item) => {
+        if (item.url === fullPath) {
+          breadcrumbArr.value = ['首页',item.name]
+        }
+        if (item.children) {
+          item.children.forEach(childrenItem => {
+            if(childrenItem.url === fullPath) {
+              breadcrumbArr.value = ['首页',item.name,childrenItem.name]
+            }
+          })
+          console.log(item.children);
+        }
+      });
+      // breadcrumbArr.value = ['首页',]
+    });
+    onMounted(() => {
+         breadcrumbConfig.forEach((item) => {
+        if (item.url === ctx.$router.options.history.location) {
+          breadcrumbArr.value = ['首页',item.name]
+        }
+        if (item.children) {
+          item.children.forEach(childrenItem => {
+            if(childrenItem.url === ctx.$router.options.history.location) {
+              breadcrumbArr.value = ['首页',item.name,childrenItem.name]
+            }
+          })
+          console.log(item.children);
+        }
+      });
+    })
     let collapsed = ref(false);
     let userInfo = ref(JSON.parse(window.localStorage.getItem("userInfo")));
     provide("ec", echarts); //向子组件传递echarts
@@ -173,6 +218,7 @@ export default {
       });
     };
     let selectedKeys = ref([ctx.$router.options.history.location]);
+
     return {
       selectedKeys,
       collapsed,
@@ -180,6 +226,7 @@ export default {
       logout,
       avatar_url,
       getAvatar,
+      breadcrumbArr,
     };
   },
 };
