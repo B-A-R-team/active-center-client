@@ -1,11 +1,7 @@
 /*
  * @Author: lts
  * @Date: 2021-01-25 15:09:19
-<<<<<<< HEAD
- * @LastEditTime: 2021-01-31 09:53:44
-=======
- * @LastEditTime: 2021-02-02 20:16:55
->>>>>>> cd8120f33f4d921acee19d3f3124d0ef4adb809c
+ * @LastEditTime: 2021-02-12 15:32:13
  * @FilePath: \active-center-client\src\utils\getStartAndEndUtil.js
  */
 import moment from 'moment'
@@ -34,8 +30,8 @@ export const getFirstAndEndDayOfYear = () => {
    date.setDate(1);
    date.setMonth(0);
    date.setHours(0, 0, 0, 0)
-   endDate.setDate(31)
    endDate.setMonth(11)
+   endDate.setDate(31)
 
    return { startTime: moment(date.getTime()).format(FORMAT_DATA), endTime: moment(endDate.getTime()).format(FORMAT_DATA) }
 }

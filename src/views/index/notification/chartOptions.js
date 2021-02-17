@@ -1,11 +1,10 @@
 /*
  * @Author: lts
  * @Date: 2021-01-30 14:07:11
- * @LastEditTime: 2021-02-05 20:21:37
+ * @LastEditTime: 2021-02-06 09:51:22
  * @FilePath: \active-center-client\src\views\index\notification\chartOptions.js
  */
 export const barChartOptions = (resData) => {
-    console.log(resData)
     let data = []
     resData.forEach(item => {
         data.push(item.count)

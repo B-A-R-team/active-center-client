@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-20 18:26:39
- * @LastEditTime: 2021-02-03 21:20:35
+ * @LastEditTime: 2021-02-07 16:00:57
  * @FilePath: \active-center-client\src\views\admin\signIn\personSignIn\PersonSignIn.vue
 -->
 <template>
@@ -39,7 +39,7 @@
         <a-card title="最早签到时间" :loading="loading">
           <template #extra>
             <a-tooltip>
-              <template #title> 七天内的中的最早的签到时间 </template>
+              <template #title> 本周最早的签到时间 </template>
               <a><InfoCircleOutlined /></a>
             </a-tooltip>
           </template>
@@ -76,6 +76,14 @@
               </template>
               <a><InfoCircleOutlined :style="{ marginLeft: '10px' }" /></a>
             </a-tooltip>
+            <a-tooltip>
+              <template #title> 刷新 </template>
+              <a @click="refresh">
+                <RedoOutlined
+                  :style="{ marginLeft: '10px' }"
+                  :spin="lineLoading"
+              /></a>
+            </a-tooltip>
           </template>
           <template #extra>
             <div class="extra_item">
@@ -106,7 +114,7 @@
   </div>
 </template>
 <script>
-import { InfoCircleOutlined } from "@ant-design/icons-vue";
+import { InfoCircleOutlined, RedoOutlined } from "@ant-design/icons-vue";
 
 import "./PersonSignIn.less";
 import { onMounted, reactive, ref } from "vue";
@@ -128,10 +136,11 @@ export default {
   name: "PersonSignIn",
   components: {
     InfoCircleOutlined,
+    RedoOutlined,
   },
   props: {
     allSignInFlag: Boolean,
-    id:Number
+    id: Number,
   },
   setup(props) {
     let signInfo = reactive({
@@ -164,7 +173,7 @@ export default {
       if (!props.allSignInFlag) {
         userId = JSON.parse(localStorage.getItem("userInfo")).id;
       } else {
-        userId = props.id
+        userId = props.id;
       }
       const { startTime, endTime } = getFirstAndEndDayOfWeek();
       const res = await axios("/sign/time", {
@@ -197,20 +206,23 @@ export default {
     });
     const timeChange = async (e, time) => {
       activeKey.value = "selTime";
-      lineLoading.value = true;
-      console.log(e);
-      const res = await axios("/sign/time", {
-        params: {
-          start: time[0],
-          end: time[1],
-          user_id: userId,
-        },
-      });
-      let resXAxis = res.data.date_list;
-      perEcharts.setOption(
-        weekAndMonthChartOptions(res.data.user_sign, resXAxis, time)
-      );
-      lineLoading.value = false;
+      if (e.length > 0) {
+        lineLoading.value = true;
+        console.log(e);
+        console.log(time);
+        const res = await axios("/sign/time", {
+          params: {
+            start: time[0],
+            end: time[1],
+            user_id: userId,
+          },
+        });
+        let resXAxis = res.data.date_list;
+        perEcharts.setOption(
+          weekAndMonthChartOptions(res.data.user_sign, resXAxis, time)
+        );
+        lineLoading.value = false;
+      }
     };
     const handleClickItem = async (key) => {
       activeKey.value = key;
@@ -259,6 +271,24 @@ export default {
       }
       lineLoading.value = false;
     };
+    const refresh = async () => {
+      lineLoading.value = true;
+      activeKey.value = "week";
+      const { startTime, endTime } = getFirstAndEndDayOfWeek();
+      const res = await axios("/sign/time", {
+        params: {
+          start: startTime,
+          end: endTime,
+          user_id: userId,
+        },
+      });
+      let resXAxis = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
+      perEcharts.setOption(
+        weekAndMonthChartOptions(res.data.user_sign, resXAxis, "本周")
+      );
+      lineLoading.value = false;
+
+    };
     return {
       loading,
       timeChange,
@@ -269,6 +299,7 @@ export default {
       activeKey,
       lineLoading,
       signInfo,
+      refresh,
     };
   },
 };

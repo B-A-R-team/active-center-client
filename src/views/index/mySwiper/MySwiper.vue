@@ -1,8 +1,8 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-18 17:11:28
- * @LastEditTime: 2021-01-19 19:37:32
- * @FilePath: \active-center-client\src\views\index\mySwiper\mySwiper.vue
+ * @LastEditTime: 2021-02-06 10:41:37
+ * @FilePath: \active-center-client\src\views\index\mySwiper\MySwiper.vue
 -->
 <template>
   <div>

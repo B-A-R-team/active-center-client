@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-18 17:14:19
- * @LastEditTime: 2021-01-31 10:37:18
+ * @LastEditTime: 2021-02-17 20:22:18
  * @FilePath: \active-center-client\src\views\index\teamsInfo\TeamsInfo.vue
 -->
 <template>
@@ -76,7 +76,7 @@ export default {
     let swiper_options = reactive({
       loop: true,
       slidesPerView: 4,
-      slidesPerGroup: 4,
+      // slidesPerGroup: 4,
       spaceBetween: 20,
       scrollbar: {
         scrollbarElRef: ".swiper-scrollbar",

@@ -1,14 +1,26 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-20 18:26:19
- * @LastEditTime: 2021-02-05 20:12:42
+ * @LastEditTime: 2021-02-17 19:57:03
  * @FilePath: \active-center-client\src\views\admin\signIn\allSignIn\AllSignIn.vue
 -->
 <template>
   <div>
     <a-row type="flex" justify="space-between" class="all_sign_one">
       <a-col :sm="24" :md="8" :xl="5" :style="{ height: '450px' }">
-        <a-card title="今日活动中心签到数" class="all_card_left">
+        <a-card class="all_card_left">
+          <template #title>
+            <span>今日活动中心签到数</span>
+            <a-tooltip>
+              <template #title> 刷新 </template>
+              <a @click="pieRefresh">
+                <RedoOutlined
+                  :style="{ marginLeft: '10px' }"
+                  :spin="pieChartLoading"
+              /></a>
+            </a-tooltip>
+          </template>
+
           <template #extra>
             <a-tooltip>
               <template #title> 今天活动中心所有人签到总数 </template>
@@ -35,9 +47,16 @@
         <a-card class="all_card_right">
           <template #title>
             <span :style="{ marginRight: '10px' }">活动中心签到</span>
+
             <a-tooltip>
               <template #title> 本周活动中心所有人签到总数 </template>
               <a><InfoCircleOutlined /></a>
+            </a-tooltip>
+            <a-tooltip>
+              <template #title> 刷新 </template>
+              <a @click="lineRefresh">
+                <RedoOutlined :style="{ marginLeft: '10px' }" :spin="loading"
+              /></a>
             </a-tooltip>
           </template>
           <template #extra>
@@ -53,7 +72,7 @@
             <a-range-picker
               v-model:value="selectTime"
               @change="timeChange"
-              :style="{ width: '256px', display: 'inline-block' }"
+              :style="{ maxWidth: '256px', display: 'inline-block' }"
               :placeholder="['开始日期', '结束日期']"
             />
           </template>
@@ -77,8 +96,16 @@
           <template #title>
             <span :style="{ marginRight: '10px' }">团队签到</span>
             <a-tooltip>
-              <template #title> 团队签到</template>
+              <template #title> 团队签到 </template>
               <a><InfoCircleOutlined /></a>
+            </a-tooltip>
+            <a-tooltip>
+              <template #title> 刷新 </template>
+              <a @click="teamRefresh">
+                <RedoOutlined
+                  :style="{ marginLeft: '10px' }"
+                  :spin="teamLoading"
+              /></a>
             </a-tooltip>
           </template>
           <template #extra>
@@ -94,7 +121,7 @@
             <a-range-picker
               v-model:value="selectTimeTeam"
               @change="timeChangeTeam"
-              :style="{ width: '180px', display: 'inline-block' }"
+              :style="{ maxWidth: '256px', display: 'inline-block' }"
               :placeholder="['开始日期', '结束日期']"
             />
           </template>
@@ -120,7 +147,11 @@
           </template>
           <template #extra> </template>
           <div class="stu_find">
-            <a-input placeholder="请输入学号"  :maxlength="10" v-model:value="stuId" />
+            <a-input
+              placeholder="请输入学号"
+              :maxlength="10"
+              v-model:value="stuId"
+            />
             <a-button
               type="primary"
               :style="{ marginTop: '10px' }"
@@ -176,10 +207,12 @@
                       class="myModalChart"
                       destroyOnClose
                     >
-                    <template #title>
-                       <span :style="{fontWeight:'600',fontSize:'18px'}"> {{userInfo.name}}的签到详情</span>
-                    </template>
-                      <PersonSignIn :allSignInFlag="true" :id="userInfo.id"/>
+                      <template #title>
+                        <span :style="{ fontWeight: '600', fontSize: '18px' }">
+                          {{ userInfo.name }}的签到详情</span
+                        >
+                      </template>
+                      <PersonSignIn :allSignInFlag="true" :id="userInfo.id" />
                     </a-modal>
                   </div>
                 </div>
@@ -193,7 +226,7 @@
 </template>
 <script>
 import PersonSignIn from "../personSignIn/PersonSignIn.vue";
-import { InfoCircleOutlined } from "@ant-design/icons-vue";
+import { InfoCircleOutlined, RedoOutlined } from "@ant-design/icons-vue";
 
 import "./AllSignIn.less";
 import "./ModelInfo.less";
@@ -216,9 +249,10 @@ export default {
   components: {
     InfoCircleOutlined,
     PersonSignIn,
+    RedoOutlined,
   },
   setup() {
-    let pieChartLoading = ref(true)
+    let pieChartLoading = ref(true);
     let loading = ref(true);
     let teamLoading = ref(true);
     let visible = ref(false);
@@ -238,7 +272,7 @@ export default {
 
     let selLineChart;
     let selTeamLineChart;
-
+    let pieCharts;
     let stuId = ref("");
     let userInfo = reactive({
       id: -1,
@@ -252,7 +286,7 @@ export default {
     let userInfoIsShow = ref(false);
     let userInfoLoading = ref(false);
 
-    function debounce(fn, delay) {
+    const debounce = (fn, delay) => {
       return function () {
         console.log("debounce...");
         const args = arguments;
@@ -264,51 +298,73 @@ export default {
           delete fn.time;
         }, delay);
       };
-    }
+    };
+    const getPieData = async (pieCharts) => {
+      pieChartLoading.value = true;
+      const resPieData = await axios("/sign/time");
+      const resUser = await axios("/user");
+      singInCount.value = resPieData.data.count_list[0].count;
+      let notSingInCount = resUser.data.length - singInCount.value;
 
-    onMounted(async () => {
-      pieChartLoading.value = true
+      pieCharts.setOption(signInPie(singInCount.value, notSingInCount));
+      pieChartLoading.value = false;
+    };
+    const getLineData = async (selLineChart) => {
+      loading.value = true;
+      const { startTime, endTime } = getFirstAndEndDayOfWeek();
+
+      const resChartData = await axios("/sign/time", {
+        params: {
+          start: startTime,
+          end: endTime,
+        },
+      });
+      loading.value = false;
+      const { count_list } = resChartData.data;
+      selLineChart.setOption(selLineChartOptions(count_list));
+    };
+    const getTeamData = async (selTeamLineChart) => {
+      teamLoading.value = true;
       const { startTime, endTime } = getFirstAndEndDayOfWeek();
       try {
-        const resPieData = await axios("/sign/time");
-        const resUser = await axios("/user");
-        singInCount.value = resPieData.data.count_list[0].count;
-        let notSingInCount = resUser.data.length - singInCount.value;
         const resChartData = await axios("/sign/time", {
           params: {
             start: startTime,
             end: endTime,
           },
         });
-        loading.value = false;
         teamLoading.value = false;
-        pieChartLoading.value = false;
-        const { count_list, team_list } = resChartData.data;
-
-        let pieCharts = echarts.init(allSignInPie.value);
-        selLineChart = echarts.init(allSignSelLine.value);
-        selTeamLineChart = echarts.init(allSignSelTeamLine.value);
-        pieCharts.setOption(signInPie(singInCount.value, notSingInCount));
-        selLineChart.setOption(selLineChartOptions(count_list));
-
+        const { team_list } = resChartData.data;
         selTeamLineChart.setOption(selTeamLineChartOptions(team_list));
-        window.onload = function () {
-          //自适应大小
-          pieCharts.resize();
-          selLineChart.resize();
-          selTeamLineChart.resize();
-        };
-        window.addEventListener("resize", function () {
-          pieCharts.resize();
-          selLineChart.resize();
-          selTeamLineChart.resize();
-        });
       } catch (error) {
         ErrorNotification("错误", "网络问题");
       }
+    };
+    onMounted(async () => {
+      pieCharts = echarts.init(allSignInPie.value);
+      getPieData(pieCharts);
+
+      selLineChart = echarts.init(allSignSelLine.value);
+      getLineData(selLineChart);
+
+      selTeamLineChart = echarts.init(allSignSelTeamLine.value);
+      getTeamData(selTeamLineChart);
+
+      window.onload = function () {
+        //自适应大小
+        pieCharts.resize();
+        selLineChart.resize();
+        selTeamLineChart.resize();
+      };
+      window.addEventListener("resize", function () {
+        pieCharts.resize();
+        selLineChart.resize();
+        selTeamLineChart.resize();
+      });
     });
 
     const handleClickItem = async (key) => {
+      activeKey.value = key;
       loading.value = true;
       if (key === extraConfig[0].key) {
         const { startTime, endTime } = getFirstAndEndDayOfWeek();
@@ -335,9 +391,11 @@ export default {
             },
           });
           loading.value = false;
-          const { count_list } = resChartData.data;
+          const { count_list, date_list } = resChartData.data;
 
-          selLineChart.setOption(selLineChartOptions(count_list, key));
+          selLineChart.setOption(
+            selLineChartOptions(count_list, key, date_list)
+          );
         } catch (error) {
           ErrorNotification("错误", "网络问题");
         }
@@ -358,10 +416,10 @@ export default {
           ErrorNotification("错误", "网络问题");
         }
       }
-      activeKey.value = key;
     };
 
     const handleClickTeamItem = async (key) => {
+      activeTeamKey.value = key;
       teamLoading.value = true;
       if (key === extraConfig[0].key) {
         const { startTime, endTime } = getFirstAndEndDayOfWeek();
@@ -387,8 +445,10 @@ export default {
               end: endTime,
             },
           });
-          const { team_list } = resChartData.data;
-          selTeamLineChart.setOption(selTeamLineChartOptions(team_list, key));
+          const { team_list, date_list } = resChartData.data;
+          selTeamLineChart.setOption(
+            selTeamLineChartOptions(team_list, key, date_list)
+          );
           teamLoading.value = false;
         } catch (error) {
           ErrorNotification("错误", "未知错误");
@@ -409,42 +469,45 @@ export default {
           ErrorNotification("错误", "未知错误");
         }
       }
-      activeTeamKey.value = key;
     };
     const timeChange = async (e, time) => {
-      activeKey.value = "rangePicker";
-      loading.value = true;
-      console.log(e);
-      const resChartData = await axios("/sign/time", {
-        params: {
-          start: time[0],
-          end: time[1],
-        },
-      });
-      // console.log(resChartData)
-      const { count_list } = resChartData.data;
-      selLineChart.setOption(selLineChartOptions(count_list, "selTime"));
-      setTimeout(() => {
-        loading.value = false;
-      }, 500);
+      if (e.length > 0) {
+        activeKey.value = "rangePicker";
+        loading.value = true;
+        console.log(e);
+        const resChartData = await axios("/sign/time", {
+          params: {
+            start: time[0],
+            end: time[1],
+          },
+        });
+        // console.log(resChartData)
+        const { count_list } = resChartData.data;
+        selLineChart.setOption(selLineChartOptions(count_list, "selTime",'',time));
+        setTimeout(() => {
+          loading.value = false;
+        }, 500);
+      }
     };
     const timeChangeTeam = async (e, time) => {
-      activeTeamKey.value = "rangePicker";
-      teamLoading.value = true;
-      console.log(e);
-      const resChartData = await axios("/sign/time", {
-        params: {
-          start: time[0],
-          end: time[1],
-        },
-      });
-      const { team_list, date_list } = resChartData.data;
-      selTeamLineChart.setOption(
-        selTeamLineChartOptions(team_list, "selTime", date_list)
-      );
-      setTimeout(() => {
-        teamLoading.value = false;
-      }, 500);
+      if (e.length > 0) {
+        activeTeamKey.value = "rangePicker";
+        teamLoading.value = true;
+        console.log(e);
+        const resChartData = await axios("/sign/time", {
+          params: {
+            start: time[0],
+            end: time[1],
+          },
+        });
+        const { team_list, date_list } = resChartData.data;
+        selTeamLineChart.setOption(
+          selTeamLineChartOptions(team_list, "selTime", date_list)
+        );
+        setTimeout(() => {
+          teamLoading.value = false;
+        }, 500);
+      }
     };
     const hideModal = () => {
       visible.value = false;
@@ -467,9 +530,7 @@ export default {
       const resUserInfo = resData.data;
       // console.log(resUserInfo);
       if (resUserInfo && resUserInfo.id) {
-        const res = await axios(
-          "/sign/time?user_id=" + resData.data.id 
-        );
+        const res = await axios("/sign/time?user_id=" + resData.data.id);
         // console.log(res.data);
         userInfo.name = resUserInfo.name;
         userInfo.id = resUserInfo.id;
@@ -486,7 +547,21 @@ export default {
         userInfoLoading.value = false;
       }
     };
+    const pieRefresh = async () => {
+      getPieData(pieCharts);
+    };
+    const lineRefresh = () => {
+      activeKey.value = "week";
+      getLineData(selLineChart);
+    };
+    const teamRefresh = () => {
+      activeTeamKey.value = 'week'
+      getTeamData(selTeamLineChart);
+    };
     return {
+      pieRefresh,
+      teamRefresh,
+      lineRefresh,
       allSignInPie,
       activeKey,
       handleClickItem,
@@ -511,11 +586,10 @@ export default {
       userInfo,
       userInfoIsShow,
       userInfoLoading,
-      pieChartLoading
+      pieChartLoading,
     };
   },
 };
 </script>
 <style lang="less" scoped>
-
 </style>

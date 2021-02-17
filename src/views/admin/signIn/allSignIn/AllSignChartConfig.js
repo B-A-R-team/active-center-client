@@ -1,7 +1,7 @@
 /*
  * @Author: lts
  * @Date: 2021-01-23 11:39:40
- * @LastEditTime: 2021-01-28 20:27:31
+ * @LastEditTime: 2021-02-17 19:55:30
  * @FilePath: \active-center-client\src\views\admin\signIn\allSignIn\AllSignChartConfig.js
  */
 import { daysChangeMonthsArr } from '../../../../utils/timeUtil'
@@ -54,11 +54,6 @@ export const signInPie = (signInCount,notSingInCount) => {
             '#F06060',
             '#20B2AA',
         ],
-        toolbox: {
-            feature: {
-                saveAsImage: {}
-            }
-        },
         series: [
             {
                 name: "签到数据",
@@ -98,7 +93,7 @@ export const signInPie = (signInCount,notSingInCount) => {
  * @param {myChartsData:后台拿到的数据，time:请求时间段} selLineChartOptions
  * @return {*配置项}
  */
-export const selLineChartOptions = (myChartsData, time = 'week') => {
+export const selLineChartOptions = (myChartsData, time = 'week',date_list,rangeTime) => {
     let xAxisData = []
     let date = new Date()
     let timeRangeText
@@ -110,7 +105,6 @@ export const selLineChartOptions = (myChartsData, time = 'week') => {
         });
     } else {
         let data = daysChangeMonthsArr(myChartsData)
-        console.log(data)
         allPeopleData = everyMonthTotal(data)
     }
 
@@ -119,16 +113,14 @@ export const selLineChartOptions = (myChartsData, time = 'week') => {
         xAxisData = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
     } else if (time === 'month') {
         timeRangeText = date.getMonth() + 1 + '月'
-        for (let i = 0; i < 31; i++) {
-            xAxisData.push(`${i + 1}号`);
-        }
+        xAxisData = date_list
     } else if(time === 'year'){
         timeRangeText = date.getFullYear() + '年'
         for (let i = 0; i < 12; i++) {
             xAxisData.push(`${i + 1}月`);
         }
     } else {
-        timeRangeText = '时间段'
+        timeRangeText = rangeTime[0] +' ~ '+ rangeTime[1]
         myChartsData.forEach((item) => {
             xAxisData.push(item.date);
         });
@@ -136,6 +128,7 @@ export const selLineChartOptions = (myChartsData, time = 'week') => {
     return {
         title: { text: `${timeRangeText}签到统计`, left: "center" },
         color: ['#FF8106'],
+        minInterval: 1,
         tooltip: {
             trigger: "axis",
             axisPointer: {
@@ -212,28 +205,22 @@ export const selTeamLineChartOptions = (myChartsData, time = 'week',date_list) =
     let xAxisData = []
 
     let date = new Date()
+    // eslint-disable-next-line no-unused-vars
     let timeRangeText
     if (time === 'week') {
         timeRangeText = '本周'
         xAxisData = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
     } else if (time === 'month') {
         timeRangeText = date.getMonth() + 1 + '月'
-        for (let i = 0; i < 31; i++) {
-            xAxisData.push(`${i + 1}号`);
-        }
+        xAxisData = date_list
     } else if (time === 'year'){
         timeRangeText = date.getFullYear() + '年'
         for (let i = 0; i < 12; i++) {
             xAxisData.push(`${i + 1}月`);
-            console.log(timeRangeText)
         }
     } else {
-        console.log('selTime')
         xAxisData = date_list
-        // changeDayTimeArr(startAndEndTime)
-
     }
-    // console.log(xAxisData)
     return {
         title: {
             text: '团队折线'
