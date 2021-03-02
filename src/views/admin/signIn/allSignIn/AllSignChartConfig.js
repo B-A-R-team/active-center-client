@@ -1,7 +1,7 @@
 /*
  * @Author: lts
  * @Date: 2021-01-23 11:39:40
- * @LastEditTime: 2021-02-17 19:55:30
+ * @LastEditTime: 2021-03-01 19:41:04
  * @FilePath: \active-center-client\src\views\admin\signIn\allSignIn\AllSignChartConfig.js
  */
 import { daysChangeMonthsArr } from '../../../../utils/timeUtil'
@@ -42,6 +42,7 @@ const everyMonthTotalTeam = (data) => {
  * @return {*返回配置项}
  */
 export const signInPie = (signInCount,notSingInCount) => {
+    
     return {
         tooltip: {
             trigger: "item",
@@ -85,6 +86,7 @@ export const signInPie = (signInCount,notSingInCount) => {
                 ],
             },
         ],
+        
     }
 }
 

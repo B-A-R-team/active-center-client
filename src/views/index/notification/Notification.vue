@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-18 17:12:38
- * @LastEditTime: 2021-01-30 14:14:49
+ * @LastEditTime: 2021-03-02 10:30:32
  * @FilePath: \active-center-client\src\views\index\notification\Notification.vue
 -->
 <template>
@@ -50,12 +50,12 @@
                   :style="{ width: '100%', height: '300px' }"
                 ></div>
               </a-tab-pane>
-              <a-tab-pane tab="饼图" key="2" forceRender>
+              <!-- <a-tab-pane tab="饼图" key="2" forceRender>
                 <div
                   ref="test"
                   :style="{ width: '100%', height: '300px' }"
                 ></div>
-              </a-tab-pane>
+              </a-tab-pane> -->
             </a-tabs>
           </a-spin>
         </div>

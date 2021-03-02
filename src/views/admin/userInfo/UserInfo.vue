@@ -1,100 +1,103 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-16 09:31:10
- * @LastEditTime: 2021-02-05 17:43:24
+ * @LastEditTime: 2021-03-02 10:29:15
  * @FilePath: \active-center-client\src\views\admin\userInfo\UserInfo.vue
 -->
 <template>
-<div class="personal_box">
-  <a-spin :spinning="loading" size="large">
-    <div class="person_info">
-      <transition name="component-fade" mode="out-in">
-        <component
-          :is="comName"
-          :parentmsg="userInfoForm"
-          @change="dataChange"
-        ></component>
-      </transition>
-      <a-row type="flex" justify="center" class="person_info_list">
-        <a-col class="person_info_box">
-          <div class="pict_box" @click="showModal">
-            <a-avatar
-              :src="'http://www.barteam.cn:2048' + userInfoForm.avatar_url"
-              alt=""
-              :size="85"
-            />
-            <div class="mask_box">更换头像</div>
-          </div>
-          <a-modal
-            title="修改头像"
-            v-model:visible="visible"
-            :footer="null"
-            class="updateAvatarModal"
-          >
-            <div class="clearfix" :style="{ height: '120px', display: 'flex' }">
-              <a-upload
-                :action="uploadUrl"
-                list-type="picture-card"
-                :file-list="fileList"
-                :headers="headers"
-                @preview="handlePreview"
-                @change="handleChange"
-                name="avatar"
-              >
-                <div v-if="fileList.length === 0">
-                  <plus-outlined />
-                  <div class="ant-upload-text">上传</div>
-                </div>
-              </a-upload>
+  <div class="personal_box">
+    <a-spin :spinning="loading" size="large">
+      <div class="person_info">
+        <transition name="component-fade" mode="out-in">
+          <component
+            :is="comName"
+            :parentmsg="userInfoForm"
+            @change="dataChange"
+          ></component>
+        </transition>
+        <a-row type="flex" justify="center" class="person_info_list">
+          <a-col class="person_info_box">
+            <div class="pict_box" @click="showModal">
+              <a-avatar
+                :src="'http://www.barteam.cn:2048' + userInfoForm.avatar_url"
+                alt=""
+                :size="85"
+              />
+              <div class="mask_box">更换头像</div>
+            </div>
+            <a-modal
+              title="修改头像"
+              v-model:visible="visible"
+              :footer="null"
+              class="updateAvatarModal"
+            >
               <div
-                :style="{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  marginLeft: '20px',
-                }"
+                class="clearfix"
+                :style="{ height: '120px', display: 'flex' }"
               >
+                <a-upload
+                  :action="uploadUrl"
+                  list-type="picture-card"
+                  :file-list="fileList"
+                  :headers="headers"
+                  @preview="handlePreview"
+                  @change="handleChange"
+                  name="avatar"
+                >
+                  <div v-if="fileList.length === 0">
+                    <plus-outlined />
+                    <div class="ant-upload-text">上传</div>
+                  </div>
+                </a-upload>
                 <div
                   :style="{
-                    color: '#f5222d',
-                    height: '30px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    marginLeft: '20px',
                   }"
                 >
-                  提示：上传完头像后，该弹窗将会自动关闭
-                </div>
-                <div
-                  v-if="countDown.flag"
-                  :style="{
-                    height: '50px',
-                  }"
-                >
-                  倒计时:{{ countDown.count }}
+                  <div
+                    :style="{
+                      color: '#f5222d',
+                      height: '30px',
+                    }"
+                  >
+                    提示：上传完头像后，该弹窗将会自动关闭
+                  </div>
+                  <div
+                    v-if="countDown.flag"
+                    :style="{
+                      height: '50px',
+                    }"
+                  >
+                    倒计时:{{ countDown.count }}
+                  </div>
                 </div>
               </div>
-            </div>
-          </a-modal>
-          <a-divider />
-          <p class="user_name">{{ userInfoForm.name }}</p>
-          <a-divider />
-          <p
-            class="back_home"
-            :class="{ change_color: isTrue, original_color: isFalse }"
-            @click.prevent="DetailInfo"
-          >
-            主页
-          </p>
-          <a-divider />
-          <p
-            class="describe_info"
-            :class="{ change_color: isFalse, original_color: isTrue }"
-            @click.prevent="DescInfo"
-          >
-            关于我
-          </p>
-          <a-divider />
-        </a-col>
-      </a-row>
-    </div>
-  </a-spin>
+            </a-modal>
+            <a-divider />
+            <p class="user_name">{{ userInfoForm.name }}</p>
+            <a-divider />
+            <p
+              class="back_home"
+              :class="{ change_color: isTrue, original_color: isFalse }"
+              @click.prevent="DetailInfo"
+            >
+              主页
+            </p>
+            <a-divider />
+            <p
+              class="describe_info"
+              :class="{ change_color: isFalse, original_color: isTrue }"
+              @click.prevent="DescInfo"
+            >
+              关于我
+            </p>
+            <a-divider />
+          </a-col>
+        </a-row>
+      </div>
+    </a-spin>
   </div>
 </template>
 <script>
@@ -103,7 +106,7 @@ import DescInfo from "./descInfo/DescInfo";
 import "./UserInfo.less";
 import axios from "../../../api";
 import { PlusOutlined } from "@ant-design/icons-vue";
-import { SuccessNotification } from "../../../utils/warnning";
+import { SuccessNotification,ErrorNotification } from "../../../utils/warnning";
 function getBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -139,10 +142,10 @@ export default {
       previewVisible: false,
       previewImage: "",
       fileList: [],
-      loading:true
+      loading: true,
     };
   },
-  inject:['getAvatar'],
+  inject: ["getAvatar"],
   methods: {
     // 切换子组件
     DetailInfo() {
@@ -161,8 +164,7 @@ export default {
         .get("user/" + this.id, {})
         .then((res) => {
           this.userInfoForm = res.data;
-         this.loading = false
-
+          this.loading = false;
         })
         .catch(function (error) {
           console.log(error);
@@ -188,6 +190,7 @@ export default {
       this.previewVisible = true;
     },
     handleChange({ fileList }) {
+      console.log(fileList);
       this.fileList = fileList;
 
       if (
@@ -195,15 +198,22 @@ export default {
         fileList[0].response &&
         fileList[0].response.code === 200
       ) {
+        let fileName = fileList[0].name;
+        let ext = fileName.substr(fileName.lastIndexOf(".") + 1);
+        ext = ext.toLowerCase();
+        if (ext != 'jpg' && ext != 'png' && ext != 'jpeg' && ext != 'gif') {
+           this.fileList = []
+          return ErrorNotification('错误','只能上传图片，请重新上传')
+        }
         this.userInfoForm.avatar_url = fileList[0].response.data.avatar_url;
         SuccessNotification("提示", "修改成功！3秒后自动关闭该弹窗");
         //倒计时
         this.countDown.flag = true;
         //修改缓存中的头像
-        let userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
-        userInfo.avatar_url = fileList[0].response.data.avatar_url
-        window.localStorage.setItem('userInfo',JSON.stringify(userInfo))
-        this.getAvatar()
+        let userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
+        userInfo.avatar_url = fileList[0].response.data.avatar_url;
+        window.localStorage.setItem("userInfo", JSON.stringify(userInfo));
+        this.getAvatar();
         let timeInterval = setInterval(() => {
           this.countDown.count--;
         }, 1000);
@@ -215,8 +225,7 @@ export default {
             flag: false,
           };
         }, 3000);
-     
-     }
+      }
     },
     dataChange(data) {
       if (this.comName === "DetailInfo") {
@@ -232,7 +241,7 @@ export default {
     this.id = userInfo.id;
     this.getUserInfo();
     this.uploadUrl += userInfo.id;
-  }
+  },
 };
 </script>
 <style lang="less" scoped>

@@ -1,10 +1,10 @@
 /*
  * @Author: lts
  * @Date: 2021-01-15 12:46:41
- * @LastEditTime: 2021-01-31 21:09:48
+ * @LastEditTime: 2021-03-02 10:58:42
  * @FilePath: \active-center-client\src\router\index.js
  */
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter,createWebHashHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Index from '../views/index/Index.vue'
 import NProgress from 'nprogress'
@@ -75,7 +75,7 @@ const routes = [
 
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHashHistory(process.env.BASE_URL),
   routes
 })
 router.beforeEach((to, from, next) => {

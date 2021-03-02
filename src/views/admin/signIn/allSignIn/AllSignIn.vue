@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-20 18:26:19
- * @LastEditTime: 2021-02-17 19:57:03
+ * @LastEditTime: 2021-03-01 19:17:25
  * @FilePath: \active-center-client\src\views\admin\signIn\allSignIn\AllSignIn.vue
 -->
 <template>
@@ -305,7 +305,7 @@ export default {
       const resUser = await axios("/user");
       singInCount.value = resPieData.data.count_list[0].count;
       let notSingInCount = resUser.data.length - singInCount.value;
-
+      console.log(resPieData,resUser)
       pieCharts.setOption(signInPie(singInCount.value, notSingInCount));
       pieChartLoading.value = false;
     };

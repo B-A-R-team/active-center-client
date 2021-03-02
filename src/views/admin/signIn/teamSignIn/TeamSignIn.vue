@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-16 09:31:18
- * @LastEditTime: 2021-02-05 18:59:50
+ * @LastEditTime: 2021-03-02 10:08:21
  * @FilePath: \active-center-client\src\views\admin\signIn\teamSignIn\TeamSignIn.vue
 -->
 
@@ -137,16 +137,16 @@ export default {
     // 团队当天签到信息统计
     async getTeamTodaySignInfo() {
       const { data } = await axios.get(`sign/team/${this.teamId}?type=today`);
-      data.forEach((v) => {
-        v.sign_time = moment().format(FORMAT_DATA);
-      });
-      const { team_sign } = data;
-      this.teamTodaySignInfo = team_sign.name;
-      this.signInList = data;
+
       if (data.length === 0) {
         this.emptyShow = true;
       } else {
         this.emptyShow = false;
+        data.forEach((v) => {
+          v.sign_time = moment().format(FORMAT_DATA);
+        });
+        this.teamTodaySignInfo = data.name;
+        this.signInList = data;
       }
     },
     // 团队本周、本月、本年的签到信息
@@ -235,7 +235,7 @@ export default {
     },
     // 查询团队签到信息
     async getTeamInfo(dates, dateStrings) {
-      console.log(dates)
+      console.log(dates);
       try {
         const { data } = await axios.get("sign/time", {
           params: {

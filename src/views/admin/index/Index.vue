@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 21:16:54
- * @LastEditTime: 2021-02-06 09:13:46
+ * @LastEditTime: 2021-03-02 11:16:02
  * @FilePath: \active-center-client\src\views\admin\index\Index.vue
 -->
 <template>
@@ -108,7 +108,7 @@
 </template>
 <script>
 import * as echarts from "echarts";
-import { getCurrentInstance, onMounted, provide } from "vue";
+import {  onMounted, provide } from "vue";
 import {
   UserOutlined,
   TeamOutlined,
@@ -144,7 +144,7 @@ export default {
   },
   setup() {
     let breadcrumbArr = ref(["首页"]);
-    const { ctx } = getCurrentInstance(); // 取态this
+    // const { ctx } = getCurrentInstance(); // 取态this
     // console.log(ctx.$router.options.history.location);
     let breadcrumbConfig = [
       { url: "/admin/userInfo", name: "个人信息" },
@@ -169,7 +169,6 @@ export default {
     let router = useRouter();
     watch(router.currentRoute, (val) => {
       const { fullPath } = val;
-      console.log(fullPath);
       breadcrumbConfig.forEach((item) => {
         if (item.url === fullPath) {
           breadcrumbArr.value = ['首页',item.name]
@@ -180,23 +179,25 @@ export default {
               breadcrumbArr.value = ['首页',item.name,childrenItem.name]
             }
           })
-          console.log(item.children);
+          // console.log(item.children);
         }
       });
       // breadcrumbArr.value = ['首页',]
     });
+    // 一种获取当前路由的方法,但是到打包过后有问题了
+    // console.log(ctx.$router.options.history.location)
     onMounted(() => {
          breadcrumbConfig.forEach((item) => {
-        if (item.url === ctx.$router.options.history.location) {
+        if (item.url === router.currentRoute._rawValue.fullPath) {
           breadcrumbArr.value = ['首页',item.name]
         }
         if (item.children) {
           item.children.forEach(childrenItem => {
-            if(childrenItem.url === ctx.$router.options.history.location) {
+            if(childrenItem.url === router.currentRoute._rawValue.fullPath) {
               breadcrumbArr.value = ['首页',item.name,childrenItem.name]
             }
           })
-          console.log(item.children);
+          // console.log(item.children);
         }
       });
     })
@@ -217,7 +218,7 @@ export default {
         },
       });
     };
-    let selectedKeys = ref([ctx.$router.options.history.location]);
+    let selectedKeys = ref([router.currentRoute._rawValue.fullPath]);
 
     return {
       selectedKeys,
