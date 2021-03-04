@@ -165,7 +165,7 @@ export default {
   mounted() {
     axios("/user/" + this.id).then((res) => {
       if (res.code === 200) {
-        console.log(res)
+        // console.log(res)
         res.data.card_id = res.data.card_id || ''
         this.cardId = res.data.card_id;
         if (res.data.card_id.length > 0) {

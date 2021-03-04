@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-18 17:12:38
- * @LastEditTime: 2021-03-02 11:43:54
+ * @LastEditTime: 2021-03-04 21:44:04
  * @FilePath: \active-center-client\src\views\index\notification\Notification.vue
 -->
 <template>
@@ -44,7 +44,7 @@
               tab-position="bottom"
               @change="handleChange"
             >
-              <a-tab-pane tab="折线图" key="1" forceRender>
+              <a-tab-pane tab="柱状图" key="1" forceRender>
                 <div
                   ref="indexChart"
                   :style="{ width: '100%', height: '300px' }"
