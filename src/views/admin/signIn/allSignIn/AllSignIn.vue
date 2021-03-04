@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-20 18:26:19
- * @LastEditTime: 2021-03-01 19:17:25
+ * @LastEditTime: 2021-03-02 13:45:42
  * @FilePath: \active-center-client\src\views\admin\signIn\allSignIn\AllSignIn.vue
 -->
 <template>
@@ -305,7 +305,6 @@ export default {
       const resUser = await axios("/user");
       singInCount.value = resPieData.data.count_list[0].count;
       let notSingInCount = resUser.data.length - singInCount.value;
-      console.log(resPieData,resUser)
       pieCharts.setOption(signInPie(singInCount.value, notSingInCount));
       pieChartLoading.value = false;
     };
@@ -531,14 +530,14 @@ export default {
       // console.log(resUserInfo);
       if (resUserInfo && resUserInfo.id) {
         const res = await axios("/sign/time?user_id=" + resData.data.id);
-        // console.log(res.data);
+        console.log(res.data);
         userInfo.name = resUserInfo.name;
         userInfo.id = resUserInfo.id;
         userInfo.class_name = resUserInfo.class_name;
         userInfo.phone = resUserInfo.phone;
         userInfo.stu_id = resUserInfo.stu_id;
         userInfo.team = resUserInfo.team;
-        userInfo.is_sign = res.data.user_sign[0] ? true : false;
+        userInfo.is_sign = res.data.user_sign[0][0] ? true : false;
         userInfoIsShow.value = true;
         userInfoLoading.value = false;
       } else {

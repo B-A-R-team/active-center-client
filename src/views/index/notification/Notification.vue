@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-18 17:12:38
- * @LastEditTime: 2021-03-02 10:30:32
+ * @LastEditTime: 2021-03-02 11:43:54
  * @FilePath: \active-center-client\src\views\index\notification\Notification.vue
 -->
 <template>
@@ -102,82 +102,81 @@ export default {
         ErrorNotification("错误", "网络问题");
         loading.value = false;
       }
-      //需要获取到element,所以是onMounted的Hook
-      let myChart2 = echarts.init(test.value);
+      // let myChart2 = echarts.init(test.value);
       // console.log(indexChart.value);
       // console.log(test.value);
       // 绘制图表
-      myChart2.setOption({
-        backgroundColor: "#2c343c",
+      // myChart2.setOption({
+      //   backgroundColor: "#2c343c",
 
-        title: {
-          text: "Customized Pie",
-          left: "center",
-          top: 20,
-          textStyle: {
-            color: "#ccc",
-          },
-        },
+      //   title: {
+      //     text: "Customized Pie",
+      //     left: "center",
+      //     top: 20,
+      //     textStyle: {
+      //       color: "#ccc",
+      //     },
+      //   },
 
-        tooltip: {
-          trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)",
-        },
+      //   tooltip: {
+      //     trigger: "item",
+      //     formatter: "{a} <br/>{b} : {c} ({d}%)",
+      //   },
 
-        visualMap: {
-          show: false,
-          min: 80,
-          max: 600,
-          inRange: {
-            colorLightness: [0, 1],
-          },
-        },
-        series: [
-          {
-            name: "访问来源",
-            type: "pie",
-            radius: "55%",
-            center: ["50%", "50%"],
-            data: [
-              { value: 335, name: "直接访问" },
-              { value: 310, name: "邮件营销" },
-              { value: 274, name: "联盟广告" },
-              { value: 235, name: "视频广告" },
-              { value: 400, name: "搜索引擎" },
-            ].sort(function (a, b) {
-              return a.value - b.value;
-            }),
-            roseType: "radius",
-            label: {
-              color: "rgba(255, 255, 255, 0.3)",
-            },
-            labelLine: {
-              lineStyle: {
-                color: "rgba(255, 255, 255, 0.3)",
-              },
-              smooth: 0.2,
-              length: 10,
-              length2: 20,
-            },
-            itemStyle: {
-              color: "#c23531",
-              shadowBlur: 200,
-              shadowColor: "rgba(0, 0, 0, 0.5)",
-            },
+      //   visualMap: {
+      //     show: false,
+      //     min: 80,
+      //     max: 600,
+      //     inRange: {
+      //       colorLightness: [0, 1],
+      //     },
+      //   },
+      //   series: [
+      //     {
+      //       name: "访问来源",
+      //       type: "pie",
+      //       radius: "55%",
+      //       center: ["50%", "50%"],
+      //       data: [
+      //         { value: 335, name: "直接访问" },
+      //         { value: 310, name: "邮件营销" },
+      //         { value: 274, name: "联盟广告" },
+      //         { value: 235, name: "视频广告" },
+      //         { value: 400, name: "搜索引擎" },
+      //       ].sort(function (a, b) {
+      //         return a.value - b.value;
+      //       }),
+      //       roseType: "radius",
+      //       label: {
+      //         color: "rgba(255, 255, 255, 0.3)",
+      //       },
+      //       labelLine: {
+      //         lineStyle: {
+      //           color: "rgba(255, 255, 255, 0.3)",
+      //         },
+      //         smooth: 0.2,
+      //         length: 10,
+      //         length2: 20,
+      //       },
+      //       itemStyle: {
+      //         color: "#c23531",
+      //         shadowBlur: 200,
+      //         shadowColor: "rgba(0, 0, 0, 0.5)",
+      //       },
 
-            animationType: "scale",
-            animationEasing: "elasticOut",
-            animationDelay: function () {
-              return Math.random() * 200;
-            },
-          },
-        ],
-      });
+      //       animationType: "scale",
+      //       animationEasing: "elasticOut",
+      //       animationDelay: function () {
+      //         return Math.random() * 200;
+      //       },
+      //     },
+      //   ],
+      // });
 
       window.onresize = function () {
         //自适应大小
         barChart.resize();
-        myChart2.resize();
+        // myChart2.resize();
       };
     });
     return {

@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 21:16:54
- * @LastEditTime: 2021-03-02 11:16:02
+ * @LastEditTime: 2021-03-02 17:53:16
  * @FilePath: \active-center-client\src\views\admin\index\Index.vue
 -->
 <template>
@@ -22,14 +22,16 @@
 
           <span v-if="!collapsed">BAR团队</span>
         </div>
-        <a-menu theme="dark" mode="inline" v-model:selectedKeys="selectedKeys">
+        <a-menu theme="dark"
+         :defaultOpenKeys="['/admin/signIn']"
+         mode="inline" v-model:selectedKeys="selectedKeys">
           <a-menu-item key="/admin/userInfo">
             <router-link to="/admin/userInfo">
               <UserOutlined />
               <span>个人信息</span>
             </router-link>
           </a-menu-item>
-          <a-sub-menu key="/admin/signIn">
+          <a-sub-menu key="/admin/signIn" >
             <template #title>
               <span><PieChartOutlined /><span>签到情况</span></span>
             </template>
@@ -50,12 +52,12 @@
             </a-menu-item>
           </a-sub-menu>
 
-          <a-menu-item key="/admin/usersManage">
+          <!-- <a-menu-item key="/admin/usersManage">
             <router-link to="/admin/usersManage">
               <SettingOutlined />
               <span>用户管理</span>
             </router-link>
-          </a-menu-item>
+          </a-menu-item> -->
         </a-menu>
       </a-layout-sider>
       <a-layout>
@@ -112,7 +114,7 @@ import {  onMounted, provide } from "vue";
 import {
   UserOutlined,
   TeamOutlined,
-  SettingOutlined,
+  // SettingOutlined,
   SolutionOutlined,
   PieChartOutlined,
   FileTextOutlined,
@@ -132,7 +134,7 @@ export default {
   components: {
     UserOutlined,
     TeamOutlined,
-    SettingOutlined,
+    // SettingOutlined,
     SolutionOutlined,
     PieChartOutlined,
     FileTextOutlined,

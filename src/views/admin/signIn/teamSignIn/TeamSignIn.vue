@@ -1,14 +1,14 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-16 09:31:18
- * @LastEditTime: 2021-03-02 10:08:21
+ * @LastEditTime: 2021-03-02 13:41:01
  * @FilePath: \active-center-client\src\views\admin\signIn\teamSignIn\TeamSignIn.vue
 -->
 
 <template>
   <div class="sign_in">
     <div class="tabs">
-      <PartText :tabsTitle="teamTodaySignInfo" />
+      <PartText :tabsTitle="teamSignInfo" />
       <div class="card_box">
         <a-empty v-show="emptyShow" class="empty_container" />
         <a-card class="card" v-show="!emptyShow">
@@ -122,7 +122,7 @@ export default {
       chooseTimeTitle: "查询团队签到信息",
       signInList: [],
       emptyShow: true,
-      teamTodaySignInfo: "",
+      teamSignInfo: "团队已签到成员",
       teamId,
       dataChange,
       dateList,
@@ -136,8 +136,8 @@ export default {
   methods: {
     // 团队当天签到信息统计
     async getTeamTodaySignInfo() {
-      const { data } = await axios.get(`sign/team/${this.teamId}?type=today`);
-
+      let { data } = await axios.get(`sign/team/${this.teamId}?type=today`);
+      data = data || [];
       if (data.length === 0) {
         this.emptyShow = true;
       } else {
@@ -151,65 +151,61 @@ export default {
     },
     // 团队本周、本月、本年的签到信息
     async handleItemClick(itemKey) {
-      try {
-        let param;
-        for (let i = 0; i < this.dataChange.length; i++) {
-          if (this.dataChange[i].key === itemKey) {
-            this.activeKey = this.dataChange[i].key;
-            if (itemKey === this.dataChange[0].key) {
-              param = getFirstAndEndDayOfWeek();
-            } else if (itemKey === this.dataChange[1].key) {
-              param = getFirstAndEndDayOfMonth();
-            } else if (itemKey === this.dataChange[2].key) {
-              param = getFirstAndEndDayOfYear();
-            } else {
-              param = "";
-            }
+      let param;
+      for (let i = 0; i < this.dataChange.length; i++) {
+        if (this.dataChange[i].key === itemKey) {
+          this.activeKey = this.dataChange[i].key;
+          if (itemKey === this.dataChange[0].key) {
+            param = getFirstAndEndDayOfWeek();
+          } else if (itemKey === this.dataChange[1].key) {
+            param = getFirstAndEndDayOfMonth();
+          } else if (itemKey === this.dataChange[2].key) {
+            param = getFirstAndEndDayOfYear();
+          } else {
+            param = "";
           }
         }
-        const { startTime, endTime } = param;
-        const { data } = await axios.get("sign/time", {
-          params: {
-            start: startTime,
-            end: endTime,
-            team_id: this.teamId,
-          },
-        });
-        const { team_sign, date_list } = data;
-        let chartData = [];
-        team_sign.forEach((v) => {
-          if (v.id === this.teamId) {
-            chartData = v.chartData;
-          }
-        });
-        if (this.activeKey === this.dataChange[0].key) {
-          let chartDataParam = echarts.init(this.$refs.weekTeamSignInfo);
-          const option = teamSignInfo(this.dateList, chartData);
-          chartDataParam.setOption(option);
-          eventListen(chartDataParam);
-        } else if (this.activeKey === this.dataChange[1].key) {
-          let chartDataParam = echarts.init(this.$refs.monthTeamSignInfo);
-          const option = teamSignInfo(date_list, chartData);
-          chartDataParam.setOption(option);
-          eventListen(chartDataParam);
-        } else if (this.activeKey === this.dataChange[2].key) {
-          let chartDataParam = echarts.init(this.$refs.yearTeamSignInfo);
-          let everyMonthDateList = daysChangeMonthsArr(date_list);
-          let monthChartData = daysChangeMonthsArr(chartData);
-          let evertMonthChartDataAll = [];
-          monthChartData.forEach((v) => {
-            evertMonthChartDataAll.push(v.reduce((pre, cur) => pre + cur));
-          });
-          let monthDate = [];
-          for (let i = 0; i < everyMonthDateList.length; i++) {
-            monthDate.push(`${i + 1}月`);
-          }
-          const option = teamSignInfo(monthDate, evertMonthChartDataAll);
-          chartDataParam.setOption(option);
-          eventListen(chartDataParam);
+      }
+      const { startTime, endTime } = param;
+      const { data } = await axios.get("sign/time", {
+        params: {
+          start: startTime,
+          end: endTime,
+          team_id: this.teamId,
+        },
+      });
+      const { team_sign, date_list } = data;
+      let chartData = [];
+      team_sign.forEach((v) => {
+        if (v.id === this.teamId) {
+          chartData = v.chartData;
         }
-      } catch (error) {
-        console.log(error);
+      });
+      if (this.activeKey === this.dataChange[0].key) {
+        let chartDataParam = echarts.init(this.$refs.weekTeamSignInfo);
+        const option = teamSignInfo(this.dateList, chartData);
+        chartDataParam.setOption(option);
+        eventListen(chartDataParam);
+      } else if (this.activeKey === this.dataChange[1].key) {
+        let chartDataParam = echarts.init(this.$refs.monthTeamSignInfo);
+        const option = teamSignInfo(date_list, chartData);
+        chartDataParam.setOption(option);
+        eventListen(chartDataParam);
+      } else if (this.activeKey === this.dataChange[2].key) {
+        let chartDataParam = echarts.init(this.$refs.yearTeamSignInfo);
+        let everyMonthDateList = daysChangeMonthsArr(date_list);
+        let monthChartData = daysChangeMonthsArr(chartData);
+        let evertMonthChartDataAll = [];
+        monthChartData.forEach((v) => {
+          evertMonthChartDataAll.push(v.reduce((pre, cur) => pre + cur));
+        });
+        let monthDate = [];
+        for (let i = 0; i < everyMonthDateList.length; i++) {
+          monthDate.push(`${i + 1}月`);
+        }
+        const option = teamSignInfo(monthDate, evertMonthChartDataAll);
+        chartDataParam.setOption(option);
+        eventListen(chartDataParam);
       }
     },
     async getTeamWeekSignInfo() {
