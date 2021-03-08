@@ -8,10 +8,7 @@
   <div class="desc_info_box">
     <a-spin :spinning="spinning" size="large">
       <a-card hoverable class="desc_info">
-        <!-- <template #cover> -->
-        <img src="../../../../assets/desc_info.png" />
-        <!-- </template> -->
-
+        <div class="desc_info_top"></div>
         <a-card-meta title="描述">
           <template #description>
             <div class="custom-icons-list">

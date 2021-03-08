@@ -164,7 +164,8 @@ export default {
         .get("user/" + this.id, {})
         .then((res) => {
           this.userInfoForm = res.data;
-          this.loading = false;
+          this.loading = false
+
         })
         .catch(function (error) {
           console.log(error);
@@ -202,7 +203,7 @@ export default {
         let ext = fileName.substr(fileName.lastIndexOf(".") + 1);
         ext = ext.toLowerCase();
         if (ext != 'jpg' && ext != 'png' && ext != 'jpeg' && ext != 'gif') {
-           this.fileList = []
+          this.fileList = []
           return ErrorNotification('错误','只能上传图片，请重新上传')
         }
         this.userInfoForm.avatar_url = fileList[0].response.data.avatar_url;
@@ -225,6 +226,7 @@ export default {
             flag: false,
           };
         }, 3000);
+      
       }
     },
     dataChange(data) {
@@ -245,23 +247,4 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.bigImg-div {
-  width: 200px;
-  height: 200px;
-  border-radius: 100%;
-  overflow: hidden;
-  border: 1px solid #ddd;
-  margin: 0 auto;
-  cursor: pointer;
-  .bigImg {
-    display: block;
-    width: 200px;
-    height: 200px;
-    border-radius: 100%;
-  }
-}
-.ant-btn {
-  margin-left: calc(50% - 31.92px);
-  margin-top: 10px;
-}
 </style>
