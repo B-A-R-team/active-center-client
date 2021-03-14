@@ -1,7 +1,7 @@
 /*
  * @Author: lts
  * @Date: 2021-01-15 12:46:41
- * @LastEditTime: 2021-01-30 12:33:51
+ * @LastEditTime: 2021-03-13 18:13:02
  * @FilePath: \active-center-client\src\main.js
  */
 import { createApp } from 'vue'
@@ -35,13 +35,14 @@ import {
      message,
      Spin,
      Empty,
-     Upload
+     Upload,
+     Popconfirm 
  } from 'ant-design-vue';
 import 'normalize.css'
 import './views/global.less'
 import * as echarts from 'echarts'
 // 方便Chrome用来优化页面的滑动性能
-import 'default-passive-events'
+// import 'default-passive-events'
 
 const app = createApp(App);
 app.config.productionTip = false;
@@ -74,6 +75,7 @@ app.use(Spin);
 app.use(Empty);
 app.config.globalProperties.$message = message;
 app.use(Upload)
+app.use(Popconfirm)
 
 app.use(router)
 app.mount('#app')

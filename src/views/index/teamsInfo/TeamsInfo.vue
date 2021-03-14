@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-18 17:14:19
- * @LastEditTime: 2021-02-17 20:22:18
+ * @LastEditTime: 2021-03-14 16:09:58
  * @FilePath: \active-center-client\src\views\index\teamsInfo\TeamsInfo.vue
 -->
 <template>
@@ -26,7 +26,7 @@
               />
             </div>
             <div class="team_info">
-              <a-avatar class="team_avatar" />
+              <!-- <a-avatar class="team_avatar" /> -->
               <div class="team_name_desc">
                 <span class="team_name">{{item.name}}</span>
                 <span class="team_desc">团队老师：{{item.teacher}}</span>
