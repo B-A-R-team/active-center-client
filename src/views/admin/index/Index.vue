@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 21:16:54
- * @LastEditTime: 2021-03-13 17:57:20
+ * @LastEditTime: 2021-03-14 16:26:45
  * @FilePath: \active-center-client\src\views\admin\index\Index.vue
 -->
 <template>
@@ -54,7 +54,7 @@
 
           <a-menu-item key="/admin/usersManage">
             <router-link to="/admin/usersManage">
-              <SettingOutlined />
+              <TeamOutlined />
               <span>用户管理</span>
             </router-link>
           </a-menu-item>
