@@ -1,7 +1,7 @@
 /*
  * @Author: lts
  * @Date: 2021-01-15 12:46:41
- * @LastEditTime: 2021-03-13 11:28:22
+ * @LastEditTime: 2021-03-15 16:18:45
  * @FilePath: \active-center-client\src\router\index.js
  */
 import { createRouter,createWebHashHistory } from 'vue-router'
@@ -57,6 +57,11 @@ const routes = [
         path: '/admin/signIn/personSignIn',
         name: 'PersonSignIn',
         component: () => import('../views/admin/signIn/personSignIn/PersonSignIn.vue'),
+      },
+      {
+        path: '/admin/signIn/signInTotal',
+        name: 'SignInTotal',
+        component: () => import('../views/admin/signIn/signInTotal/SignInTotal.vue'),
       },
       {
         path: '/admin/userInfo',
