@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 14:29:15
- * @LastEditTime: 2021-03-04 21:36:09
+ * @LastEditTime: 2021-04-02 15:22:13
  * @FilePath: \active-center-client\src\views\index\Index.vue
 -->
 <template>
@@ -61,4 +61,5 @@ export default {
 .ant-carousel ::v-deep(.slick-slide h3) {
   color: #fff;
 }
+
 </style>
