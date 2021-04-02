@@ -1,7 +1,7 @@
 /*
  * @Author: lts
  * @Date: 2021-01-15 12:46:41
- * @LastEditTime: 2021-03-13 18:13:02
+ * @LastEditTime: 2021-03-16 21:52:51
  * @FilePath: \active-center-client\src\main.js
  */
 import { createApp } from 'vue'
