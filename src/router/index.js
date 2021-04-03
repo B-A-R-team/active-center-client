@@ -78,6 +78,11 @@ const routes = [
         name: 'TeamManage',
         component: () => import('../views/admin/teamManage/TeamManage.vue')
       },
+      {
+        path: '/admin/role',
+        name: 'Role',
+        component: () => import('../views/admin/role/Role.vue')
+      },
     ]
   }
 

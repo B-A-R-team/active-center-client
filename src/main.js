@@ -1,43 +1,44 @@
 /*
  * @Author: lts
  * @Date: 2021-01-15 12:46:41
- * @LastEditTime: 2021-03-16 21:52:51
+ * @LastEditTime: 2021-04-03 19:49:48
  * @FilePath: \active-center-client\src\main.js
  */
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import {
-     Button,
-     Layout,
-     Menu,
-     Row,
-     Col,
-     Breadcrumb,
-     Avatar,
-     Carousel,
-     Divider,
-     Card,
-     BackTop,
-     Form,
-     Input,
-     Table,
-     Select,
-     Tag,
-     Tabs,
-     Affix,
-     Icon,
-     DatePicker,
-     Tooltip,
-     Radio,
-     List,
-     Modal,
-     message,
-     Spin,
-     Empty,
-     Upload,
-     Popconfirm 
- } from 'ant-design-vue';
+    Button,
+    Layout,
+    Menu,
+    Row,
+    Col,
+    Breadcrumb,
+    Avatar,
+    Carousel,
+    Divider,
+    Card,
+    BackTop,
+    Form,
+    Input,
+    Table,
+    Select,
+    Tag,
+    Tabs,
+    Affix,
+    Icon,
+    DatePicker,
+    Tooltip,
+    Radio,
+    List,
+    Modal,
+    message,
+    Spin,
+    Empty,
+    Upload,
+    Popconfirm,
+    Tree
+} from 'ant-design-vue';
 import 'normalize.css'
 import './views/global.less'
 import * as echarts from 'echarts'
@@ -76,9 +77,10 @@ app.use(Empty);
 app.config.globalProperties.$message = message;
 app.use(Upload)
 app.use(Popconfirm)
+app.use(Tree)
 
 app.use(router)
 app.mount('#app')
 
 
-app.echarts=echarts
+app.echarts = echarts

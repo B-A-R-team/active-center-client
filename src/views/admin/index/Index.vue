@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 21:16:54
- * @LastEditTime: 2021-03-15 17:24:53
+ * @LastEditTime: 2021-04-03 21:51:33
  * @FilePath: \active-center-client\src\views\admin\index\Index.vue
 -->
 <template>
@@ -28,50 +28,40 @@
           mode="inline"
           v-model:selectedKeys="selectedKeys"
         >
-          <a-menu-item key="/admin/userInfo">
-            <router-link to="/admin/userInfo">
-              <UserOutlined />
-              <span>个人信息</span>
-            </router-link>
-          </a-menu-item>
-          <a-sub-menu key="/admin/signIn">
-            <template #title>
-              <span><PieChartOutlined /><span>签到情况</span></span>
-            </template>
-            <a-menu-item key="/admin/signIn/personSignIn">
-              <router-link to="/admin/signIn/personSignIn">
-                <span><SolutionOutlined /><span>个人签到情况</span></span>
-              </router-link>
-            </a-menu-item>
-            <a-menu-item key="/admin/signIn/teamSignIn">
-              <router-link to="/admin/signIn/teamSignIn">
-                <span><TeamOutlined /><span>团队签到情况</span></span>
-              </router-link>
-            </a-menu-item>
-            <a-menu-item key="/admin/signIn/allSignIn">
-              <router-link to="/admin/signIn/allSignIn">
-                <span><FileTextOutlined /><span>活动中心签到情况</span></span>
-              </router-link>
-            </a-menu-item>
-            <a-menu-item key="/admin/signIn/signInTotal">
-              <router-link to="/admin/signIn/signInTotal">
-                <span><CarryOutOutlined /><span>总体签到统计</span></span>
-              </router-link>
-            </a-menu-item>
-          </a-sub-menu>
+          <template v-for="item in menu" :key="item.key" v-is="item.icon">
+            <a-menu-item v-if="!item.children" :key="item.key">
+              <router-link :to="item.key">
+                <div v-is="item.icon">
 
-          <a-menu-item key="/admin/usersManage">
-            <router-link to="/admin/usersManage">
-              <TeamOutlined />
-              <span>用户管理</span>
-            </router-link>
-          </a-menu-item>
-          <a-menu-item key="/admin/teamManage">
-            <router-link to="/admin/teamManage">
-              <SettingOutlined />
-              <span>团队管理</span>
-            </router-link>
-          </a-menu-item>
+                </div>
+                <span>{{ item.title }}</span>
+              </router-link>
+            </a-menu-item>
+            <a-sub-menu v-if="item.children" :key="item.key" >
+              <template #title>
+                <span
+                  ><div v-is="item.icon">
+
+                </div><span>{{ item.title }}</span></span
+                >
+              </template>
+
+              <a-menu-item
+                v-for="childrenItem in item.children"
+                :key="childrenItem.key"
+              >
+                <router-link :to="childrenItem.key">
+                  <span
+                    ><div v-is="childrenItem.icon">
+
+                </div><span>{{
+                      childrenItem.title
+                    }}</span></span
+                  >
+                </router-link>
+              </a-menu-item>
+            </a-sub-menu>
+          </template>
         </a-menu>
       </a-layout-sider>
       <a-layout>
@@ -140,7 +130,7 @@ import {
   MenuFoldOutlined,
   ExclamationCircleOutlined,
   HomeOutlined,
-  CarryOutOutlined
+  CarryOutOutlined,
 } from "@ant-design/icons-vue";
 // import "./Index.less";
 import { ref, createVNode, watch } from "vue";
@@ -161,27 +151,45 @@ export default {
     MenuFoldOutlined,
     HomeOutlined,
     CarryOutOutlined,
-    // eslint-disable-next-line vue/no-unused-components
     ExclamationCircleOutlined,
   },
   setup() {
     let breadcrumbArr = ref(["首页"]);
     // const { ctx } = getCurrentInstance(); // 取态this
     // console.log(ctx.$router.options.history.location);
-    let breadcrumbConfig = [
-      { url: "/admin/userInfo", name: "个人信息" },
+    let menu = ref([
+      { key: "/admin/userInfo", title: "个人信息", icon:'UserOutlined' },
       {
-        url: "/admin/signIn",
-        name: "签到情况",
+        key: "/admin/signIn",
+        title: "签到情况",
+        icon: 'PieChartOutlined',
         children: [
-          { url: "/admin/signIn/personSignIn", name: "个人签到情况" },
-          { url: "/admin/signIn/teamSignIn", name: "团队签到情况" },
-          { url: "/admin/signIn/allSignIn", name: "活动中心签到情况" },
+          {
+            key: "/admin/signIn/personSignIn",
+            title: "个人签到情况",
+            icon: 'SolutionOutlined',
+          },
+          {
+            key: "/admin/signIn/teamSignIn",
+            title: "团队签到情况",
+            icon: 'TeamOutlined' ,
+          },
+          {
+            key: "/admin/signIn/allSignIn",
+            title: "活动中心签到情况",
+            icon: 'FileTextOutlined',
+          },
+           {
+            key: "/admin/signIn/signInTotal",
+            title: "总体签到统计",
+            icon: 'CarryOutOutlined',
+          },
         ],
       },
-      { url: "/admin/usersManage", name: "用户管理" },
-      { url: "/admin/teamManage", name: "团队管理" },
-    ];
+      { key: "/admin/usersManage", title: "用户管理", icon: 'TeamOutlined'  },
+      { key: "/admin/teamManage", title: "团队管理", icon: 'SettingOutlined'  },
+      { key: "/admin/role", title: "权限管理", icon: 'SettingOutlined'  },
+    ]);
     let avatar_url = ref("");
     const getAvatar = () => {
       avatar_url.value =
@@ -192,14 +200,14 @@ export default {
     let router = useRouter();
     watch(router.currentRoute, (val) => {
       const { fullPath } = val;
-      breadcrumbConfig.forEach((item) => {
-        if (item.url === fullPath) {
-          breadcrumbArr.value = ["首页", item.name];
+      menu.value.forEach((item) => {
+        if (item.key === fullPath) {
+          breadcrumbArr.value = ["首页", item.title];
         }
         if (item.children) {
           item.children.forEach((childrenItem) => {
-            if (childrenItem.url === fullPath) {
-              breadcrumbArr.value = ["首页", item.name, childrenItem.name];
+            if (childrenItem.key === fullPath) {
+              breadcrumbArr.value = ["首页", item.title, childrenItem.title];
             }
           });
           // console.log(item.children);
@@ -210,14 +218,14 @@ export default {
     // 一种获取当前路由的方法,但是到打包过后有问题了
     // console.log(ctx.$router.options.history.location)
     onMounted(() => {
-      breadcrumbConfig.forEach((item) => {
+      menu.value.forEach((item) => {
         if (item.url === router.currentRoute._rawValue.fullPath) {
-          breadcrumbArr.value = ["首页", item.name];
+          breadcrumbArr.value = ["首页", item.title];
         }
         if (item.children) {
           item.children.forEach((childrenItem) => {
             if (childrenItem.url === router.currentRoute._rawValue.fullPath) {
-              breadcrumbArr.value = ["首页", item.name, childrenItem.name];
+              breadcrumbArr.value = ["首页", item.title, childrenItem.title];
             }
           });
           // console.log(item.children);
@@ -242,7 +250,6 @@ export default {
       });
     };
     let selectedKeys = ref([router.currentRoute._rawValue.fullPath]);
-
     return {
       selectedKeys,
       collapsed,
@@ -251,6 +258,7 @@ export default {
       avatar_url,
       getAvatar,
       breadcrumbArr,
+      menu,
     };
   },
 };
