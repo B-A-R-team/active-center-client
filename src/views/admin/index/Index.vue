@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 21:16:54
- * @LastEditTime: 2021-03-02 17:53:16
+ * @LastEditTime: 2021-03-14 16:26:45
  * @FilePath: \active-center-client\src\views\admin\index\Index.vue
 -->
 <template>
@@ -52,12 +52,18 @@
             </a-menu-item>
           </a-sub-menu>
 
-          <!-- <a-menu-item key="/admin/usersManage">
+          <a-menu-item key="/admin/usersManage">
             <router-link to="/admin/usersManage">
-              <SettingOutlined />
+              <TeamOutlined />
               <span>用户管理</span>
             </router-link>
-          </a-menu-item> -->
+          </a-menu-item>
+            <a-menu-item key="/admin/teamManage">
+            <router-link to="/admin/teamManage">
+              <SettingOutlined />
+              <span>团队管理</span>
+            </router-link>
+          </a-menu-item>
         </a-menu>
       </a-layout-sider>
       <a-layout>
@@ -114,7 +120,7 @@ import {  onMounted, provide } from "vue";
 import {
   UserOutlined,
   TeamOutlined,
-  // SettingOutlined,
+  SettingOutlined,
   SolutionOutlined,
   PieChartOutlined,
   FileTextOutlined,
@@ -134,7 +140,7 @@ export default {
   components: {
     UserOutlined,
     TeamOutlined,
-    // SettingOutlined,
+    SettingOutlined,
     SolutionOutlined,
     PieChartOutlined,
     FileTextOutlined,
@@ -160,6 +166,7 @@ export default {
         ],
       },
       { url: "/admin/usersManage", name: "用户管理" },
+      { url: "/admin/teamManage", name: "团队管理" },
     ];
     let avatar_url = ref("");
     const getAvatar = () => {
