@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-04-02 17:30:42
- * @LastEditTime: 2021-04-03 22:30:42
+ * @LastEditTime: 2021-04-04 18:43:57
  * @FilePath: \active-center-client\src\views\admin\role\Role.vue
 -->
 <template>
@@ -17,11 +17,10 @@
             :dataSource="perDataSource"
             :columns="columnsPer"
             :loading="perLoading"
+            :pagination="perPagination"
           >
             <template #action="{ record }">
               <a @click="updatePer(record)">修改权限</a>
-              <a-divider type="vertical" />
-              <a>删除角色</a>
             </template>
           </a-table>
 
@@ -31,6 +30,8 @@
             okText="确定"
             cancelText="取消"
             @Ok="handlePerOk"
+            @cancel="handlePerCancel"
+            :confirm-loading="perConfirmLoading"
           >
             <a-form
               ref="perFormRef"
@@ -72,51 +73,7 @@
         </a-card>
       </a-col>
       <a-col :sm="24" :md="24" :xl="15">
-        <a-card>
-          <template #title> 角色列表 </template>
-          <template #extra>
-            <a-button type="primary" @click="showModal">添加角色</a-button>
-          </template>
-          <a-table :dataSource="roleDataSource" :columns="columnsRole">
-            <template #action>
-              <a>设置权限</a>
-              <a-divider type="vertical" />
-              <a>删除角色</a>
-            </template>
-          </a-table>
-
-          <a-modal
-            title="创建角色"
-            v-model:visible="visible"
-            okText="确定"
-            cancelText="取消"
-            @Ok="handleOk"
-          >
-            <a-form
-              ref="formRef"
-              :label-col="labelCol"
-              :wrapper-col="wrapperCol"
-              :model="formState"
-              :rules="rules"
-            >
-              <a-form-item label="角色名称" required name="name">
-                <a-input
-                  v-model:value="formState.name"
-                  placeholder="请输入角色名称"
-                />
-              </a-form-item>
-              <a-form-item label="角色描述" name="desc">
-                <a-input
-                  v-model:value="formState.desc"
-                  placeholder="请输入角色描述"
-                />
-              </a-form-item>
-              <p :style="{ color: '#f5222d', marginLeft: '10px' }">
-                创建角色时，不能赋予角色权限，需要在下方手动设置。
-              </p>
-            </a-form>
-          </a-modal>
-        </a-card>
+        <Player />
       </a-col>
     </a-row>
   </div>
@@ -127,24 +84,29 @@ import dataColunm from "./dataColumn";
 import "./role.less";
 import axios from "../../../api";
 import menuData from "../../../utils/treeData";
+import { SuccessNotification } from "../../../utils/warnning";
+import Player from "./Player";
 export default {
   name: "Role",
+  components: {
+    Player,
+  },
   setup() {
     // table配置项
     const {
+      perRules,
       perLoading,
-      roleLoading,
-      columnsRole,
       columnsPer,
-      roleDataSource,
       perDataSource,
+      perPagination,
     } = dataColunm();
-
+    const perConfirmLoading = ref(false);
     // tree配置项
-    const checkedKeys = ref(["/admin/userInfo"]);
+    const checkedKeys = ref([menuData[0].key]);
     const treeData = ref(menuData);
     const perFormRef = ref(null);
     let perFormState = ref({
+      id: null,
       name: "",
       desc: "",
       type: "MENU",
@@ -152,63 +114,106 @@ export default {
         { key: "/admin/userInfo", title: "个人信息", icon: "UserOutlined" },
       ]),
     });
-    const perRules = {
-      name: [
-        {
-          required: true,
-          message: "请输入角色",
-          trigger: "change",
-        },
-        {
-          min: 1,
-          max: 10,
-          message: "长度必须在1~10之间",
-          trigger: "change",
-        },
-      ],
-      desc: [
-        {
-          required: true,
-          message: "请输入描述",
-          trigger: "change",
-        },
-      ],
-    };
+    const isUpdate = ref(false);
     const perVisible = ref(false);
     const showPerModal = () => {
       perVisible.value = true;
-      perFormRef.value.resetFields();
     };
     const updatePer = async (item) => {
-      console.log(item);
+      perFormState.value.id = item.id;
+      isUpdate.value = true;
       perVisible.value = true;
-      perFormState.value.name = item.title
-      perFormState.value.desc = item.desc
-
+      perFormState.value.name = item.title;
+      perFormState.value.desc = item.desc;
+      let myArr = [];
+      JSON.parse(item.url).forEach((item) => {
+        myArr.push(item.key);
+      });
+      perFormState.value.url = item.url;
+      //   getMenuByKeys(myArr, menuData);
+      checkedKeys.value = myArr;
     };
+    // const getMenuByKeys = (keys, menuData) => {
+    //   const tempArr = [];
+    //   keys.forEach((item) => {
+    //     menuData.forEach((menuItem) => {
+    //       if (!menuItem.children) {
+    //         if (item === menuItem.key) {
+    //           tempArr.push(menuItem)
+    //         }
+    //         return
+    //       }
+    //       if(menuItem.key === item ) {
+    //           a
+    //       }
 
+    //     });
+    //   });
+    //   console.log(tempArr)
+    // };
     const handlePerOk = () => {
-      console.log(111);
       perFormRef.value
         .validate()
         .then(async () => {
-          console.log(perFormState.value.url);
-          const res = await axios.post("/permission", {
-            name: perFormState.value.name,
-            desc: perFormState.value.desc,
-            url: perFormState.value.url,
-            type: perFormState.value.type,
+          perConfirmLoading.value = true;
+          const { name, desc, url, type, id } = perFormState.value;
+          if (!isUpdate.value) {
+            const res = await axios.post("/permission", {
+              name,
+              desc,
+              url,
+              type,
+            });
+            if (res.code === 200 && res.data.result) {
+              perConfirmLoading.value = false;
+              resetFrom();
+              SuccessNotification("提示", "添加权限成功");
+              const resPer = await axios("/permission");
+              if (resPer.code === 200) {
+                perPagination.value = {
+                  total: resPer.data.length,
+                  pageSize: 6,
+                };
+                resPer.data.forEach((item) => {
+                  item.key = item.id;
+                  item.title = item.name;
+                  delete item.name;
+                  delete item.createdAt;
+                  delete item.updatedAt;
+                });
+                perDataSource.value = resPer.data;
+              } else {
+                console.log("请求出错");
+              }
+              perVisible.value = false;
+            }
+            return;
+          }
+          const res = await axios.put("/permission/" + id, {
+            name,
+            desc,
+            url,
+            type,
           });
-          console.log(res);
-          perFormRef.value.resetFields();
+          if (res.code === 200 && res.data.result) {
+            const currentData = perDataSource.value.find(
+              (item) => item.id === id
+            );
+            currentData.title = name;
+            currentData.desc = desc;
+            currentData.url = url;
+
+            SuccessNotification("提示", "修改权限成功");
+          }
+          perConfirmLoading.value = false;
+          resetFrom();
+          perVisible.value = false;
         })
         .catch((err) => {
           console.log(err);
         });
     };
     const check = (a, e) => {
-      console.log(a);
-      console.log(e);
       let myArr = [];
       e.checkedNodes.forEach((item) => {
         const { key, title, icon } = item.props;
@@ -219,9 +224,18 @@ export default {
         });
       });
       perFormState.value.url = JSON.stringify(myArr);
-      console.log(myArr);
     };
+    const handlePerCancel = () => {
+      resetFrom();
+    };
+    const resetFrom = () => {
+      perFormRef.value.resetFields();
+      checkedKeys.value = [menuData[0].key];
+    };
+
     return {
+      perPagination,
+      handlePerCancel,
       updatePer,
       check,
       checkedKeys,
@@ -229,10 +243,7 @@ export default {
       perFormState,
       perRules,
       perLoading,
-      roleLoading,
-      columnsRole,
       columnsPer,
-      roleDataSource,
       perDataSource,
       showPerModal,
       perVisible,
@@ -240,6 +251,7 @@ export default {
       labelCol: { span: 4 },
       wrapperCol: { span: 14 },
       treeData,
+      perConfirmLoading,
     };
   },
 };
