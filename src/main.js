@@ -1,7 +1,7 @@
 /*
  * @Author: lts
  * @Date: 2021-01-15 12:46:41
- * @LastEditTime: 2021-03-16 21:52:51
+ * @LastEditTime: 2021-04-03 19:49:48
  * @FilePath: \active-center-client\src\main.js
  */
 import { createApp } from 'vue'
@@ -36,7 +36,9 @@ import {
     Spin,
     Empty,
     Upload,
-    Popconfirm 
+    Popconfirm,
+    Tree,
+    steps
 } from 'ant-design-vue';
 import 'normalize.css'
 import './views/global.less'
@@ -74,11 +76,13 @@ app.use(Modal);
 app.use(Spin);
 app.use(Empty);
 app.config.globalProperties.$message = message;
-app.use(Upload)
-app.use(Popconfirm)
+app.use(Upload);
+app.use(Popconfirm);
+app.use(Tree);
+app.use(steps);
 
 app.use(router)
 app.mount('#app')
 
 
-app.echarts=echarts
+app.echarts = echarts

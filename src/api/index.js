@@ -1,7 +1,7 @@
 /*
  * @Author: lts
  * @Date: 2021-01-25 08:54:02
- * @LastEditTime: 2021-01-31 10:03:11
+ * @LastEditTime: 2021-04-18 17:00:03
  * @FilePath: \active-center-client\src\api\index.js
  */
 /*
@@ -13,18 +13,18 @@
 
 import axios from 'axios';
 import warnning,{ErrorNotification} from '../utils/warnning';
-
-axios.defaults.baseURL = 'http://www.barteam.cn:2048/api/'
+axios.defaults.baseURL = 'https://www.barteam.cn:2048/api/'
 
 axios.interceptors.request.use(
   (config) => {
+    
     const time_key = window.localStorage.getItem('time_key')
     // console.log(time_key)
     let myDate = new Date().getTime()
     if(myDate >= parseInt(time_key)) {
       window.localStorage.clear()
       ErrorNotification('警告','登录过期，请重新登录')
-      window.location.href = '/login'
+      window.location.href = '#/login'
     }
     const token = window.localStorage.getItem('token') || '';
     if (token !== '') {

@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-16 09:31:10
- * @LastEditTime: 2021-03-02 10:29:15
+ * @LastEditTime: 2021-04-18 15:54:29
  * @FilePath: \active-center-client\src\views\admin\userInfo\UserInfo.vue
 -->
 <template>
@@ -19,7 +19,7 @@
           <a-col class="person_info_box">
             <div class="pict_box" @click="showModal">
               <a-avatar
-                :src="'http://www.barteam.cn:2048' + userInfoForm.avatar_url"
+                :src="BASE_URL + userInfoForm.avatar_url"
                 alt=""
                 :size="85"
               />
@@ -106,7 +106,11 @@ import DescInfo from "./descInfo/DescInfo";
 import "./UserInfo.less";
 import axios from "../../../api";
 import { PlusOutlined } from "@ant-design/icons-vue";
-import { SuccessNotification,ErrorNotification } from "../../../utils/warnning";
+import {
+  SuccessNotification,
+  ErrorNotification,
+} from "../../../utils/warnning";
+import { BASE_URL } from "../../../utils/constantsUtil";
 function getBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -124,6 +128,7 @@ export default {
   },
   data() {
     return {
+      BASE_URL,
       countDown: {
         count: 3,
         flag: false,
@@ -131,7 +136,7 @@ export default {
       headers: {
         Authorization: "Bearer " + window.localStorage.getItem("token"),
       },
-      uploadUrl: "http://www.barteam.cn:2048/api/upload/avatar/",
+      uploadUrl: BASE_URL + "/api/upload/avatar/",
       comName: "DetailInfo",
       isTrue: true,
       isFalse: false,
@@ -202,9 +207,9 @@ export default {
         let fileName = fileList[0].name;
         let ext = fileName.substr(fileName.lastIndexOf(".") + 1);
         ext = ext.toLowerCase();
-        if (ext != 'jpg' && ext != 'png' && ext != 'jpeg' && ext != 'gif') {
-          this.fileList = []
-          return ErrorNotification('错误','只能上传图片，请重新上传')
+        if (ext != "jpg" && ext != "png" && ext != "jpeg" && ext != "gif") {
+          this.fileList = [];
+          return ErrorNotification("错误", "只能上传图片，请重新上传");
         }
         this.userInfoForm.avatar_url = fileList[0].response.data.avatar_url;
         SuccessNotification("提示", "修改成功！3秒后自动关闭该弹窗");

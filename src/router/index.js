@@ -1,10 +1,10 @@
 /*
  * @Author: lts
  * @Date: 2021-01-15 12:46:41
- * @LastEditTime: 2021-03-15 16:18:45
+ * @LastEditTime: 2021-04-18 16:55:34
  * @FilePath: \active-center-client\src\router\index.js
  */
-import { createRouter,createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Index from '../views/index/Index.vue'
 import NProgress from 'nprogress'
@@ -78,6 +78,11 @@ const routes = [
         name: 'TeamManage',
         component: () => import('../views/admin/teamManage/TeamManage.vue')
       },
+      {
+        path: '/admin/role',
+        name: 'Role',
+        component: () => import('../views/admin/role/Role.vue')
+      },
     ]
   }
 
@@ -94,7 +99,7 @@ router.beforeEach((to, from, next) => {
   if (to.name === 'Login' && token) {
     return next({ name: 'Admin' });
   }
-  if (to.name !== 'Login' && !token && to.name !== 'Index') next({ name: 'Login' });
+  if (to.name !== 'Login' && !token && to.name !== 'Index' && to.name !== 'Register') next({ name: 'Login' });
   // 如果用户未能验证身份，则 `next` 会被调用两次
   next()
 })

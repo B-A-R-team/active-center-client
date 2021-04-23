@@ -8,11 +8,11 @@
 
 /**
  * @description: 
- * @param {*} teamSignInfo
- * @return {*折线图数据}
+ * @param {*} signTotalInfo
+ * @return {*柱状图数据}
  */
 
-export const teamSignInfo = (xAxisData, yAxisData) => {
+export const signTotalInfo = (xAxisData, yAxisData) => {
   return {
           xAxis: {
             name: '日期',

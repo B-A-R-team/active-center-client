@@ -1,23 +1,30 @@
-.btns {
-    .ant-col.ant-col-8.ant-col-offset-14.ant-form-item-control-wrapper {
-        margin-left: 56.6% !important;
+.steps-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .ant-btn-primary {
+        margin-left: .4rem!important;
     }
-}
+} 
 
-.login_col {
+// .ant-steps ant-steps-horizontal ant-steps-label-horizontal{
+//         margin-top: .666667rem;
+// } 
+
+.register_col {
     background-color: #fff;
-    margin-top      : 1rem;
-    min-height      : calc(100vh - 24rem);
-    display         : flex;
-    justify-content : center;
+    margin-top: 1rem;
+    min-height: calc(100vh - 24rem);
+    display: flex;
+    justify-content: center;
 
-    .login_container {
+    .register_container {
 
-        display        : flex;
-        flex-direction : column;
-        align-items    : center;
-        width          : 60%;
-        height         : auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 60%;
+        height: auto;
         justify-content: center;
 
         .ant-divider {
@@ -26,7 +33,7 @@
             }
         }
 
-        .login_box {
+        .register_box {
             text-align: center;
 
             .ant-avatar {
@@ -34,21 +41,22 @@
             }
 
             margin-top: 6.25rem;
-            flex      : 0 0 70%;
-            width     : 50%;
+            flex : 0 0 70%;
+            width : 50%;
+
+            .avatar_box {
+                text-align: center;
+                margin-bottom: .625rem;
+            }
+
+            .ant-row.ant-form-item {
+                justify-content: center;
+            }
 
             .ant-form-explain {
                 text-align: left;
             }
-
-            .avatar_box {
-                text-align   : center;
-                margin-bottom: .625rem;
-            }
-
-            .ant-row.btns.ant-form-item {
-                justify-content: center;
-            }
+            
         }
 
         .ant-divider-horizontal.ant-divider-with-text-center::before,
@@ -57,7 +65,7 @@
         .ant-divider-horizontal.ant-divider-with-text-center::after,
         .ant-divider-horizontal.ant-divider-with-text-left::after,
         .ant-divider-horizontal.ant-divider-with-text-right::after {
-            border-top: 1px solid rgb(182, 182, 182)
+            border-top: 1px solid rgb(182, 182, 182);
         }
 
 

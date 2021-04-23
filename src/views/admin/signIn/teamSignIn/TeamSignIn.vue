@@ -1,14 +1,14 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-16 09:31:18
- * @LastEditTime: 2021-03-02 13:41:01
+ * @LastEditTime: 2021-03-16 13:17:39
  * @FilePath: \active-center-client\src\views\admin\signIn\teamSignIn\TeamSignIn.vue
 -->
 
 <template>
   <div class="sign_in">
     <div class="tabs">
-      <PartText :tabsTitle="teamSignInfo" />
+      <PartText :tabsTitle="teamSignInfo"/>
       <div class="card_box">
         <a-empty v-show="emptyShow" class="empty_container" />
         <a-card class="card" v-show="!emptyShow">
@@ -44,31 +44,31 @@
         <a-button-group>
           <a-button
             v-for="item in dataChange"
-            :class="{ active: activeKey === item.key }"
+            :class="activeKey === item.key ? 'active': ''"
             :key="item.key"
             @click="handleItemClick(item.key)"
             >{{ item.value }}</a-button
           >
         </a-button-group>
-        <div style="width: 100%; height: 30rem">
+        <div style="width: 100%; height: 20rem">
           <div
             ref="weekTeamSignInfo"
-            style="width: 100%; height: 30rem"
+            style="width: 100%; height: 20rem"
             :key="activeKey"
           ></div>
           <div
             ref="monthTeamSignInfo"
-            style="width: 100%; height: 30rem; margin-top: -30rem"
+            style="width: 100%; height: 20rem; margin-top: -20rem"
             :key="activeKey"
           ></div>
           <div
             ref="yearTeamSignInfo"
-            style="width: 100%; height: 30rem; margin-top: -30rem"
+            style="width: 100%; height: 20rem; margin-top: -20rem"
             :key="activeKey"
           ></div>
           <div
             ref="anyTimeTeamSignInfo"
-            style="width: 100%; height: 30rem; margin-top: -30rem"
+            style="width: 100%; height: 20rem; margin-top: -20rem"
             :key="activeKey"
           >
             <a-empty
@@ -127,6 +127,7 @@ export default {
       dataChange,
       dateList,
       activeKey: dataChange[0].key,
+      number: 0
     };
   },
   mounted() {
@@ -147,6 +148,7 @@ export default {
         });
         this.teamTodaySignInfo = data.name;
         this.signInList = data;
+        this.number = data.length;
       }
     },
     // 团队本周、本月、本年的签到信息
@@ -259,4 +261,24 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+  /* 定义滚动条样式 */
+::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+  background-color: rgba(240, 240, 240, 1);
+}
+ 
+/*定义滚动条轨道 内阴影+圆角*/
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 0px rgba(240, 240, 240, .5);
+  border-radius: 10px;
+  background-color: rgba(240, 240, 240, .5);
+}
+ 
+/*定义滑块 内阴影+圆角*/
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: inset 0 0 0px rgba(240, 240, 240, .5);
+  background-color: rgba(240, 240, 240, .5);
+}
 </style>

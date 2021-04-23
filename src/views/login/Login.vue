@@ -1,7 +1,7 @@
 <!--
  * @Author: lts
  * @Date: 2021-01-15 14:30:42
- * @LastEditTime: 2021-02-05 20:29:21
+ * @LastEditTime: 2021-04-18 17:39:30
  * @FilePath: \active-center-client\src\views\login\Login.vue
 -->
 <template>
@@ -53,6 +53,11 @@
                       <LockOutlined style="color: rgba(0, 0, 0, 0.25)" />
                     </template>
                   </a-input>
+                </a-form-item>
+                 <a-form-item
+                 :style="{textAlign:'left'}"
+                >
+                <a href="#/register">注册帐号</a>
                 </a-form-item>
                 <a-form-item class="btns">
                   <a-button type="primary" @click="login" @keyup.enter="login">
