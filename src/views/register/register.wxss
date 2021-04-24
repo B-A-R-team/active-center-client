@@ -21,8 +21,15 @@
   height: auto;
   justify-content: center;
 }
-.register_col .register_container .ant-divider span {
+.register_col .register_container .ant-divider {
+  padding-top: 40px;
+}
+.register_col .register_container .ant-divider .ant-divider-inner-text {
   font-size: 30px;
+  padding-top: 40px;
+}
+.register_col .register_container .ant-steps {
+  padding-top: 80px;
 }
 .register_col .register_container .register_box {
   text-align: center;

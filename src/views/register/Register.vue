@@ -20,15 +20,16 @@
         :xl="18"
       >
         <div class="register_container">
+          <a-divider id="register_divider">注册
+          </a-divider>
           <!-- 步骤条 -->
-          <a-steps :current="current">
+            <a-steps :current="current">
             <a-step
               v-for="item in steps"
               :key="item.title"
               :title="item.title"
             />
           </a-steps>
-          <a-divider id="register_divider">注册</a-divider>
           <!-- 表单 -->
           <div class="register_box">
             <a-form
